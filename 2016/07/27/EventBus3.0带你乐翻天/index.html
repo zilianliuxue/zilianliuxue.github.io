@@ -1,13 +1,13 @@
 
  <!DOCTYPE HTML>
-<html >
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   
-    <title>Hexo</title>
+    <title>♀紫☆恋&amp;流★雪♂</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
-    <meta name="author" content="John Doe">
+    <meta name="author" content="Losileeya">
     
 
     
@@ -15,9 +15,9 @@
 
 如果你没有使用过eventBus那么很遗憾你错过了很">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="♀紫☆恋&流★雪♂">
 <meta property="og:url" content="http://yoursite.com/2016/07/27/EventBus3.0带你乐翻天/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="♀紫☆恋&流★雪♂">
 <meta property="og:description" content="你还在为刷新ui伤透脑筋吗？你还在琢磨如何使用接口回调或者handle来实现吗？如果你想到了使用观察者模式，那么一个很屌的Android开源框架EventBus：主要功能是替代Intent、Handler、BroadCast在Fragment、Activity、Service、线程之间传递消息。他的最牛逼优点是开销小，代码简洁，解耦代码。  
 
 如果你没有使用过eventBus那么很遗憾你错过了很">
@@ -27,14 +27,14 @@
 <meta property="og:image" content="http://img.blog.csdn.net/20160414132636204">
 <meta property="og:updated_time" content="2016-07-27T09:41:27.943Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="♀紫☆恋&流★雪♂">
 <meta name="twitter:description" content="你还在为刷新ui伤透脑筋吗？你还在琢磨如何使用接口回调或者handle来实现吗？如果你想到了使用观察者模式，那么一个很屌的Android开源框架EventBus：主要功能是替代Intent、Handler、BroadCast在Fragment、Activity、Service、线程之间传递消息。他的最牛逼优点是开销小，代码简洁，解耦代码。  
 
 如果你没有使用过eventBus那么很遗憾你错过了很">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20160411122147724">
 
     
-    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="♀紫☆恋&amp;流★雪♂" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -52,14 +52,14 @@
 <div>
 		
 			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="Hexo" title="Hexo"/></a>
+				<a href="/"><img src="/img/logo.png" alt="♀紫☆恋&amp;流★雪♂" title="♀紫☆恋&amp;流★雪♂"/></a>
 			</div>
 			
 			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="Hexo">Hexo</a></h1>
-				<h2 class="blog-motto"></h2>
+				<h1 class="site-name"><a href="/" title="♀紫☆恋&amp;流★雪♂">♀紫☆恋&amp;流★雪♂</a></h1>
+				<h2 class="blog-motto">编程中我们会遇到多少挫折？不放弃，沙漠尽头必是绿洲，不是天方夜谭</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -95,17 +95,17 @@
   </h1>
   <p class="article-author">By
        
-		<a href="/about" title="John Doe" target="_blank" itemprop="author">John Doe</a>
+		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-27T12:11:47.973Z" itemprop="datePublished"> 發表於 2016-07-27</time>
+    <time datetime="2016-07-27T12:11:47.973Z" itemprop="datePublished"> 发表于 2016-07-27</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#EventBus使用详解"><span class="toc-number">1.</span> <span class="toc-text">EventBus使用详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#EventBus使用步骤"><span class="toc-number">1.1.</span> <span class="toc-text">EventBus使用步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-引入EventBus"><span class="toc-number">1.1.1.</span> <span class="toc-text">(1)引入EventBus:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-定义一个消息类，该类可以不继承任何基类也不需要实现任何接口。如："><span class="toc-number">1.1.2.</span> <span class="toc-text">(2)定义一个消息类，该类可以不继承任何基类也不需要实现任何接口。如：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-在需要订阅事件的地方注册事件"><span class="toc-number">1.1.3.</span> <span class="toc-text">(3)在需要订阅事件的地方注册事件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-发送事件-即发送消息"><span class="toc-number">1.1.4.</span> <span class="toc-text">(4)发送事件:即发送消息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-处理消息"><span class="toc-number">1.1.5.</span> <span class="toc-text">(5)处理消息</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#EventBus3-0与EventBus2-4的区别"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">EventBus3.0与EventBus2.4的区别</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-取消消息订阅"><span class="toc-number">1.1.6.</span> <span class="toc-text">(6)取消消息订阅</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-代码混淆"><span class="toc-number">1.1.7.</span> <span class="toc-text">(7)代码混淆</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取消订阅事件"><span class="toc-number">2.</span> <span class="toc-text">取消订阅事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意："><span class="toc-number">3.</span> <span class="toc-text">注意：</span></a></li></ol>
 		
@@ -300,7 +300,7 @@ public void onAsyncThread(String msg) {
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/07/27/EventBus3.0带你乐翻天/" data-title="Hexo" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/07/27/EventBus3.0带你乐翻天/" data-title="♀紫☆恋&amp;流★雪♂" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -335,17 +335,17 @@ public void onAsyncThread(String msg) {
 	
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#EventBus使用详解"><span class="toc-number">1.</span> <span class="toc-text">EventBus使用详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#EventBus使用步骤"><span class="toc-number">1.1.</span> <span class="toc-text">EventBus使用步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-引入EventBus"><span class="toc-number">1.1.1.</span> <span class="toc-text">(1)引入EventBus:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-定义一个消息类，该类可以不继承任何基类也不需要实现任何接口。如："><span class="toc-number">1.1.2.</span> <span class="toc-text">(2)定义一个消息类，该类可以不继承任何基类也不需要实现任何接口。如：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-在需要订阅事件的地方注册事件"><span class="toc-number">1.1.3.</span> <span class="toc-text">(3)在需要订阅事件的地方注册事件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-发送事件-即发送消息"><span class="toc-number">1.1.4.</span> <span class="toc-text">(4)发送事件:即发送消息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-处理消息"><span class="toc-number">1.1.5.</span> <span class="toc-text">(5)处理消息</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#EventBus3-0与EventBus2-4的区别"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">EventBus3.0与EventBus2.4的区别</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-取消消息订阅"><span class="toc-number">1.1.6.</span> <span class="toc-text">(6)取消消息订阅</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-代码混淆"><span class="toc-number">1.1.7.</span> <span class="toc-text">(7)代码混淆</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取消订阅事件"><span class="toc-number">2.</span> <span class="toc-text">取消订阅事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意："><span class="toc-number">3.</span> <span class="toc-text">注意：</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -363,7 +363,7 @@ public void onAsyncThread(String msg) {
   
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -385,7 +385,7 @@ public void onAsyncThread(String msg) {
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
@@ -434,7 +434,7 @@ public void onAsyncThread(String msg) {
 		<p class="copyright">
 		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
 		
-		<a href="/about" target="_blank" title="John Doe">John Doe</a>
+		<a href="/about" target="_blank" title="Losileeya">Losileeya</a>
 		
 		
 		</p>
@@ -620,7 +620,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
