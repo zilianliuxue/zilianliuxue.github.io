@@ -15,7 +15,7 @@
 ###项目时间紧迫：快速开发框架（迫不得已）目前网络上也有一些针对Android的快速开发框架，下面介绍3个主要的快速开发框架。针对这些快速开发框架，个人认为可以参考，但并不推荐使用，因为App整体依赖一">
 <meta property="og:type" content="article">
 <meta property="og:title" content="快速搭建app架构">
-<meta property="og:url" content="https://zilianliuxue.github.io/2016/07/27/安卓实战之如何快速搭建app架构/index.html">
+<meta property="og:url" content="https://github.com/zilianliuxue/zilianliuxue.github.io/blob/master/2016/07/27/安卓实战之如何快速搭建app架构/index.html">
 <meta property="og:site_name" content="♀紫☆恋&流★雪♂">
 <meta property="og:description" content="如何选择app架构（MVC/MVP/MVVM）最近越来越多的人开始谈论架构。我周围的同事和工程师也是如此。尽管我还不是特别深入理解MVP，但是还是觉得比较牛逼,然后呢也想在公司的项目中去使用它。
 ###项目时间紧迫：快速开发框架（迫不得已）目前网络上也有一些针对Android的快速开发框架，下面介绍3个主要的快速开发框架。针对这些快速开发框架，个人认为可以参考，但并不推荐使用，因为App整体依赖一">
@@ -71,7 +71,7 @@
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
 						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:zilianliuxue.github.io">
+						<input type="hidden" name="q" value="site:github.com/zilianliuxue/zilianliuxue.github.io/blob/master">
 					</form>
 					
 					</li>
@@ -110,7 +110,7 @@
 <p>###项目时间紧迫：快速开发框架（迫不得已）<br>目前网络上也有一些针对Android的快速开发框架，下面介绍3个主要的快速开发框架。针对这些快速开发框架，个人认为可以参考，但并不推荐使用，因为App整体依赖一个个人维护的框架风险实在太大，框架存在一些学习成本，本身也不一定完全符合App的需求，使用后可能存在代码的臃肿，还有就是架构限制。</p>
 <ul>
 <li><p>Afinal</p>
-<p>GitHub项目地址：<a href="https://github.com/yangfuhai/afinal" target="_blank" rel="external">Afinal</a></p>
+<p>GitHub项目地址：<a href="https://github.com/yangfuhai/afinal">Afinal</a></p>
 <p>Afinal是一个Android的IOC，ORM框架，内置了四大模块功能：FinalAcitivity, FinalBitmap, FinalDb, FinalHttp。通过FinalActivity，可以通过注解的方式进行绑定UI和事件。通过FinalBitmap，可以方便的加载Bitmap图片，而无需考虑OOM等问题。通过FinalDB模块，通过一行代码就可以对Android的SQlite数据库进行增删改查。通过FinalHttp模块，可以以Ajax形式请求Http数据。   </p>
 <blockquote>
 <p>然而项目从去年就没有人更新维护了，ioc框架很多人不太喜欢而且性能不好。</p>
@@ -120,7 +120,7 @@
 <ul>
 <li>xUtils3.0</li>
 </ul>
-<p>GitHub项目地址：<a href="https://github.com/wyouflf/xUtils3" target="_blank" rel="external">xUtils3.0</a></p>
+<p>GitHub项目地址：<a href="https://github.com/wyouflf/xUtils3">xUtils3.0</a></p>
 <ol>
 <li>xUtils 支持超大文件(超过2G)上传，更全面的http请求协议支持(11种谓词)，拥有更加灵活的ORM，更多的事件注解支持且不受混淆影响…</li>
 <li>xUtils 最低兼容Android 4.0 (api level 14). (Android 2.3?)</li>
@@ -158,7 +158,7 @@
 <h4 id="基础功能模块："><a href="#基础功能模块：" class="headerlink" title="基础功能模块："></a>基础功能模块：</h4><ul>
 <li><p>日志管理系统（LogManager）</p>
 <blockquote>
-<p>不管哪个项目都需要自己的一套日志管理，一是为了生产调试时能更加高效的查看过滤日志，二是为了打包发布的时候用开关控制日志是否打印。  （我的日志用的是凯子哥的：<a href="https://github.com/ZhaoKaiQiang/KLog" target="_blank" rel="external">Klog</a>）</p>
+<p>不管哪个项目都需要自己的一套日志管理，一是为了生产调试时能更加高效的查看过滤日志，二是为了打包发布的时候用开关控制日志是否打印。  （我的日志用的是凯子哥的：<a href="https://github.com/ZhaoKaiQiang/KLog">Klog</a>）</p>
 </blockquote>
 </li>
 <li>异常处理(crashManager)<blockquote>
@@ -183,7 +183,7 @@
 <h4 id="逻辑功能模块："><a href="#逻辑功能模块：" class="headerlink" title="逻辑功能模块："></a>逻辑功能模块：</h4><p> 1.封装自己的application和baseActivity类，最大可能的节省代码，加入mvp的思想来架构。</p>
 <p> 2.选择自己喜欢的网络请求框架并且适当合理的进行封装，加快开发的效率。</p>
 <p> 3.针对带有滚动控件嵌套有可能产生的滑动冲突，或者显示不全我们优先自定义一下viewpager,listview,gridview等。</p>
-<p> 4.封装listView或者recyclerView打造万能的适配器，觉得翔哥的封装的不错<a href="https://github.com/hongyangAndroid/baseAdapter" target="_blank" rel="external"> 打造万能的适配器</a>。</p>
+<p> 4.封装listView或者recyclerView打造万能的适配器，觉得翔哥的封装的不错<a href="https://github.com/hongyangAndroid/baseAdapter"> 打造万能的适配器</a>。</p>
 <p> 5.一般的网络数据格式是json(我们就逗：普通数据json,刷卡交易数据xml),所以呢我json格式的用gson封装一下,xml格式暂时用的是pull解析后bean对象封装。</p>
 <p> 6.数据库的封装，对数据苦要求不高的话可以用原生的简单封装一下curd就好了，要求高点的话那就用第三方的好了。</p>
 <h3 id="开发过程中第三方开源库的抉择"><a href="#开发过程中第三方开源库的抉择" class="headerlink" title="开发过程中第三方开源库的抉择"></a>开发过程中第三方开源库的抉择</h3><h4 id="图片加载库："><a href="#图片加载库：" class="headerlink" title="图片加载库："></a>图片加载库：</h4><ul>
@@ -222,13 +222,13 @@
 <blockquote>
 <p>如果你对是不是轻量级不关心的话，我觉得两个差不多，但是还是很多人推荐使用otto。</p>
 </blockquote>
-<h4 id="依赖注入库："><a href="#依赖注入库：" class="headerlink" title="依赖注入库："></a>依赖注入库：</h4><p>butterknife8.0： <a href="https://github.com/JakeWharton/butterknife" target="_blank" rel="external">https://github.com/JakeWharton/butterknife</a><br>在任何项目中使用butterknife都是正确且没有问题的. 非常轻量级的库，原因是性能高节省代码，而且不是你们所想的反射机制实现的。</p>
+<h4 id="依赖注入库："><a href="#依赖注入库：" class="headerlink" title="依赖注入库："></a>依赖注入库：</h4><p>butterknife8.0： <a href="https://github.com/JakeWharton/butterknife">https://github.com/JakeWharton/butterknife</a><br>在任何项目中使用butterknife都是正确且没有问题的. 非常轻量级的库，原因是性能高节省代码，而且不是你们所想的反射机制实现的。</p>
 <p>Dagger2：它是不具有动态性的（使用时完全不使用反射）但是生成的代码的简洁性和性能都是与手写的代码同水准的。</p>
 <blockquote>
 <p>2个都是很棒的，你可以选择额。</p>
 </blockquote>
 <h4 id="数据库存储："><a href="#数据库存储：" class="headerlink" title="数据库存储："></a>数据库存储：</h4><ul>
-<li><p>LitePal：LitePal是一款开源的Android数据库框架，它采用了对象关系映射(ORM)的模式，LitePal很“轻”，jar包只有100k不到，使用起来也比较简单，源码地址为<a href="https://github.com/LitePalFramework/LitePal" target="_blank" rel="external">LitePal</a>地址,郭神开发的就是牛。</p>
+<li><p>LitePal：LitePal是一款开源的Android数据库框架，它采用了对象关系映射(ORM)的模式，LitePal很“轻”，jar包只有100k不到，使用起来也比较简单，源码地址为<a href="https://github.com/LitePalFramework/LitePal">LitePal</a>地址,郭神开发的就是牛。</p>
 </li>
 <li><p>greenDAO:greenDAO与LitePal不同，其原理不是根据反射进行数据库的各项操作，而是一开始就人工生成业务需要的Model和DAO文件，业务中可以直接调用相应的DAO文件进行数据库操作，从而避免了因反射带来的性能损耗和效率低下。但是由于需要人工生成model和DAO文件，所以greenDAO的配置就略显复杂。</p>
 </li>
@@ -256,7 +256,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://zilianliuxue.github.io/2016/07/27/安卓实战之如何快速搭建app架构/" data-title="快速搭建app架构 | ♀紫☆恋&amp;流★雪♂" data-tsina="null" class="share clearfix">
+	  <div data-url="https://github.com/zilianliuxue/zilianliuxue.github.io/blob/master/2016/07/27/安卓实战之如何快速搭建app架构/" data-title="快速搭建app架构 | ♀紫☆恋&amp;流★雪♂" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
