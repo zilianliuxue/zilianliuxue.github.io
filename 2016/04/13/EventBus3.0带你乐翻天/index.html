@@ -4,22 +4,36 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>♀紫☆恋&amp;流★雪♂</title>
+    <title>EventBus3.0带你乐翻天 | ♀紫☆恋&amp;流★雪♂</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Losileeya">
     
 
     
-    <meta name="description" content="Losileeya blog android | java | RN learning">
-<meta property="og:type" content="website">
-<meta property="og:title" content="♀紫☆恋&流★雪♂">
-<meta property="og:url" content="http://zilianliuxue.github.io/index.html">
+    <meta name="description" content="你还在为刷新ui伤透脑筋吗？你还在琢磨如何使用接口回调或者handle来实现吗？如果你想到了使用观察者模式，那么一个很屌的Android开源框架EventBus：主要功能是替代Intent、Handler、BroadCast在Fragment、Activity、Service、线程之间传递消息。他的最牛逼优点是开销小，代码简洁，解耦代码。  
+
+如果你没有使用过eventBus那么很遗憾你错过了很">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EventBus3.0带你乐翻天">
+<meta property="og:url" content="http://zilianliuxue.github.io/2016/04/13/EventBus3.0带你乐翻天/index.html">
 <meta property="og:site_name" content="♀紫☆恋&流★雪♂">
-<meta property="og:description" content="Losileeya blog android | java | RN learning">
+<meta property="og:description" content="你还在为刷新ui伤透脑筋吗？你还在琢磨如何使用接口回调或者handle来实现吗？如果你想到了使用观察者模式，那么一个很屌的Android开源框架EventBus：主要功能是替代Intent、Handler、BroadCast在Fragment、Activity、Service、线程之间传递消息。他的最牛逼优点是开销小，代码简洁，解耦代码。  
+
+如果你没有使用过eventBus那么很遗憾你错过了很">
+<meta property="og:image" content="http://img.blog.csdn.net/20160411122147724">
+<meta property="og:image" content="http://img.blog.csdn.net/20160414135852593">
+<meta property="og:image" content="http://img.blog.csdn.net/20160414131606685">
+<meta property="og:image" content="http://img.blog.csdn.net/20160414130827853">
+<meta property="og:image" content="http://img.blog.csdn.net/20160414132505136">
+<meta property="og:image" content="http://img.blog.csdn.net/20160414132636204">
+<meta property="og:updated_time" content="2016-07-29T12:18:09.703Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="♀紫☆恋&流★雪♂">
-<meta name="twitter:description" content="Losileeya blog android | java | RN learning">
+<meta name="twitter:title" content="EventBus3.0带你乐翻天">
+<meta name="twitter:description" content="你还在为刷新ui伤透脑筋吗？你还在琢磨如何使用接口回调或者handle来实现吗？如果你想到了使用观察者模式，那么一个很屌的Android开源框架EventBus：主要功能是替代Intent、Handler、BroadCast在Fragment、Activity、Service、线程之间传递消息。他的最牛逼优点是开销小，代码简洁，解耦代码。  
+
+如果你没有使用过eventBus那么很遗憾你错过了很">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160411122147724">
 
     
     <link rel="alternative" href="/atom.xml" title="♀紫☆恋&amp;流★雪♂" type="application/atom+xml">
@@ -75,213 +89,10 @@
 </div>
     </header>
     <div id="container">
-      <div id="main">
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/23/安卓实战之如何快速搭建app架构/" title="安卓实战之如何快速搭建app架构" itemprop="url">安卓实战之如何快速搭建app架构</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-23T14:44:00.000Z" itemprop="datePublished"> 发表于 2016-05-23</time>
-   
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="如何选择app架构（MVC-MVP-MVVM）"><a href="#如何选择app架构（MVC-MVP-MVVM）" class="headerlink" title="如何选择app架构（MVC/MVP/MVVM）"></a>如何选择app架构（MVC/MVP/MVVM）</h2><p>最近越来越多的人开始谈论架构。我周围的同事和工程师也是如此。尽管我还不是特别深入理解MVP，但是还是觉得比较牛逼,然后呢也想在公司的项目中去使用它。</p>
-<p>###项目时间紧迫：快速开发框架（迫不得已）<br>目前网络上也有一些针对Android的快速开发框架，下面介绍3个主要的快速开发框架。针对这些快速开发框架，个人认为可以参考，但并不推荐使用，因为App整体依赖一个个人维护的框架风险实在太大，框架存在一些学习成本，本身也不一定完全符合App的需求，使用后可能存在代码的臃肿，还有就是架构限制。</p>
-<ul>
-<li><p>Afinal</p>
-<p>GitHub项目地址：<a href="https://github.com/yangfuhai/afinal" target="_blank" rel="external">Afinal</a></p>
-<p>Afinal是一个Android的IOC，ORM框架，内置了四大模块功能：FinalAcitivity, FinalBitmap, FinalDb, FinalHttp。通过FinalActivity，可以通过注解的方式进行绑定UI和事件。通过FinalBitmap，可以方便的加载Bitmap图片，而无需考虑OOM等问题。通过FinalDB模块，通过一行代码就可以对Android的SQlite数据库进行增删改查。通过FinalHttp模块，可以以Ajax形式请求Http数据。   </p>
-<blockquote>
-<p>然而项目从去年就没有人更新维护了，ioc框架很多人不太喜欢而且性能不好。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>xUtils3.0</li>
-</ul>
-<p>GitHub项目地址：<a href="https://github.com/wyouflf/xUtils3" target="_blank" rel="external">xUtils3.0</a></p>
-<ol>
-<li>xUtils 支持超大文件(超过2G)上传，更全面的http请求协议支持(11种谓词)，拥有更加灵活的ORM，更多的事件注解支持且不受混淆影响…</li>
-<li>xUtils 最低兼容Android 4.0 (api level 14). (Android 2.3?)</li>
-<li><p>xUtils3变化较多所以建立了新的项目不在旧版(github.com/wyouflf/xUtils)上继续维护, 相对于旧版本:</p>
-<ul>
-<li>HTTP实现替换HttpClient为UrlConnection, 自动解析回调泛型, 更安全的断点续传策略.</li>
-<li>支持标准的Cookie策略, 区分domain, path…</li>
-<li>事件注解去除不常用的功能, 提高性能.</li>
-<li>数据库api简化提高性能, 达到和greenDao一致的性能.</li>
-<li>图片绑定支持gif(受系统兼容性影响, 部分gif文件只能静态显示), webp; 支持圆角, 圆形, 方形等裁剪, 支持自动旋转…<blockquote>
-<p>可以看出xUtils3对于快速开发是一个不错的选择。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="自己从零开始搭建app架构"><a href="#自己从零开始搭建app架构" class="headerlink" title="自己从零开始搭建app架构"></a>自己从零开始搭建app架构</h3><h4 id="简单的看下这三个架构模式："><a href="#简单的看下这三个架构模式：" class="headerlink" title="简单的看下这三个架构模式："></a>简单的看下这三个架构模式：</h4><ul>
-<li>MVC：Model-View-Controller，经典模式，很容易理解，主要缺点有两个：<br>View对Model的依赖，会导致View也包含了业务逻辑；<br>Controller会变得很厚很复杂。</li>
-<li>MVP：Model-View-Presenter，MVC的一个演变模式，将Controller换成了Presenter，主要为了解决上述第一个缺点，将View和Model解耦，不过第二个缺点依然没有解决。</li>
-<li>MVVM：Model-View-ViewModel，是对MVP的一个优化模式，采用了双向绑定：View的变动，自动反映在ViewModel，反之亦然。<h4 id="面对众多的架构模式你会选择哪个？"><a href="#面对众多的架构模式你会选择哪个？" class="headerlink" title="面对众多的架构模式你会选择哪个？"></a>面对众多的架构模式你会选择哪个？</h4><blockquote>
-<p>MVC，MVP还是MVVM？</p>
-<p>越高级的模式复杂性越高，实现起来也越难。然后搭建项目时也是看项目的需求，别人说好你也有要实用才好，高效的实现项目的功能才是最好的架构模式。</p>
-</blockquote>
-</li>
-</ul>
-<p>那么，哪一个才是最好的呢？</p>
-<blockquote>
-<p>个人觉得适合你的才是最好的，不要去盲目的跟风，大家说mvp好那你就使用咯，没有实践就没有话语权，所以说用哪种架构模式本人不发表任何意见：任何模式的动机都是一样的，那就是如何避免复杂混乱的代码，让执行单元测试变得容易，创造高质量应用程序，开发维护更高效。</p>
-</blockquote>
-<p>在实际项目中思考架构时，也不会想着要用哪种模式，我只思考现阶段，以现有的人力资源和时间资源，如何才能更快更好地完成需求，适当考虑下如何为后期扩展或重构做准备。</p>
-<h3 id="我项目中的架构"><a href="#我项目中的架构" class="headerlink" title="我项目中的架构"></a>我项目中的架构</h3><p>这是我上一个项目的包架构：</p>
-<p><img src="http://i.imgur.com/KuUakbm.png" alt=""></p>
-<p>当然咯，是按功能分的包，项目的功能不一样然后分包也不一样，但是基本大同小异。<br>所以确定架构分包的时候那就按你的需求来咯。  </p>
-<p>从上面可以看出：架构分包的时候我们包括逻辑功能和基础功能（通用功能）。  </p>
-<h4 id="基础功能模块："><a href="#基础功能模块：" class="headerlink" title="基础功能模块："></a>基础功能模块：</h4><ul>
-<li><p>日志管理系统（LogManager）</p>
-<blockquote>
-<p>不管哪个项目都需要自己的一套日志管理，一是为了生产调试时能更加高效的查看过滤日志，二是为了打包发布的时候用开关控制日志是否打印。  （我的日志用的是凯子哥的：<a href="https://github.com/ZhaoKaiQiang/KLog" target="_blank" rel="external">Klog</a>）</p>
-</blockquote>
-</li>
-<li>异常处理(crashManager)<blockquote>
-<p>作用：当程序遇见异常情况时我们能够自定义异常处理，二是程序对不同的机型有不同的反应，那么测试时候可能没有发现但是我们可以把捕获的crash上传到服务器，便于异常收集和bug修复。</p>
-</blockquote>
-</li>
-<li><p>utils(工具类)</p>
-<blockquote>
-<p>根据你的项目需求来合理定制你的工具类，将会对你的项目开发速度有很大的提升（反馈，版本校验更新你肯定能够用到）</p>
-</blockquote>
-<p>看下我上个项目的工具类：  </p>
-</li>
-</ul>
-<p><img src="http://i.imgur.com/paV4K5g.png" alt=""> </p>
-<ul>
-<li>permission(权限管理系统)<blockquote>
-<p>这功能是绝对项目中需要的，别告诉我你的项目还没有适配安卓6.0，适配了就肯定会有权限管理，我这里用的是<a href="http://blog.csdn.net/u013278099/article/details/50612266" target="_blank" rel="external"> 安卓6.0权限处理在项目中的实践</a>,也还可以吧，反正github上的权限管理的开源东西比较多，觉得合适就ok。</p>
-</blockquote>
-</li>
-</ul>
-<p>哈哈，这样你的基础功能都搭建好了，然后就是一些逻辑功能的封装了。</p>
-<h4 id="逻辑功能模块："><a href="#逻辑功能模块：" class="headerlink" title="逻辑功能模块："></a>逻辑功能模块：</h4><p> 1.封装自己的application和baseActivity类，最大可能的节省代码，加入mvp的思想来架构。</p>
-<p> 2.选择自己喜欢的网络请求框架并且适当合理的进行封装，加快开发的效率。</p>
-<p> 3.针对带有滚动控件嵌套有可能产生的滑动冲突，或者显示不全我们优先自定义一下viewpager,listview,gridview等。</p>
-<p> 4.封装listView或者recyclerView打造万能的适配器，觉得翔哥的封装的不错<a href="https://github.com/hongyangAndroid/baseAdapter" target="_blank" rel="external"> 打造万能的适配器</a>。</p>
-<p> 5.一般的网络数据格式是json(我们就逗：普通数据json,刷卡交易数据xml),所以呢我json格式的用gson封装一下,xml格式暂时用的是pull解析后bean对象封装。</p>
-<p> 6.数据库的封装，对数据苦要求不高的话可以用原生的简单封装一下curd就好了，要求高点的话那就用第三方的好了。</p>
-<h3 id="开发过程中第三方开源库的抉择"><a href="#开发过程中第三方开源库的抉择" class="headerlink" title="开发过程中第三方开源库的抉择"></a>开发过程中第三方开源库的抉择</h3><h4 id="图片加载库："><a href="#图片加载库：" class="headerlink" title="图片加载库："></a>图片加载库：</h4><ul>
-<li><p>Glide:相比较UIL，glide可以支持gif和短视频,支持与activity，fragment，application生命周期的联动,支持 okhttp、Volley</p>
-</li>
-<li><p>Fresco:三级缓存牛逼，对多帧动画图片支持更好，如 Gif、WebP</p>
-</li>
-<li><p>UIL：老牌的虽然不再更新维护，但功能强大</p>
-<blockquote>
-<p>根据你的项目需求选择，熟悉UIL就用它，个人推荐Glide</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="网络请求库："><a href="#网络请求库：" class="headerlink" title="网络请求库："></a>网络请求库：</h4><ul>
-<li><p>okhttp:</p>
-<blockquote>
-<p>okhttp是高性能的http库，支持同步、异步，而且实现了spdy、http2、websocket协议，api很简洁易用，和volley一样实现了http协议的缓存。</p>
-</blockquote>
-</li>
-<li><p>retrofit:</p>
-<blockquote>
-<p>简化了网络请求流程，同时自己内部对OkHtttp客户端做了封装，同时2.x把之前1.x版本的部分不恰当职责都转移给OkHttp了(例如Log，目前用OkHttp的Interceptor来实现)</p>
-</blockquote>
-</li>
-<li><p>volley:</p>
-<blockquote>
-<p>volley是一个简单的异步http库，仅此而已。缺点是不支持同步，这点会限制开发模式；不能post大数据，所以不适合用来上传文件。</p>
-</blockquote>
-</li>
-</ul>
-<p>个人建议使用retrofit，volley的通用性不高（资料最多）。</p>
-<h4 id="事件总线库："><a href="#事件总线库：" class="headerlink" title="事件总线库："></a>事件总线库：</h4><blockquote>
-<p>主要用来消息/事件的传递，却能实现组建之间的解耦。</p>
-</blockquote>
-<p>eventBus3.0和otto都是使用注解的方式（@Subscribe、@Produce）来标注方法，Otto更多的使用场景是在主线程中，相对是轻量级的。</p>
-<blockquote>
-<p>如果你对是不是轻量级不关心的话，我觉得两个差不多，但是还是很多人推荐使用otto。</p>
-</blockquote>
-<h4 id="依赖注入库："><a href="#依赖注入库：" class="headerlink" title="依赖注入库："></a>依赖注入库：</h4><p>butterknife8.0： <a href="https://github.com/JakeWharton/butterknife" target="_blank" rel="external">https://github.com/JakeWharton/butterknife</a><br>在任何项目中使用butterknife都是正确且没有问题的. 非常轻量级的库，原因是性能高节省代码，而且不是你们所想的反射机制实现的。</p>
-<p>Dagger2：它是不具有动态性的（使用时完全不使用反射）但是生成的代码的简洁性和性能都是与手写的代码同水准的。</p>
-<blockquote>
-<p>2个都是很棒的，你可以选择额。</p>
-</blockquote>
-<h4 id="数据库存储："><a href="#数据库存储：" class="headerlink" title="数据库存储："></a>数据库存储：</h4><ul>
-<li><p>LitePal：LitePal是一款开源的Android数据库框架，它采用了对象关系映射(ORM)的模式，LitePal很“轻”，jar包只有100k不到，使用起来也比较简单，源码地址为<a href="https://github.com/LitePalFramework/LitePal" target="_blank" rel="external">LitePal</a>地址,郭神开发的就是牛。</p>
-</li>
-<li><p>greenDAO:greenDAO与LitePal不同，其原理不是根据反射进行数据库的各项操作，而是一开始就人工生成业务需要的Model和DAO文件，业务中可以直接调用相应的DAO文件进行数据库操作，从而避免了因反射带来的性能损耗和效率低下。但是由于需要人工生成model和DAO文件，所以greenDAO的配置就略显复杂。</p>
-</li>
-</ul>
-<blockquote>
-<p>greenDAO用起来繁琐但是效率高点，LitePal用起来简单，所以你自己选择吧，个人还是觉得LitePal好用点。  </p>
-</blockquote>
-<h4 id="简单缓存"><a href="#简单缓存" class="headerlink" title="简单缓存"></a>简单缓存</h4><p><a href="">ASimpleCache</a>:ASimpleCache 是一个为android制定的 轻量级的 开源缓存框架。轻量到只有一个java文件（由十几个类精简而来）。</p>
-<ul>
-<li>可缓存普通的字符串、JsonObject、JsonArray、Bitmap、Drawable、序列化的java对象，和 byte数据。普通的字符串、JsonObject、JsonArray、Bitmap、Drawable、序列化的java对象，和 byte数据。</li>
-<li>替换SharePreference当做配置文件</li>
-<li>可以缓存网络请求数据，比如oschina的android客户端可以缓存http请求的新闻内容，缓存时间假设为1个小时，超时后自动失效，让客户端重新请求新的数据，减少客户端流量，同时减少服务器并发量。    </li>
-</ul>
-<p>哈哈项目需要的基本架构需要的开源库都有了，你可以放心的开发了。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong><em>其实架构并不是那么难，也不要别人说怎么好就怎么干，你要相信总有一个东西是适合你的，打个比喻app架构就是盖房子，砖少就盖矮点吗，但是必须保证得结实，就像 框架不一定要强大但是必须健壮具有扩展性。</em></strong></p>
-<hr>
-<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。<br>�������ӣ�<a href="http://zilianliuxue.github.io/2016/05/23/安卓实战之如何快速搭建app架构/">http://zilianliuxue.github.io/2016/05/23/安卓实战之如何快速搭建app架构/</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-	
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/android/">android</a>
-</div>
-
-
-  <div class="article-tags">
+      <div id="main" class="post" itemscope itemprop="blogPost">
   
-  <span></span> <a href="/tags/快速开发/">快速开发</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/23/安卓实战之如何快速搭建app架构/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/23/安卓实战之如何快速搭建app架构/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
   <h1 itemprop="name">
     
       <a href="/2016/04/13/EventBus3.0带你乐翻天/" title="EventBus3.0带你乐翻天" itemprop="url">EventBus3.0带你乐翻天</a>
@@ -295,9 +106,16 @@
    
   </p>
 </header>
-    <div class="article-content">
-        
-        <p>你还在为刷新ui伤透脑筋吗？你还在琢磨如何使用接口回调或者handle来实现吗？如果你想到了使用观察者模式，那么一个很屌的Android开源框架EventBus：主要功能是替代Intent、Handler、BroadCast在Fragment、Activity、Service、线程之间传递消息。他的最牛逼优点是开销小，代码简洁，解耦代码。  </p>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#EventBus使用详解"><span class="toc-number">1.</span> <span class="toc-text">EventBus使用详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#EventBus使用步骤"><span class="toc-number">1.1.</span> <span class="toc-text">EventBus使用步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-引入EventBus"><span class="toc-number">1.1.1.</span> <span class="toc-text">(1)引入EventBus:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-定义一个消息类，该类可以不继承任何基类也不需要实现任何接口。如："><span class="toc-number">1.1.2.</span> <span class="toc-text">(2)定义一个消息类，该类可以不继承任何基类也不需要实现任何接口。如：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-在需要订阅事件的地方注册事件"><span class="toc-number">1.1.3.</span> <span class="toc-text">(3)在需要订阅事件的地方注册事件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-发送事件-即发送消息"><span class="toc-number">1.1.4.</span> <span class="toc-text">(4)发送事件:即发送消息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-处理消息"><span class="toc-number">1.1.5.</span> <span class="toc-text">(5)处理消息</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#EventBus3-0与EventBus2-4的区别"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">EventBus3.0与EventBus2.4的区别</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-取消消息订阅"><span class="toc-number">1.1.6.</span> <span class="toc-text">(6)取消消息订阅</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-代码混淆"><span class="toc-number">1.1.7.</span> <span class="toc-text">(7)代码混淆</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#事件的优先级处理"><span class="toc-number">2.</span> <span class="toc-text">事件的优先级处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EventBus粘性事件"><span class="toc-number">3.</span> <span class="toc-text">EventBus粘性事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取消订阅事件"><span class="toc-number">4.</span> <span class="toc-text">取消订阅事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意："><span class="toc-number">5.</span> <span class="toc-text">注意：</span></a></li></ol>
+		
+		</div>
+		
+		<p>你还在为刷新ui伤透脑筋吗？你还在琢磨如何使用接口回调或者handle来实现吗？如果你想到了使用观察者模式，那么一个很屌的Android开源框架EventBus：主要功能是替代Intent、Handler、BroadCast在Fragment、Activity、Service、线程之间传递消息。他的最牛逼优点是开销小，代码简洁，解耦代码。  </p>
 <blockquote>
 <p>如果你没有使用过eventBus那么很遗憾你错过了很多，不过没有关系3.0的正式发布，使用没有什么大不一样只是性能更好。</p>
 <p><strong><em>个人建议直接使用3.0.0的版本，也不要去使用2.4和3.0beta1的版本了</em></strong>。</p>
@@ -435,15 +253,115 @@
 <p>觉得还不错的帮忙顶一下，大家相互学习一下，哈哈哈。</p>
 <hr>
 <p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。<br>�������ӣ�<a href="http://zilianliuxue.github.io/2016/04/13/EventBus3.0带你乐翻天/">http://zilianliuxue.github.io/2016/04/13/EventBus3.0带你乐翻天/</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
+  
+	</div>
 	
-    <footer class="article-footer clearfix">
+  <!-- css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+
+      <!-- http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif
+           因为本 hexo 生成的博客所用的 theme 的 a:hover 带动画效果，
+         为了在让打赏按钮显示效果正常 而 添加了以下几行 css，
+         嵌入其它博客时不一定要它们。 -->
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+      <!-- /让打赏按钮的效果显示正常 而 添加的几行 css 到此结束 -->
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+    <!-- Donate Module -->
+    <div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      打赏我的人，运气都不会太差~
+    </span>
+      
+    
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+    
+  <div id="donate_guide" class="donate_bar center hidden">
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      
+      <div width="100%" align="center"><div name="dashmain" id="dash-main-id-87895f" class="dash-main-3 87895f-0.99"></div></div>
+    <script type="text/javascript" charset="utf-8" src="http://www.dashangcloud.com/static/ds.js"></script>
+    
+
+    <a href="img/weixin" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+      <img src="img/weixin" title="微信打赏 Donate" height="190px" width="auto"/>
+    </a>
+        
+          
+
+    <a href="img/zhifubao" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+      <img src="img/zhifubao" title="支付宝打赏 Donate" height="190px" width="auto"/>
+    </a>
+
+    <span class="donate_txt">
+      打赏我的人，运气都不会太差~
+    </span>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className = 'hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+   
+		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
@@ -461,97 +379,55 @@
 
 
 
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zilianliuxue.github.io/2016/04/13/EventBus3.0带你乐翻天/" data-title="EventBus3.0带你乐翻天 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  </div>
+	
+	</div>
 
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/04/13/EventBus3.0带你乐翻天/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/04/13/EventBus3.0带你乐翻天/" data-count-type="comments">&nbsp;</a>
-	
-</div>
 
 </footer>
 
-
-    </article>
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/21/hello-world/" title="Hello World" itemprop="url">Hello World</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-21T08:04:09.000Z" itemprop="datePublished"> 发表于 2016-03-21</time>
-   
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-<hr>
-<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。<br>�������ӣ�<a href="http://zilianliuxue.github.io/2016/03/21/hello-world/">http://zilianliuxue.github.io/2016/03/21/hello-world/</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
+   	       
+	</article>
 	
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/hexo/">hexo</a>
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/05/23/安卓实战之如何快速搭建app架构/" title="安卓实战之如何快速搭建app架构">
+  <strong>上一篇：</strong><br/>
+  <span>
+  安卓实战之如何快速搭建app架构</span>
+</a>
 </div>
 
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/jacman/">jacman</a>
-  </div>
-
+<div class="next">
+<a href="/2016/03/21/hello-world/"  title="Hello World">
+ <strong>下一篇：</strong><br/> 
+ <span>Hello World
+</span>
+</a>
 </div>
 
+</nav>
 
-
-
-<div class="comments-count">
 	
-	  	<span></span>
-		<a href="/2016/03/21/hello-world/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/21/hello-world/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/04/13/EventBus3.0带你乐翻天/" data-title="EventBus3.0带你乐翻天" data-url="http://zilianliuxue.github.io/2016/04/13/EventBus3.0带你乐翻天/"></div>
+</section>
 
 
-    </article>
-
-
-
-
-
-</div>
+</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#EventBus使用详解"><span class="toc-number">1.</span> <span class="toc-text">EventBus使用详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#EventBus使用步骤"><span class="toc-number">1.1.</span> <span class="toc-text">EventBus使用步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-引入EventBus"><span class="toc-number">1.1.1.</span> <span class="toc-text">(1)引入EventBus:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-定义一个消息类，该类可以不继承任何基类也不需要实现任何接口。如："><span class="toc-number">1.1.2.</span> <span class="toc-text">(2)定义一个消息类，该类可以不继承任何基类也不需要实现任何接口。如：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-在需要订阅事件的地方注册事件"><span class="toc-number">1.1.3.</span> <span class="toc-text">(3)在需要订阅事件的地方注册事件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-发送事件-即发送消息"><span class="toc-number">1.1.4.</span> <span class="toc-text">(4)发送事件:即发送消息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-处理消息"><span class="toc-number">1.1.5.</span> <span class="toc-text">(5)处理消息</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#EventBus3-0与EventBus2-4的区别"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">EventBus3.0与EventBus2.4的区别</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-取消消息订阅"><span class="toc-number">1.1.6.</span> <span class="toc-text">(6)取消消息订阅</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-代码混淆"><span class="toc-number">1.1.7.</span> <span class="toc-text">(7)代码混淆</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#事件的优先级处理"><span class="toc-number">2.</span> <span class="toc-text">事件的优先级处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EventBus粘性事件"><span class="toc-number">3.</span> <span class="toc-text">EventBus粘性事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取消订阅事件"><span class="toc-number">4.</span> <span class="toc-text">取消订阅事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意："><span class="toc-number">5.</span> <span class="toc-text">注意：</span></a></li></ol>
+ 
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -759,14 +635,103 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
 
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zilianliuxue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
 
 
 
@@ -838,4 +803,4 @@ var _hmt = _hmt || [];
 <!-- Tiny_search End -->
 
   </body>
- </html>
+</html>

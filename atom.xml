@@ -1,102 +1,28 @@
-
- <!DOCTYPE HTML>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>♀紫☆恋&amp;流★雪♂</title>
+  <subtitle>编程中我们会遇到多少挫折？不放弃，沙漠尽头必是绿洲，不是天方夜谭</subtitle>
+  <link href="/atom.xml" rel="self"/>
   
-    <title>♀紫☆恋&amp;流★雪♂</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+  <link href="http://zilianliuxue.github.io/"/>
+  <updated>2016-07-29T12:18:05.535Z</updated>
+  <id>http://zilianliuxue.github.io/</id>
+  
+  <author>
+    <name>Losileeya</name>
+    <email>847457332@qq.com</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>安卓实战之如何快速搭建app架构</title>
+    <link href="http://zilianliuxue.github.io/2016/05/23/%E5%AE%89%E5%8D%93%E5%AE%9E%E6%88%98%E4%B9%8B%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAapp%E6%9E%B6%E6%9E%84/"/>
+    <id>http://zilianliuxue.github.io/2016/05/23/安卓实战之如何快速搭建app架构/</id>
+    <published>2016-05-23T14:44:00.000Z</published>
+    <updated>2016-07-29T12:18:05.535Z</updated>
     
-    <meta name="author" content="Losileeya">
-    
-
-    
-    <meta name="description" content="Losileeya blog android | java | RN learning">
-<meta property="og:type" content="website">
-<meta property="og:title" content="♀紫☆恋&流★雪♂">
-<meta property="og:url" content="http://zilianliuxue.github.io/index.html">
-<meta property="og:site_name" content="♀紫☆恋&流★雪♂">
-<meta property="og:description" content="Losileeya blog android | java | RN learning">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="♀紫☆恋&流★雪♂">
-<meta name="twitter:description" content="Losileeya blog android | java | RN learning">
-
-    
-    <link rel="alternative" href="/atom.xml" title="♀紫☆恋&amp;流★雪♂" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/favicon.ico">
-    
-    
-    <link rel="apple-touch-icon" href="/img/jacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-
-  <body>
-    <header>
-      
-<div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="♀紫☆恋&amp;流★雪♂" title="♀紫☆恋&amp;流★雪♂"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="♀紫☆恋&amp;流★雪♂">♀紫☆恋&amp;流★雪♂</a></h1>
-				<h2 class="blog-motto">编程中我们会遇到多少挫折？不放弃，沙漠尽头必是绿洲，不是天方夜谭</h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">Home</a></li>
-					
-						<li><a href="/archives">Archives</a></li>
-					
-						<li><a href="/about">About</a></li>
-					
-						<li><a href="/categories">分类</a></li>
-					
-					<li>
- 					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:zilianliuxue.github.io">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
-    </header>
-    <div id="container">
-      <div id="main">
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/23/安卓实战之如何快速搭建app架构/" title="安卓实战之如何快速搭建app架构" itemprop="url">安卓实战之如何快速搭建app架构</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-23T14:44:00.000Z" itemprop="datePublished"> 发表于 2016-05-23</time>
-   
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="如何选择app架构（MVC-MVP-MVVM）"><a href="#如何选择app架构（MVC-MVP-MVVM）" class="headerlink" title="如何选择app架构（MVC/MVP/MVVM）"></a>如何选择app架构（MVC/MVP/MVVM）</h2><p>最近越来越多的人开始谈论架构。我周围的同事和工程师也是如此。尽管我还不是特别深入理解MVP，但是还是觉得比较牛逼,然后呢也想在公司的项目中去使用它。</p>
+    <content type="html"><![CDATA[<h2 id="如何选择app架构（MVC-MVP-MVVM）"><a href="#如何选择app架构（MVC-MVP-MVVM）" class="headerlink" title="如何选择app架构（MVC/MVP/MVVM）"></a>如何选择app架构（MVC/MVP/MVVM）</h2><p>最近越来越多的人开始谈论架构。我周围的同事和工程师也是如此。尽管我还不是特别深入理解MVP，但是还是觉得比较牛逼,然后呢也想在公司的项目中去使用它。</p>
 <p>###项目时间紧迫：快速开发框架（迫不得已）<br>目前网络上也有一些针对Android的快速开发框架，下面介绍3个主要的快速开发框架。针对这些快速开发框架，个人认为可以参考，但并不推荐使用，因为App整体依赖一个个人维护的框架风险实在太大，框架存在一些学习成本，本身也不一定完全符合App的需求，使用后可能存在代码的臃肿，还有就是架构限制。</p>
 <ul>
 <li><p>Afinal</p>
@@ -236,68 +162,29 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong><em>其实架构并不是那么难，也不要别人说怎么好就怎么干，你要相信总有一个东西是适合你的，打个比喻app架构就是盖房子，砖少就盖矮点吗，但是必须保证得结实，就像 框架不一定要强大但是必须健壮具有扩展性。</em></strong></p>
 <hr>
 <p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。<br>�������ӣ�<a href="http://zilianliuxue.github.io/2016/05/23/安卓实战之如何快速搭建app架构/">http://zilianliuxue.github.io/2016/05/23/安卓实战之如何快速搭建app架构/</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-	
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/android/">android</a>
-</div>
-
-
-  <div class="article-tags">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;如何选择app架构（MVC-MVP-MVVM）&quot;&gt;&lt;a href=&quot;#如何选择app架构（MVC-MVP-MVVM）&quot; class=&quot;headerlink&quot; title=&quot;如何选择app架构（MVC/MVP/MVVM）&quot;&gt;&lt;/a&gt;如何选择app架构（MVC/MVP
+    
+    </summary>
+    
+      <category term="android" scheme="http://zilianliuxue.github.io/categories/android/"/>
+    
+    
+      <category term="快速开发" scheme="http://zilianliuxue.github.io/tags/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
   
-  <span></span> <a href="/tags/快速开发/">快速开发</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/23/安卓实战之如何快速搭建app架构/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/23/安卓实战之如何快速搭建app架构/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-   
+  <entry>
+    <title>EventBus3.0带你乐翻天</title>
+    <link href="http://zilianliuxue.github.io/2016/04/13/EventBus3.0%E5%B8%A6%E4%BD%A0%E4%B9%90%E7%BF%BB%E5%A4%A9/"/>
+    <id>http://zilianliuxue.github.io/2016/04/13/EventBus3.0带你乐翻天/</id>
+    <published>2016-04-13T11:48:00.000Z</published>
+    <updated>2016-07-29T12:18:09.703Z</updated>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/04/13/EventBus3.0带你乐翻天/" title="EventBus3.0带你乐翻天" itemprop="url">EventBus3.0带你乐翻天</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
-		
-  <p class="article-time">
-    <time datetime="2016-04-13T11:48:00.000Z" itemprop="datePublished"> 发表于 2016-04-13</time>
-   
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>你还在为刷新ui伤透脑筋吗？你还在琢磨如何使用接口回调或者handle来实现吗？如果你想到了使用观察者模式，那么一个很屌的Android开源框架EventBus：主要功能是替代Intent、Handler、BroadCast在Fragment、Activity、Service、线程之间传递消息。他的最牛逼优点是开销小，代码简洁，解耦代码。  </p>
+    <content type="html"><![CDATA[<p>你还在为刷新ui伤透脑筋吗？你还在琢磨如何使用接口回调或者handle来实现吗？如果你想到了使用观察者模式，那么一个很屌的Android开源框架EventBus：主要功能是替代Intent、Handler、BroadCast在Fragment、Activity、Service、线程之间传递消息。他的最牛逼优点是开销小，代码简洁，解耦代码。  </p>
 <blockquote>
 <p>如果你没有使用过eventBus那么很遗憾你错过了很多，不过没有关系3.0的正式发布，使用没有什么大不一样只是性能更好。</p>
 <p><strong><em>个人建议直接使用3.0.0的版本，也不要去使用2.4和3.0beta1的版本了</em></strong>。</p>
@@ -435,68 +322,29 @@
 <p>觉得还不错的帮忙顶一下，大家相互学习一下，哈哈哈。</p>
 <hr>
 <p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。<br>�������ӣ�<a href="http://zilianliuxue.github.io/2016/04/13/EventBus3.0带你乐翻天/">http://zilianliuxue.github.io/2016/04/13/EventBus3.0带你乐翻天/</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-	
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/android/">android</a>
-</div>
-
-
-  <div class="article-tags">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;你还在为刷新ui伤透脑筋吗？你还在琢磨如何使用接口回调或者handle来实现吗？如果你想到了使用观察者模式，那么一个很屌的Android开源框架EventBus：主要功能是替代Intent、Handler、BroadCast在Fragment、Activity、Servic
+    
+    </summary>
+    
+      <category term="android" scheme="http://zilianliuxue.github.io/categories/android/"/>
+    
+    
+      <category term="EventBus3" scheme="http://zilianliuxue.github.io/tags/EventBus3/"/>
+    
+  </entry>
   
-  <span></span> <a href="/tags/EventBus3/">EventBus3</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/04/13/EventBus3.0带你乐翻天/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/04/13/EventBus3.0带你乐翻天/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-   
+  <entry>
+    <title>Hello World</title>
+    <link href="http://zilianliuxue.github.io/2016/03/21/hello-world/"/>
+    <id>http://zilianliuxue.github.io/2016/03/21/hello-world/</id>
+    <published>2016-03-21T08:04:09.000Z</published>
+    <updated>2016-07-29T12:18:23.493Z</updated>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/21/hello-world/" title="Hello World" itemprop="url">Hello World</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-21T08:04:09.000Z" itemprop="datePublished"> 发表于 2016-03-21</time>
-   
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
@@ -507,335 +355,19 @@
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 <hr>
 <p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。<br>�������ӣ�<a href="http://zilianliuxue.github.io/2016/03/21/hello-world/">http://zilianliuxue.github.io/2016/03/21/hello-world/</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-	
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/hexo/">hexo</a>
-</div>
-
-
-  <div class="article-tags">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+    
+    </summary>
+    
+      <category term="hexo" scheme="http://zilianliuxue.github.io/categories/hexo/"/>
+    
+    
+      <category term="jacman" scheme="http://zilianliuxue.github.io/tags/jacman/"/>
+    
+  </entry>
   
-  <span></span> <a href="/tags/jacman/">jacman</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/21/hello-world/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/21/hello-world/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-</div>
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
-  
-<div class="github-card">
-<p class="asidetitle">Github 名片</p>
-<div class="github-card" data-github="zilianliuxue" data-width="220" data-height="119" data-theme="medium">
-<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
-</div>
-  </div>
-
-
-
-  
-<div class="categorieslist">
-	<p class="asidetitle">分类</p>
-		<ul>
-		
-		  
-			<li><a href="/categories/android/" title="android">android<sup>2</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
-		  
-		
-		</ul>
-</div>
-
-
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
-		
-			
-				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/快速开发/" title="快速开发">快速开发<sup>1</sup></a></li>
-			
-		
-		</ul>
-</div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-        
-          <li>
-            
-            	<a href="http://www.jianshu.com/" target="_blank" title="一个面向程序员交流分享的新一代社区">jianshu</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://blog.csdn.net/u013278099" target="_blank" title="Losileeya CSDN">Losileeya CSDN</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://www.trinea.cn/" target="_blank" title="trinea">trinea</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://blog.daimajia.com/" target="_blank" title="daimajia">daimajia</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://www.lcode.org/" target="_blank" title="江清清的技术专栏">江清清的技术专栏</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="https://www.aswifter.com/" target="_blank" title="阳春面的博客">阳春面的博客</a>
-            
-          </li>
-        
-    </ul>
-</div>
-
-  
-  <div class="tagcloudlist">
-    <p class="asidetitle">标签云</p>
-    <div class="tagcloudlist clearfix">
-       <a href="/tags/EventBus3/" style="font-size: 10px;">EventBus3</a> <a href="/tags/jacman/" style="font-size: 10px;">jacman</a> <a href="/tags/快速开发/" style="font-size: 10px;">快速开发</a>
-    </div>
-  </div>
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-  <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
-    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3290293743&verifier=20a2ffb1&dpc=1"></iframe>
-</div>
-
-
-</aside>
-</div>
-    </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<section class="info">
-		<p> Hello ,I&#39;m Losileeya . <br/>
-			This is my blog,believe it or not.</p>
-	</section>
-	 
-	<div class="social-font" class="clearfix">
-		
-		<a href="http://weibo.com/3290293743" target="_blank" class="icon-weibo" title="微博"></a>
-		
-		
-		<a href="https://github.com/zilianliuxue" target="_blank" class="icon-github" title="github"></a>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		<a href="mailto:847457332@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
-		
-	</div>
-			
-		
-
-		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
-		
-		<a href="/about" target="_blank" title="Losileeya">Losileeya</a>
-		
-		
-		</p>
-		
-		
-</div>
-</footer>
-    <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
-<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-  
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else{
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-        
-    }
-  });
-});
-</script>
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
-
-
-
-<!-- Analytics Begin -->
-
-
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
-
-<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260017595'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1260017595%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
-
-
-<!-- Analytics End -->
-
-<!-- Totop Begin -->
-
-	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
-	</div>
-	<script src="/js/totop.js"></script>
-
-<!-- Totop End -->
-
-<!-- MathJax Begin -->
-<!-- mathjax config similar to math.stackexchange -->
-
-
-<!-- MathJax End -->
-
-<!-- Tiny_search Begin -->
-
-<!-- Tiny_search End -->
-
-  </body>
- </html>
+</feed>
