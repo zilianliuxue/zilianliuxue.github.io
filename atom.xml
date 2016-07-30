@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zilianliuxue.github.io/"/>
-  <updated>2016-07-29T12:18:05.535Z</updated>
+  <updated>2016-07-30T02:33:03.267Z</updated>
   <id>http://zilianliuxue.github.io/</id>
   
   <author>
@@ -20,10 +20,10 @@
     <link href="http://zilianliuxue.github.io/2016/05/23/%E5%AE%89%E5%8D%93%E5%AE%9E%E6%88%98%E4%B9%8B%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAapp%E6%9E%B6%E6%9E%84/"/>
     <id>http://zilianliuxue.github.io/2016/05/23/安卓实战之如何快速搭建app架构/</id>
     <published>2016-05-23T14:44:00.000Z</published>
-    <updated>2016-07-29T12:18:05.535Z</updated>
+    <updated>2016-07-30T02:33:03.267Z</updated>
     
     <content type="html"><![CDATA[<h2 id="如何选择app架构（MVC-MVP-MVVM）"><a href="#如何选择app架构（MVC-MVP-MVVM）" class="headerlink" title="如何选择app架构（MVC/MVP/MVVM）"></a>如何选择app架构（MVC/MVP/MVVM）</h2><p>最近越来越多的人开始谈论架构。我周围的同事和工程师也是如此。尽管我还不是特别深入理解MVP，但是还是觉得比较牛逼,然后呢也想在公司的项目中去使用它。</p>
-<p>###项目时间紧迫：快速开发框架（迫不得已）<br>目前网络上也有一些针对Android的快速开发框架，下面介绍3个主要的快速开发框架。针对这些快速开发框架，个人认为可以参考，但并不推荐使用，因为App整体依赖一个个人维护的框架风险实在太大，框架存在一些学习成本，本身也不一定完全符合App的需求，使用后可能存在代码的臃肿，还有就是架构限制。</p>
+<h3 id="项目时间紧迫：快速开发框架（迫不得已）"><a href="#项目时间紧迫：快速开发框架（迫不得已）" class="headerlink" title="项目时间紧迫：快速开发框架（迫不得已）"></a>项目时间紧迫：快速开发框架（迫不得已）</h3><p>目前网络上也有一些针对Android的快速开发框架，下面介绍3个主要的快速开发框架。针对这些快速开发框架，个人认为可以参考，但并不推荐使用，因为App整体依赖一个个人维护的框架风险实在太大，框架存在一些学习成本，本身也不一定完全符合App的需求，使用后可能存在代码的臃肿，还有就是架构限制。</p>
 <ul>
 <li><p>Afinal</p>
 <p>GitHub项目地址：<a href="https://github.com/yangfuhai/afinal" target="_blank" rel="external">Afinal</a></p>
