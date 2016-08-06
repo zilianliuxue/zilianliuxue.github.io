@@ -1,0 +1,786 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>安卓实战开发之JNI再深入了解 | ♀紫☆恋&amp;流★雪♂</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Losileeya">
+    
+
+    
+    <meta name="description" content="JNI重新认识头文件：1.头文件中存放的是对某个库中所定义的函数、宏(define)、类型、全局变量等进行声明，它类似于一份仓库清单。若用户程序中需要使用某个库中的函数，则只需要将该库所对应的头文件include到程序中即可。
+2.头文件中定义的是库中所有函数的函数原型。而函数的具体实现则是在库文件中。
+3.在连接器连接程序时，会依据用户程序中导入的头文件，将对应的库函数导入到程序中。头文件以.h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓实战开发之JNI再深入了解">
+<meta property="og:url" content="http://zilianliuxue.github.io/2016/08/06/安卓实战开发之JNI再深入了解/index.html">
+<meta property="og:site_name" content="♀紫☆恋&流★雪♂">
+<meta property="og:description" content="JNI重新认识头文件：1.头文件中存放的是对某个库中所定义的函数、宏(define)、类型、全局变量等进行声明，它类似于一份仓库清单。若用户程序中需要使用某个库中的函数，则只需要将该库所对应的头文件include到程序中即可。
+2.头文件中定义的是库中所有函数的函数原型。而函数的具体实现则是在库文件中。
+3.在连接器连接程序时，会依据用户程序中导入的头文件，将对应的库函数导入到程序中。头文件以.h">
+<meta property="og:image" content="http://img.blog.csdn.net/20160806111333746">
+<meta property="og:image" content="http://i.imgur.com/vaS8Rb2.png">
+<meta property="og:image" content="http://img.blog.csdn.net/20160806120606952">
+<meta property="og:updated_time" content="2016-08-06T04:22:52.891Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安卓实战开发之JNI再深入了解">
+<meta name="twitter:description" content="JNI重新认识头文件：1.头文件中存放的是对某个库中所定义的函数、宏(define)、类型、全局变量等进行声明，它类似于一份仓库清单。若用户程序中需要使用某个库中的函数，则只需要将该库所对应的头文件include到程序中即可。
+2.头文件中定义的是库中所有函数的函数原型。而函数的具体实现则是在库文件中。
+3.在连接器连接程序时，会依据用户程序中导入的头文件，将对应的库函数导入到程序中。头文件以.h">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160806111333746">
+
+    
+    <link rel="alternative" href="/atom.xml" title="♀紫☆恋&amp;流★雪♂" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+	
+    <form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+	<label>Search</label>
+	<input type="text" id="search" class="st-default-search-input" maxlength="20" placeholder="Search" />
+	</form>
+    
+    <link rel="stylesheet" href="/css/style.css">
+	
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.gif" alt="♀紫☆恋&amp;流★雪♂" title="♀紫☆恋&amp;流★雪♂"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="♀紫☆恋&amp;流★雪♂">♀紫☆恋&amp;流★雪♂</a></h1>
+				<h2 class="blog-motto">编程中我们会遇到多少挫折？不放弃，沙漠尽头必是绿洲，不是天方夜谭</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="search" />
+						<input type="hidden" name="q" value="site:zilianliuxue.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/06/安卓实战开发之JNI再深入了解/" title="安卓实战开发之JNI再深入了解" itemprop="url">安卓实战开发之JNI再深入了解</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-06T04:22:00.000Z" itemprop="datePublished"> 发表于 2016-08-06</time>
+   <span id="busuanzi_container_page_pv">
+    总阅读<span id="busuanzi_value_page_pv"></span>次
+   </span>
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JNI重新认识"><span class="toc-number">1.</span> <span class="toc-text">JNI重新认识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#头文件："><span class="toc-number">1.1.</span> <span class="toc-text">头文件：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-call-c"><span class="toc-number">1.2.</span> <span class="toc-text">java  call c</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-call-java"><span class="toc-number">1.3.</span> <span class="toc-text">c call java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNI-更新UI"><span class="toc-number">1.4.</span> <span class="toc-text">JNI 更新UI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C和C-函数时的JNI使用区别"><span class="toc-number">1.5.</span> <span class="toc-text">C和C++函数时的JNI使用区别</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="JNI重新认识"><a href="#JNI重新认识" class="headerlink" title="JNI重新认识"></a>JNI重新认识</h2><h3 id="头文件："><a href="#头文件：" class="headerlink" title="头文件："></a>头文件：</h3><p>1.头文件中存放的是对某个库中所定义的函数、宏(define)、类型、全局变量等进行声明，它类似于一份仓库清单。若用户程序中需要使用某个库中的函数，则只需要将该库所对应的头文件include到程序中即可。</p>
+<p>2.头文件中定义的是库中所有函数的函数原型。而函数的具体实现则是在库文件中。</p>
+<p>3.在连接器连接程序时，会依据用户程序中导入的头文件，将对应的库函数导入到程序中。头文件以.h为后缀名。 </p>
+<p>头文件是给编译器用的，库文件是给连接器用的</p>
+<p>###　函数库：</p>
+<p>1.动态库：在编译用户程序时不会将用户程序内使用的库函数连接到用户程序的目标代码中，只有在运行时，且用户程序执行到相关函数时才会调用该函数库里的相应函数，因此动态函数库所产生的可执行文件比较小。</p>
+<p>2.静态库：在编译用户程序时会将其内使用的库函数连接到目标代码中，程序运行时不再需要静态库。使用静态库生成可执行文件比较大。</p>
+<p>为什么要进行交互?</p>
+<p>首先，java语言提供的类库无法满足要求,且在数学运算,实时渲染的游戏上,音视频处理等方面上与c/c++相比效率稍低。然后，java语言无法直接操作硬件，c/c++代码不仅能操作硬件而且还能发挥硬件最佳性能。接着，使用java调用本地的c/c++代码所写的库，省去了重复开发的麻烦，并且可以利用很多开源的库提高程序效率。</p>
+<h3 id="java-call-c"><a href="#java-call-c" class="headerlink" title="java  call c"></a>java  call c</h3><p>Java调用C/C++大概有这样几个步骤</p>
+<ol>
+<li>编写带有native方法的Java类, 使用javac工具编译Java类</li>
+<li>使用javah来生成与native方法对应的头文件</li>
+<li>实现相应的头文件, 并编译为动态链接库</li>
+</ol>
+<p>我们对这个还是很清楚的，看代码：</p>
+<p>c代码：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">// Created by Administrator on 2016/8/1.</div><div class="line">//</div><div class="line">#include "JNIUtils.h"</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include&lt;stdio.h&gt;</div><div class="line">#include&lt;stdlib.h&gt;</div><div class="line">#include &lt;android/log.h&gt;</div><div class="line">/**</div><div class="line"> * 把一个jstring转换成一个c语言的char* 类型.</div><div class="line"> */</div><div class="line">char* _JString2CStr(JNIEnv* env, jstring jstr) &#123;</div><div class="line">char* rtn = NULL;</div><div class="line">jclass clsstring = (*env)-&gt;FindClass(env, "java/lang/String");</div><div class="line">jstring strencode = (*env)-&gt;NewStringUTF(env,"GB2312");</div><div class="line">jmethodID mid = (*env)-&gt;GetMethodID(env, clsstring, "getBytes", "(Ljava/lang/String;)[B");</div><div class="line">jbyteArray barr = (jbyteArray)(*env)-&gt;CallObjectMethod(env, jstr, mid, strencode); // String .getByte("GB2312");</div><div class="line">jsize alen = (*env)-&gt;GetArrayLength(env, barr);</div><div class="line">jbyte* ba = (*env)-&gt;GetByteArrayElements(env, barr, JNI_FALSE);</div><div class="line">if(alen &gt; 0) &#123;</div><div class="line">rtn = (char*)malloc(alen+1); //"\0"</div><div class="line">memcpy(rtn, ba, alen);</div><div class="line">rtn[alen]=0;</div><div class="line">&#125;</div><div class="line">(*env)-&gt;ReleaseByteArrayElements(env, barr, ba,0);</div><div class="line">return rtn;</div><div class="line">&#125;</div><div class="line"></div><div class="line">JNIEXPORT jint JNICALL Java_com_losileeya_jnimaster_JNIUtils_intMethod</div><div class="line">                         (JNIEnv *env, jclass jobj,jint num)&#123;</div><div class="line">            return num*num;</div><div class="line">   &#125;</div><div class="line">JNIEXPORT jboolean JNICALL Java_com_losileeya_jnimaster_JNIUtils_booleanMethod</div><div class="line">                             (JNIEnv * env, jclass jobj,jboolean boolean)&#123;</div><div class="line">            return !boolean;</div><div class="line">     &#125;</div><div class="line">JNIEXPORT jstring JNICALL Java_com_losileeya_jnimaster_JNIUtils_stringMethod</div><div class="line">                            (JNIEnv * env, jclass jobj,jstring jstr)&#123;</div><div class="line">//jstring jstr--&gt;char*</div><div class="line">char* fromJava = _JString2CStr(env,jstr);</div><div class="line">char* fromC = "add I am from C!! ";</div><div class="line">//字符串的拼接函数，会把拼接后的结果放在第一个参数里面</div><div class="line">strcat(fromJava,fromC);</div><div class="line"></div><div class="line">return (*env)-&gt;NewStringUTF(env,fromJava);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">JNIEXPORT jint JNICALL Java_com_losileeya_jnimaster_JNIUtils_intArrayMethod</div><div class="line">      (JNIEnv * env, jclass jobj,jintArray array)&#123;</div><div class="line">int i, sum = 0;</div><div class="line">jsize len = (*env)-&gt;GetArrayLength(env, array);</div><div class="line">jint *body = (*env)-&gt;GetIntArrayElements(env, array, 0);</div><div class="line"></div><div class="line">for (i = 0; i &lt; len; ++i)</div><div class="line">&#123;</div><div class="line">sum += body[i];</div><div class="line">&#125;</div><div class="line">(*env)-&gt;ReleaseIntArrayElements(env, array, body, 0);</div><div class="line">return sum;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>c++代码：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">/</div><div class="line">// Created by Administrator on 2016/8/1.</div><div class="line">//</div><div class="line">#include "JNIUtils.h"</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include&lt;stdlib.h&gt;</div><div class="line">#include&lt;stdio.h&gt;</div><div class="line">#include &lt;android/log.h&gt;</div><div class="line">/**</div><div class="line"> * 把一个jstring转换成一个c++语言的char* 类型.</div><div class="line"> */</div><div class="line">char* _JString2CStr(JNIEnv* env, jstring jstr) &#123;</div><div class="line">char* rtn = NULL;</div><div class="line">jclass clsstring = env-&gt;FindClass( "java/lang/String");</div><div class="line">jstring strencode = env-&gt;NewStringUTF("GB2312");</div><div class="line">jmethodID mid = env-&gt;GetMethodID( clsstring, "getBytes", "(Ljava/lang/String;)[B");</div><div class="line">jbyteArray barr = (jbyteArray)env-&gt;CallObjectMethod(jstr, mid, strencode); // String .getByte("GB2312");</div><div class="line">jsize alen = env-&gt;GetArrayLength( barr);</div><div class="line">jbyte* ba = env-&gt;GetByteArrayElements( barr, JNI_FALSE);</div><div class="line">if(alen &gt; 0) &#123;</div><div class="line">rtn = (char*)malloc(alen+1); //"\0"</div><div class="line">memcpy(rtn, ba, alen);</div><div class="line">rtn[alen]=0;</div><div class="line">&#125;</div><div class="line">env-&gt;ReleaseByteArrayElements(barr, ba,0);</div><div class="line">return rtn;</div><div class="line">&#125;</div><div class="line"></div><div class="line">JNIEXPORT jint JNICALL Java_com_losileeya_jnimaster_JNIUtils_intMethod(JNIEnv * env, jclass jobj,jint num)&#123;</div><div class="line">return num *num;</div><div class="line">&#125;</div><div class="line">JNIEXPORT jboolean JNICALL Java_com_losileeya_jnimaster_JNIUtils_booleanMethod(JNIEnv * env, jclass jobj,jboolean boolean)&#123;</div><div class="line">return !boolean;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">JNIEXPORT jstring JNICALL Java_com_losileeya_jnimaster_JNIUtils_stringMethod</div><div class="line">        (JNIEnv *env , jclass jobj, jstring jstr)&#123;</div><div class="line">//jstring jstr--&gt;char*</div><div class="line">char* fromJava = _JString2CStr(env,jstr);</div><div class="line">char* fromC = "add I am from C!! ";</div><div class="line">//字符串的拼接函数，会把拼接后的结果放在第一个参数里面</div><div class="line">strcat(fromJava,fromC);</div><div class="line">return env-&gt;NewStringUTF(fromJava);</div><div class="line">&#125;</div><div class="line">JNIEXPORT jint JNICALL Java_com_losileeya_jnimaster_JNIUtils_intArrayMethod(JNIEnv * env, jclass jobj,jintArray array)&#123;</div><div class="line">int sum = 0;</div><div class="line">jsize len = env-&gt;GetArrayLength(array);</div><div class="line">jint *arr = env-&gt;GetIntArrayElements(array, 0);</div><div class="line">for(int i = 0;i&lt;len; i++)&#123;</div><div class="line">sum+=arr[i];</div><div class="line">&#125;</div><div class="line">env-&gt;ReleaseIntArrayElements(array, arr,0);</div><div class="line">return sum;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从上面Native函数的命名上我们可以了解到JNI函数的命名规则： Java代码中的函数声明需要添加native 关键 字；Native的对应函数名要以“Java”开头，后面依次跟上Java的“package名”、“class名”、“函数名”，中间以下划线“” 分割，在package名中的“.”也要改为“_”。此外，关于函数的参数和返回值也有相应的规则。对于Java中的基本类型如int 、double 、char 等，在Native端都有相对应的类型来表示，如jint 、jdouble 、jchar 等；其他的对象类型则统统由jobject 来表示（String 是个例外，由于其使用广泛，故在Native代码中有jstring 这个类型来表示，正如在上例中返回值String 对应到Native代码中的返回值jstring ）。而对于Java中的数组，在Native中由jarray 对应，具体到基本类型和一般对象类型的数组则有jintArray 等和jobjectArray 分别对应（String 数组在这里没有例外，同样用jobjectArray 表示）。还有一点需要注意的是，在JNI的Native函数中，其前两个参数JNIEnv 和jobject<em> 是必需的——前者是一个JNIEnv 结构体的指针，这个结构体中定义了很多JNI的接口函数指针，使开发者可以使用JNI所定义的接口功能；后者指代的是调用这个JNI函数的Java对象，有点类似于C++中的this 指针。在上述两个参数之后，还需要根据Java端的函数声明依次对应添加参数。在上例中，Java中声明的JNI函数没有参数，则Native的对应函数只有类型为JNIEnv 和jobject</em> 的两个参数。</p>
+<p>效果图：</p>
+<p><img src="http://img.blog.csdn.net/20160806111333746" alt="这里写图片描述"></p>
+<h3 id="c-call-java"><a href="#c-call-java" class="headerlink" title="c call java"></a>c call java</h3><p>一般来说，要在Native代码中访问Java对象，有如下几个步骤：</p>
+<ol>
+<li><p>得到该Java对象的类定义。JNI定义了jclass 这个类型来表示Java的类的定义，并提供了FindClass接口，根据类的完整的包路径即可得到其jclass 。</p>
+</li>
+<li><p>根据jclass 创建相应的对象实体，即jobject 。在Java中，创建一个新对象只需要使用new 关键字即可，但在Native代码中创建一个对象则需要两步：首先通过JNI接口GetMethodID得到该类的构造函数，然后利用NewObject接口构造出该类的一个实例对象。</p>
+</li>
+<li><p>访问jobject 中的成员变量或方法。访问对象的方法是先得到方法的Method ID，然后使用Call<type>Method 接口调用，这里Type对应相应方法的返回值——返回值为基本类型的都有相对应的接口，如CallIntMethod；其他的返回值（包括String） 则为CallObjectMethod。可以看出，创建对象实质上是调用对象的一个特殊方法，即构造函数。访问成员变量的步骤一样：首先 GetFieldID得到成员变量的ID，然后Get/Set<type>Field读/写变量值。</type></type></p>
+</li>
+</ol>
+<p>寻找class对象, 并实例化</p>
+<p>JVM在Java中都是自己启动的, 在C/C++中只能自己来启动了, 启动完之后的事情就和在Java中一样了, 不过要使用C/C++的语法.</p>
+<p>获取class对象比较简单, FindClass(env, className).</p>
+<pre><code>cls = (*env)-&gt;FindClass(env, &quot;xxxx&quot;);  
+</code></pre><p>在Java中的类名格式是java.lang.String, 但是className的格式有点不同, 不是使用’.’作为分割, 而是’/‘, 即java/lang/String.</p>
+<p>我们知道Java中构造函数有两种, 一种是默认的没有参数的, 一种是自定义的带有参数的. 对应的在C/C++中, 有两种调用构造函数的方法.</p>
+<p>调用默认构造函数</p>
+<pre><code>// 调用默认构造函数  obj = (*env)-&gt;AllocObjdect(env, cls);   
+</code></pre><p>构造函数也是方法, 类似调用方法的方式.</p>
+<pre><code>// 调用指定的构造函数, 构造函数的名字叫做&lt;init&gt;  mid = (*env)-&gt;GetMethodID(env, cls, &quot;&lt;init&gt;&quot;, &quot;()V&quot;);  obj = (*env)-&gt;NewObject(env, cls, mid);  
+</code></pre><p>调用方法和修改属性</p>
+<p>关于方法和属性是有两个ID与之对应, 这两个ID用来标识方法和属性.</p>
+<pre><code>jmethodID mid;  jfieldID fid; 
+</code></pre><p>方法分为静态和非静态的, 所以对应的有</p>
+<pre><code>mid = (*env)-&gt;GetStaticMethodID(env, cls, &quot;sayHello&quot;, &quot;(Ljava/lang/String;)Ljava/lang/String;&quot;);     mid = (*env)-&gt;GetMethodID(env, cls, &quot;sayHello&quot;, &quot;()Ljava/lang/String;&quot;);   
+</code></pre><p>上面两个方法是同名的, 都叫sayHello, 但是签名不同, 所以可以区分两个方法.</p>
+<p>JNI的函数都是有一定规律的, Static就表示是静态, 没有表示非静态.</p>
+<p>方法的调用如下</p>
+<pre><code>jstring result = (jstring)(*env)-&gt;CallStaticObjectMethod(env, cls, mid, arg);     jstring result = (jstring)(*env)-&gt;CallObjectMethod(env, obj, mid);   
+</code></pre><p>我们可以看到静态方法是只需要class对象, 不需要实例的, 而非静态方法需要使用我们之前实例化的对象.</p>
+<p>属性也有静态和非静态, 示例中只有非静态的.</p>
+<p>获取属性ID</p>
+<pre><code>fid = (*env)-&gt;GetFieldID(env, cls, &quot;name&quot;, &quot;Ljava/lang/String;&quot;);   
+</code></pre><p>改属性的值</p>
+<pre><code>(*env)-&gt;SetObjectField(env, obj, fid, arg); // 修改属性  
+</code></pre><p>关于jstring的说明</p>
+<p>java的String都是使用了unicode, 是双字节的字符, 而C/C++中使用的单字节的字符。</p>
+<p>从C转换为java的字符, 使用NewStringUTF方法</p>
+<pre><code>jstring arg = (*env)-&gt;NewStringUTF(env, name);  
+</code></pre><p>从java转换为C的字符, 使用GetStringUTFChars</p>
+<pre><code>const char* str = (*env)-&gt;GetStringUTFChars(env, result, 0); 
+</code></pre><p>下面我们来看代码：</p>
+<p>c代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * Class:     com_losileeya_jnimaster_JNIUtils</div><div class="line"> * Method:    ccallJava_helloFromJava</div><div class="line"> * Signature: ()V</div><div class="line"> */</div><div class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_losileeya_jnimaster_JNIUtils_ccallJava_1helloFromJava</span></span></div><div class="line">  <span class="params">(JNIEnv *env, jobject jobj)</span>&#123;</div><div class="line">    jclass jclazz=(*env)-&gt;FindClass(env,<span class="string">"com/losileeya/jnimaster/JNIUtils"</span>);</div><div class="line">    jmethodID jmethodid=(*env)-&gt;GetMethodID(env,jclazz,<span class="string">"helloFromJava"</span>,<span class="string">"()V"</span>);</div><div class="line">    jobject jobjs=(*env)-&gt;AllocObject(env,jclazz);</div><div class="line">    (*env)-&gt;CallVoidMethod(env,jobjs,jmethodid);</div><div class="line">  &#125;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> * Class:     com_losileeya_jnimaster_JNIUtils</div><div class="line"> * Method:    ccallJava_add</div><div class="line"> * Signature: ()V</div><div class="line"> */</div><div class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_losileeya_jnimaster_JNIUtils_ccallJava_1add</span></span></div><div class="line">  <span class="params">(JNIEnv *env, jobject jobj)</span>&#123;</div><div class="line"><span class="comment">//1.得到类对应的字节码</span></div><div class="line">    <span class="comment">//全类名，把.改成/</span></div><div class="line">    <span class="comment">//jclass      (*FindClass)(JNIEnv*, const char*);</span></div><div class="line">    jclass jclazz = (*env)-&gt;FindClass(env, <span class="string">"com/losileeya/jnimaster/JNIUtils"</span>);</div><div class="line"></div><div class="line">    <span class="comment">//2.得到要调用的方法名</span></div><div class="line">    <span class="comment">//第三个参数：方法名</span></div><div class="line">    <span class="comment">//第四个但是：方法签名</span></div><div class="line">    <span class="comment">//jmethodID   (*GetMethodID)(JNIEnv*, jclass, const char*, const char*);</span></div><div class="line">    jmethodID jmethodid = (*env)-&gt;GetMethodID(env, jclazz, <span class="string">"add"</span>,</div><div class="line">            <span class="string">"(II)I"</span>);</div><div class="line"></div><div class="line">    <span class="comment">//3.得到要调用的方法对应的类的实例</span></div><div class="line">    <span class="comment">// jobject     (*AllocObject)(JNIEnv*, jclass);</span></div><div class="line">    jobject jobjs = (*env)-&gt;AllocObject(env, jclazz);</div><div class="line">    <span class="comment">//4.调用方法</span></div><div class="line">    <span class="comment">// jint        (*CallIntMethod)(JNIEnv*, jobject, jmethodID, ...);</span></div><div class="line">      <span class="keyword">int</span> reuslt =  (*env)-&gt;CallIntMethod(env,jobjs,jmethodid,<span class="number">99</span>,<span class="number">1</span>);</div><div class="line"></div><div class="line"></div><div class="line">  &#125;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> * Class:     com_losileeya_jnimaster_JNIUtils</div><div class="line"> * Method:    ccallJava_printString</div><div class="line"> * Signature: ()V</div><div class="line"> */</div><div class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_losileeya_jnimaster_JNIUtils_ccallJava_1printString</span></span></div><div class="line">  <span class="params">(JNIEnv *env, jobject jobj)</span>&#123;</div><div class="line"> <span class="comment">//1.得到类对应的字节码</span></div><div class="line">        <span class="comment">//全类名，把.改成/</span></div><div class="line">        <span class="comment">//jclass      (*FindClass)(JNIEnv*, const char*);</span></div><div class="line">        jclass jclazz = (*env)-&gt;FindClass(env, <span class="string">"com/losileeya/jnimaster/JNIUtils"</span>);</div><div class="line"></div><div class="line">        <span class="comment">//2.得到要调用的方法名</span></div><div class="line">        <span class="comment">//第三个参数：方法名</span></div><div class="line">        <span class="comment">//第四个但是：方法签名</span></div><div class="line">        <span class="comment">//jmethodID   (*GetMethodID)(JNIEnv*, jclass, const char*, const char*);</span></div><div class="line">        jmethodID jmethodid = (*env)-&gt;GetMethodID(env, jclazz, <span class="string">"printString"</span>,</div><div class="line">                <span class="string">"(Ljava/lang/String;)V"</span>);</div><div class="line"></div><div class="line">        <span class="comment">//3.得到要调用的方法对应的类的实例</span></div><div class="line">        <span class="comment">// jobject     (*AllocObject)(JNIEnv*, jclass);</span></div><div class="line">        jobject jobjs = (*env)-&gt;AllocObject(env, jclazz);</div><div class="line">        <span class="comment">//4.调用方法</span></div><div class="line">        <span class="comment">// void        (*CallVoidMethod)(JNIEnv*, jobject, jmethodID, ...);</span></div><div class="line">        jstring text = (*env)-&gt;NewStringUTF(env,<span class="string">"I am from C!!"</span>);</div><div class="line">        (*env)-&gt;CallVoidMethod(env, jobjs, jmethodid,text); <span class="comment">//成功调用了Java中JNI里面的printString(String s);</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> * Class:     com_losileeya_jnimaster_JNIUtils</div><div class="line"> * Method:    ccallJava_sayHello</div><div class="line"> * Signature: ()V</div><div class="line"> */</div><div class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_losileeya_jnimaster_JNIUtils_ccallJava_1sayHello</span></span></div><div class="line">  <span class="params">(JNIEnv * env, jobject jobj)</span>&#123;</div><div class="line">     <span class="comment">//1.得到字节码</span></div><div class="line">     jclass jclazz = (*env)-&gt;FindClass(env,<span class="string">"com/losileeya/jnimaster/JNIUtils"</span>);</div><div class="line">     <span class="comment">//2.得到方法</span></div><div class="line">     jmethodID  jmethodid = (*env)-&gt;GetStaticMethodID(env,jclazz,<span class="string">"sayHello"</span>,<span class="string">"(Ljava/lang/String;)V"</span>);</div><div class="line"></div><div class="line">     <span class="comment">//3.调用</span></div><div class="line">     <span class="comment">//void        (*CallStaticVoidMethod)(JNIEnv*, jclass, jmethodID, ...);</span></div><div class="line">        jstring text = (*env)-&gt;NewStringUTF(env,<span class="string">"I am from C!! I am static method !!!"</span>);</div><div class="line">     (*env)-&gt;CallStaticVoidMethod(env,jclazz,jmethodid,text);<span class="comment">//成功调用了Java中JNI类的静态方法sayHello(String text)</span></div><div class="line"></div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>c++代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * Class:     com_losileeya_jnimaster_JNIUtils</div><div class="line"> * Method:    ccallJava_helloFromJava</div><div class="line"> * Signature: ()V</div><div class="line"> */</div><div class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_losileeya_jnimaster_JNIUtils_ccallJava_1helloFromJava</span><span class="params">(JNIEnv*env,jobject jobj)</span></span>&#123;</div><div class="line">jclass jclazz = env-&gt;FindClass(<span class="string">"com/losileeya/jnimaster/JNIUtils"</span>);</div><div class="line">jmethodID jmethodid = env-&gt;GetMethodID(jclazz, <span class="string">"helloFromJava"</span>, <span class="string">"()V"</span>);</div><div class="line">jobject jobjs = env-&gt;AllocObject(jclazz);</div><div class="line">env-&gt;CallVoidMethod(jobjs, jmethodid);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> * Class:     com_losileeya_jnimaster_JNIUtils</div><div class="line"> * Method:    ccallJava_add</div><div class="line"> * Signature: ()V</div><div class="line"> */</div><div class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_losileeya_jnimaster_JNIUtils_ccallJava_1add</span><span class="params">(JNIEnv*env,jobject jobj)</span></span>&#123;</div><div class="line"><span class="comment">//1.得到类对应的字节码</span></div><div class="line"><span class="comment">//全类名，把.改成/</span></div><div class="line"><span class="comment">//jclass      (*FindClass)(JNIEnv*, const char*);</span></div><div class="line">jclass jclazz = env-&gt;FindClass( <span class="string">"com/losileeya/jnimaster/JNIUtils"</span>);</div><div class="line"></div><div class="line"><span class="comment">//2.得到要调用的方法名</span></div><div class="line"><span class="comment">//第三个参数：方法名</span></div><div class="line"><span class="comment">//第四个但是：方法签名</span></div><div class="line"><span class="comment">//jmethodID   (*GetMethodID)(JNIEnv*, jclass, const char*, const char*);</span></div><div class="line">jmethodID jmethodid = env-&gt;GetMethodID(jclazz, <span class="string">"add"</span>,</div><div class="line">                                          <span class="string">"(II)I"</span>);</div><div class="line"></div><div class="line"><span class="comment">//3.得到要调用的方法对应的类的实例</span></div><div class="line"><span class="comment">// jobject     (*AllocObject)(JNIEnv*, jclass);</span></div><div class="line">jobject jobjs = env-&gt;AllocObject(jclazz);</div><div class="line"><span class="comment">//4.调用方法</span></div><div class="line"><span class="comment">// jint        (*CallIntMethod)(JNIEnv*, jobject, jmethodID, ...);</span></div><div class="line"><span class="keyword">int</span> reusle =  env-&gt;CallIntMethod(jobjs,jmethodid,<span class="number">99</span>,<span class="number">1</span>);</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> * Class:     com_losileeya_jnimaster_JNIUtils</div><div class="line"> * Method:    ccallJava_printString</div><div class="line"> * Signature: ()V</div><div class="line"> */</div><div class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_losileeya_jnimaster_JNIUtils_ccallJava_1printString</span><span class="params">(JNIEnv*env,jobject jobj)</span></span>&#123;</div><div class="line"><span class="comment">//1.得到类对应的字节码</span></div><div class="line"><span class="comment">//全类名，把.改成/</span></div><div class="line"><span class="comment">//jclass      (*FindClass)(JNIEnv*, const char*);</span></div><div class="line">jclass jclazz = env-&gt;FindClass( <span class="string">"com/losileeya/jnimaster/JNIUtils"</span>);</div><div class="line"></div><div class="line"><span class="comment">//2.得到要调用的方法名</span></div><div class="line"><span class="comment">//第三个参数：方法名</span></div><div class="line"><span class="comment">//第四个但是：方法签名</span></div><div class="line"><span class="comment">//jmethodID   (*GetMethodID)(JNIEnv*, jclass, const char*, const char*);</span></div><div class="line">jmethodID jmethodid = env-&gt;GetMethodID( jclazz, <span class="string">"printString"</span>,</div><div class="line">                                          <span class="string">"(Ljava/lang/String;)V"</span>);</div><div class="line"></div><div class="line"><span class="comment">//3.得到要调用的方法对应的类的实例</span></div><div class="line"><span class="comment">// jobject     (*AllocObject)(JNIEnv*, jclass);</span></div><div class="line">jobject jobjs = env-&gt;AllocObject(jclazz);</div><div class="line"><span class="comment">//4.调用方法</span></div><div class="line"><span class="comment">// void        (*CallVoidMethod)(JNIEnv*, jobject, jmethodID, ...);</span></div><div class="line">jstring text = env-&gt;NewStringUTF(<span class="string">"I am from C!!"</span>);</div><div class="line">env-&gt;CallVoidMethod( jobjs, jmethodid,text); <span class="comment">//成功调用了Java中JNI里面的printString(String s);</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> * Class:     com_losileeya_jnimaster_JNIUtils</div><div class="line"> * Method:    ccallJava_sayHello</div><div class="line"> * Signature: ()V</div><div class="line"> */</div><div class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_losileeya_jnimaster_JNIUtils_ccallJava_1sayHello</span><span class="params">(JNIEnv*env,jobject jobj)</span></span>&#123;</div><div class="line"><span class="comment">//1.得到字节码</span></div><div class="line">jclass jclazz = env-&gt;FindClass(<span class="string">"com/losileeya/jnimaster/JNIUtils"</span>);</div><div class="line"><span class="comment">//2.得到方法</span></div><div class="line">jmethodID  jmethodid = env-&gt;GetStaticMethodID(jclazz,<span class="string">"sayHello"</span>,<span class="string">"(Ljava/lang/String;)V"</span>);</div><div class="line"></div><div class="line"><span class="comment">//3.调用</span></div><div class="line"><span class="comment">//void        (*CallStaticVoidMethod)(JNIEnv*, jclass, jmethodID, ...);</span></div><div class="line">jstring text = env-&gt;NewStringUTF(<span class="string">"I am from C!! I am static method !!!"</span>);</div><div class="line">env-&gt;CallStaticVoidMethod(jclazz,jmethodid,text);<span class="comment">//成功调用了Java中JNI类的静态方法sayHello(String text)</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，上述代码和前面讲到的步骤完全相符。这里提一下编程时要注意的要点：1、FindClass要写明Java类的完整包路径，并将 “.”以“/”替换；2、GetMethodID的第三个参数是方法名（对于构造函数一律用“<init>”表示），第四个参数是方法的“签 名”，需要用一个字符串序列表示方法的参数（依声明顺序）和返回值信息。由于篇幅所限，这里不再具体说明如何根据方法的声明构造相应的“签名”，请参考 JNI的相关文档。</init></p>
+<p>关于上面谈到的步骤再补充说明一下：在JNI规范中，如上这种使用NewObject创建的对象实例被称为“Local Reference”，它仅在创建它的Native代码作用域内有效，因此应避免在作用域外使用该实例及任何指向它的指针。如果希望创建的对象实例在作用 域外也能使用，则需要使用NewGlobalRef接口将其提升为“Global Reference”——需要注意的是，当Global Reference不再使用后，需要显式的释放，以便通知JVM进行垃圾收集。</p>
+<p>顺便看下截图：<br><img src="http://i.imgur.com/vaS8Rb2.png" alt=""></p>
+<h3 id="JNI-更新UI"><a href="#JNI-更新UI" class="headerlink" title="JNI 更新UI"></a>JNI 更新UI</h3><p>在Android使用Jni时，为了能够使UI线程即主线程与工作线程分开，经常要创建工作线程，然后在工作线程中调用C/C++函数.为了在C/C++ 函数中更新Android的UI，又时常使用回调。jni更新ui的话，我们就要注重jobject的使用了。</p>
+<p>看代码：(使用)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> &#123;</div><div class="line">       System.loadLibrary(<span class="string">"CCallJavaForUI"</span>);</div><div class="line">   &#125;</div><div class="line">   <span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">       <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">       setContentView(R.layout.activity_main);</div><div class="line">   &#125;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CCallJavaForUI</span><span class="params">(View view)</span></span>&#123;</div><div class="line">       <span class="keyword">this</span>.callShowToast();</div><div class="line"></div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showToast</span><span class="params">()</span></span>&#123;</div><div class="line">       <span class="comment">//this - Activity的实例</span></div><div class="line">       <span class="comment">//startActitity();--&gt;</span></div><div class="line">       <span class="comment">//new MainActivity();</span></div><div class="line">       System.out.println(<span class="string">"showToast()----------"</span>);</div><div class="line">       Toast.makeText(<span class="keyword">this</span>, <span class="string">"showToast()---------"</span>, Toast.LENGTH_LONG).show();</div><div class="line">   &#125;</div><div class="line"></div><div class="line"></div><div class="line">   <span class="comment">/**</span></div><div class="line">    * 调用MainActivity中的showToast()方法</div><div class="line">    */</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">callShowToast</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
+<p>c代码 ：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">// Created by Administrator on 2016/8/6.</div><div class="line">//</div><div class="line">#include "JNIUtils.h"</div><div class="line">#include&lt;stdio.h&gt;</div><div class="line">#include&lt;stdlib.h&gt;</div><div class="line">/**</div><div class="line"> * 调用java 中MainActivity中的showToast()方法</div><div class="line"> * jobject jobj:谁调用就是谁的实例，当前是JNI.this---&gt;MainActivity.this</div><div class="line"> */</div><div class="line">JNIEXPORT void JNICALL Java_com_losileeya_jniupdateui_MainActivity_callShowToast</div><div class="line">(JNIEnv * env, jobject jobj)&#123;</div><div class="line"></div><div class="line">//1.得到字节码</div><div class="line">jclass   jclazz = (*env)-&gt;FindClass(env,"com/losileeya/jniupdateui/MainActivity");</div><div class="line">//2.得到方法</div><div class="line">//jmethodID   (*GetMethodID)(JNIEnv*, jclass, const char*, const char*);</div><div class="line">jmethodID jmethodid = (*env)-&gt;GetMethodID(env,jclazz,"showToast","()V");</div><div class="line">//3.得到对象</div><div class="line">//      jobject jobjs = (*env)-&gt;AllocObject(env,jclazz);</div><div class="line">//4.调用方法</div><div class="line">//void        (*CallVoidMethod)(JNIEnv*, jobject, jmethodID, ...);</div><div class="line">(*env)-&gt;CallVoidMethod(env,jobj,jmethodid);//成功调用了中MainActivity中的showToast()方法</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>c++代码：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">// Created by Administrator on 2016/8/6.</div><div class="line">//</div><div class="line">#include "JNIUtils.h"</div><div class="line">#include&lt;stdio.h&gt;</div><div class="line">#include&lt;stdlib.h&gt;</div><div class="line">/**</div><div class="line"> * 调用java 中MainActivity中的showToast()方法</div><div class="line"> * jobject jobj:谁调用就是谁的实例，当前是JNI.this---&gt;MainActivity.this</div><div class="line"> */</div><div class="line">JNIEXPORT void JNICALL Java_com_losileeya_jniupdateui_MainActivity_callShowToast</div><div class="line">(JNIEnv * env, jobject jobj)&#123;</div><div class="line"></div><div class="line">//1.得到字节码</div><div class="line">jclass   jclazz = (*env)-&gt;FindClass(env,"com/losileeya/jniupdateui/MainActivity");</div><div class="line">//2.得到方法</div><div class="line">//jmethodID   (*GetMethodID)(JNIEnv*, jclass, const char*, const char*);</div><div class="line">jmethodID jmethodid = (*env)-&gt;GetMethodID(env,jclazz,"showToast","()V");</div><div class="line">//3.得到对象</div><div class="line">//      jobject jobjs = (*env)-&gt;AllocObject(env,jclazz);</div><div class="line">//4.调用方法</div><div class="line">//void        (*CallVoidMethod)(JNIEnv*, jobject, jmethodID, ...);</div><div class="line">(*env)-&gt;CallVoidMethod(env,jobj,jmethodid);//成功调用了中MainActivity中的showToast()方法</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>效果图：<br><img src="http://img.blog.csdn.net/20160806120606952" alt="这里写图片描述"></p>
+<h3 id="C和C-函数时的JNI使用区别"><a href="#C和C-函数时的JNI使用区别" class="headerlink" title="C和C++函数时的JNI使用区别"></a>C和C++函数时的JNI使用区别</h3><p>Java调用C和C++函数时的JNI使用区别:</p>
+<p>注意：jni.h头文件中对于<em>.c  &amp;  </em>.cpp采用不同的定义</p>
+<p>在C的定义中,env是一个两级指针,而在C++的定义中,env是个一级指针</p>
+<p>C形式需要对env指针进行双重deferencing，而且须将env作为第一个参数传给jni函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">jclass (JNICALL *GetObjectClass)   (JNIEnv *env, jobject obj);</div><div class="line"></div><div class="line"><span class="function">jclass <span class="title">GetObjectClass</span><span class="params">(jobject obj)</span> </span></div><div class="line"></div><div class="line">&#123;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> functions-&gt;GetObjectClass(<span class="keyword">this</span>,obj);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对于*.c</p>
+<p>1.jclass test_class = (*env)-&gt;GetObjectClass(env, obj);</p>
+<p>2.jfieldID id_num = (*env)-&gt;GetFieldID(env, test_class, “num”, “I”);</p>
+<p>对于 *.cpp</p>
+<p>1.jclass test_class = env-&gt;GetObjectClass(obj); </p>
+<p>2.jfieldID id_num = env-&gt;GetFieldID(test_class, “num”, “I”);</p>
+<p>在 C 中，</p>
+<p>JNI 函数调用由“(*env)-&gt;”作前缀，目的是为了取出函数指针所引用的值。</p>
+<p>在 C++ 中，</p>
+<p>JNIEnv 类拥有处理函数指针查找的内联成员函数。</p>
+<p>下面将说明这个细微的差异，其中，这两行代码访问同一函数，但每种语言都有各自的语法。</p>
+<p>C 语法：jsize len = (*env)-&gt;GetArrayLength(env,array);</p>
+<p>C++ 语法：jsize len =env-&gt;GetArrayLength(array);</p>
+<pre><code>1、jni 可以调用本地C函数。
+2、jni 调用C++库时，首先要将C++库提供的功能封装成纯C格式的函数接口，然后jni里面调用这些C接口。
+
+总结，没什么区别。一个是 jni调用c。另一个是jni调用c，c调用c++。
+</code></pre><p> 传送门：<a href="http://download.csdn.net/detail/u013278099/9596655" target="_blank" rel="external">jnimaster</a></p>
+<p>##总结</p>
+<p>JNI使用c和cpp的基本使用和了解就讲的差不多了，更多的学习可以去看jni的使用安全手册。</p>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+  
+	</div>
+	
+  <!-- css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+
+      <!-- http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif
+           因为本 hexo 生成的博客所用的 theme 的 a:hover 带动画效果，
+         为了在让打赏按钮显示效果正常 而 添加了以下几行 css，
+         嵌入其它博客时不一定要它们。 -->
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+      <!-- /让打赏按钮的效果显示正常 而 添加的几行 css 到此结束 -->
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+    <!-- Donate Module -->
+    <div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      打赏我的人，运气都不会太差~
+    </span>
+      
+    
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+    
+  <div id="donate_guide" class="donate_bar center hidden">
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      
+      <div width="100%" align="center"><div name="dashmain" id="dash-main-id-87895f" class="dash-main-3 87895f-0.99"></div></div>
+    <script type="text/javascript" charset="utf-8" src="http://www.dashangcloud.com/static/ds.js"></script>
+    
+
+    <a href="http://i.imgur.com/EhvkeWS.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+      <img src="http://i.imgur.com/EhvkeWS.png" title="微信打赏 Donate" height="190px" width="auto"/>
+    </a>
+        
+          
+
+    <a href="http://i.imgur.com/FhK6Sph.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+      <img src="http://i.imgur.com/FhK6Sph.png" title="支付宝打赏 Donate" height="190px" width="auto"/>
+    </a>
+
+    <span class="donate_txt">
+      打赏我的人，运气都不会太差~
+    </span>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className = 'hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+   
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/jni-ndk/">jni ndk</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zilianliuxue.github.io/2016/08/06/安卓实战开发之JNI再深入了解/" data-title="安卓实战开发之JNI再深入了解 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/05/23/安卓实战之如何快速搭建app架构/"  title="安卓实战之如何快速搭建app架构">
+ <strong>下一篇：</strong><br/> 
+ <span>安卓实战之如何快速搭建app架构
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/08/06/安卓实战开发之JNI再深入了解/" data-title="安卓实战开发之JNI再深入了解" data-url="http://zilianliuxue.github.io/2016/08/06/安卓实战开发之JNI再深入了解/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JNI重新认识"><span class="toc-number">1.</span> <span class="toc-text">JNI重新认识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#头文件："><span class="toc-number">1.1.</span> <span class="toc-text">头文件：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-call-c"><span class="toc-number">1.2.</span> <span class="toc-text">java  call c</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-call-java"><span class="toc-number">1.3.</span> <span class="toc-text">c call java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNI-更新UI"><span class="toc-number">1.4.</span> <span class="toc-text">JNI 更新UI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C和C-函数时的JNI使用区别"><span class="toc-number">1.5.</span> <span class="toc-text">C和C++函数时的JNI使用区别</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="zilianliuxue" data-width="220" data-height="88" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="android">android<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jni-ndk/" title="jni ndk">jni ndk<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/快速开发/" title="快速开发">快速开发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/" target="_blank" title="一个面向程序员交流分享的新一代社区">jianshu</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/u013278099" target="_blank" title="Losileeya CSDN">Losileeya CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.trinea.cn/" target="_blank" title="trinea">trinea</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.daimajia.com/" target="_blank" title="daimajia">daimajia</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.lcode.org/" target="_blank" title="江清清的技术专栏">江清清的技术专栏</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://www.aswifter.com/" target="_blank" title="阳春面的博客">阳春面的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/EventBus3/" style="font-size: 10px;">EventBus3</a> <a href="/tags/jacman/" style="font-size: 10px;">jacman</a> <a href="/tags/jni-ndk/" style="font-size: 10px;">jni ndk</a> <a href="/tags/快速开发/" style="font-size: 10px;">快速开发</a>
+    </div>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3290293743&verifier=20a2ffb1&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Losileeya . <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3290293743" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zilianliuxue" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:847457332@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Losileeya">Losileeya</a>
+		
+		
+		</p>
+		<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','R4yoD_akDbrgyYA8-p3S','2.0.0');
+</script>
+	<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>	
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zilianliuxue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260017595'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1260017595%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
