@@ -1,0 +1,1098 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>git命令使用大全 | ♀紫☆恋&amp;流★雪♂</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Losileeya">
+    
+
+    
+    <meta name="description" content="##ADD AND COMMIT
+1. git init    
+初始化一个 Git 仓库（repository），即把当前所在目录变成 Git 可以管理的仓库。
+2. git add 文件
+把文件添加到 暂存区（stage），可被 track 追踪纪录下来。可多次使用来添加多个文件。
+3. git add * 
+添加所有修改到暂存区，效果同 git add all，待验证。
+4. git add">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git命令使用大全">
+<meta property="og:url" content="http://zilianliuxue.github.io/2016/08/20/git命令使用大全/index.html">
+<meta property="og:site_name" content="♀紫☆恋&流★雪♂">
+<meta property="og:description" content="##ADD AND COMMIT
+1. git init    
+初始化一个 Git 仓库（repository），即把当前所在目录变成 Git 可以管理的仓库。
+2. git add 文件
+把文件添加到 暂存区（stage），可被 track 追踪纪录下来。可多次使用来添加多个文件。
+3. git add * 
+添加所有修改到暂存区，效果同 git add all，待验证。
+4. git add">
+<meta property="og:updated_time" content="2016-08-19T23:03:57.951Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git命令使用大全">
+<meta name="twitter:description" content="##ADD AND COMMIT
+1. git init    
+初始化一个 Git 仓库（repository），即把当前所在目录变成 Git 可以管理的仓库。
+2. git add 文件
+把文件添加到 暂存区（stage），可被 track 追踪纪录下来。可多次使用来添加多个文件。
+3. git add * 
+添加所有修改到暂存区，效果同 git add all，待验证。
+4. git add">
+
+    
+    <link rel="alternative" href="/atom.xml" title="♀紫☆恋&amp;流★雪♂" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+	
+    <form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+	<label>Search</label>
+	<input type="text" id="search" class="st-default-search-input" maxlength="20" placeholder="Search" />
+	</form>
+    
+    <link rel="stylesheet" href="/css/style.css">
+	
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.gif" alt="♀紫☆恋&amp;流★雪♂" title="♀紫☆恋&amp;流★雪♂"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="♀紫☆恋&amp;流★雪♂">♀紫☆恋&amp;流★雪♂</a></h1>
+				<h2 class="blog-motto">编程中我们会遇到多少挫折？不放弃，沙漠尽头必是绿洲，不是天方夜谭</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="search" />
+						<input type="hidden" name="q" value="site:zilianliuxue.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/20/git命令使用大全/" title="git命令使用大全" itemprop="url">git命令使用大全</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-19T22:48:00.000Z" itemprop="datePublished"> 发表于 2016-08-20</time>
+   <span id="busuanzi_container_page_pv">
+    总阅读<span id="busuanzi_value_page_pv"></span>次
+   </span>
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>##ADD AND COMMIT</p>
+<pre><code>1. git init    
+</code></pre><p>初始化一个 Git 仓库（repository），即把当前所在目录变成 Git 可以管理的仓库。</p>
+<pre><code>2. git add 文件
+</code></pre><p>把文件添加到 暂存区（stage），可被 track 追踪纪录下来。可多次使用来添加多个文件。</p>
+<pre><code>3. git add * 
+</code></pre><p>添加所有修改到暂存区，效果同 git add all，待验证。</p>
+<pre><code>4. git add -A
+</code></pre><p>暂存所有的文件，包括新增加的、修改的和删除的文件。</p>
+<pre><code>5. git add .
+</code></pre><p>暂存新增加的和修改的文件，不包括已删除的文件。即当前目录下所有文件。</p>
+<pre><code>6. git add -u
+</code></pre><p>暂存修改的和删除的文件，不包括新增加的文件。</p>
+<pre><code>7. git add -i
+</code></pre><p>交互式添加文件到暂存区。</p>
+<pre><code>8. git add -p
+</code></pre><p>暂存文件的一部分。</p>
+<pre><code>9. git commit -m &quot;本次提交说明&quot;
+</code></pre><p>一次性把暂存区所有文件修改提交到仓库的当前分支。注意：提交信息可为中文也可为英文，若为英文则通常用一般现在时。如果不加参数 -m 则会跳转到编辑器强制填写提交说明信息。</p>
+<pre><code>10. git commit -am &quot;本次提交说明&quot;
+</code></pre><p>使用该命令，Git 就会自动把所有已经跟踪过的文件暂存起来一并提交，从而跳过 git add 步骤，参数 -am 也可写成 -a -m。“在 oh-my-zsh 下，直接用 gcam “message” 就搞定了”，—魔都三帅语。</p>
+<pre><code>11. git commit --amend
+</code></pre><p>重新提交，最终只会有一个提交，第二次提交将代替第一次提交的结果。尤其适用于提交完了才发现漏掉了几个文件没有添加，或者提交信息写错了的情况。</p>
+<pre><code>12. git commit --amend --reset-author
+</code></pre><p>在上一次 commit 之后想重新更新一下时间。amend 实际上修改了上一个 commit。所以如果已经 push 了上一个 commit，请尽量不要 amend。如果一定要 amend 已经 push 了的 commit，请确保这个 commit 所在的 branch 只有你一个人使用（否则会给其他人带来灾难），然后在 amend 之后使用 git push –force。只要多加小心，该命令貌似没什么卵用。</p>
+<pre><code>13. git commit -p
+</code></pre><p>commit 文件的一部分，适合工作量比较大的情况。之后，Git 会对每块修改弹出一个提示，询问你是否 stage，按 y/n 来选择是否 commit 这块修改，? 可以查看其他操作的说明。</p>
+<p>##DIFF AND SHOW</p>
+<pre><code>1. git status
+</code></pre><p>显示当前仓库的最新状态。提交之后，工作区就是“干净的”，即没有新的修改；有未提交文件时，最上面显示的是在 staging area，即将被 commit 的文件；中间显示没有 stage 的修改了的文件，最下面是新的还没有被 Git track 的文件。“在 oh-my-zsh 下，输入 gst 就出来了，谁用谁知道，装逼利器，效率杠杠的”，—魔都三帅语。</p>
+<pre><code>2. git status -s 或 git status --short
+</code></pre><p>状态简览。输入此命令后，有如下几种情况（总共5种情况）：新添加的未跟踪文件前面有 ?? 标记，新添加到暂你可能注意到了 M 有两个可以出现的位置，出现在右边的 M 表示该文件被修改了但是还没放入暂存区，出现在靠左边的 M 表示该文件被修改了并放入了暂存区。</p>
+<pre><code>3. git diff
+</code></pre><p>查看工作区中的修改。</p>
+<pre><code>4. git diff --staged 或 git diff --cached
+</code></pre><p>查看暂存区中的修改。</p>
+<pre><code>5. git diff &lt;commit id1&gt; &lt;commit id2&gt;
+</code></pre><p>比较两次 commit 之间的差异。</p>
+<pre><code>6. git diff &lt;branch1&gt; &lt;branch2&gt;
+</code></pre><p>在两个 branch 之间比较。</p>
+<pre><code>7. git diff 文件
+</code></pre><p>查看指定文件具体修改了哪些内容。</p>
+<pre><code>8. git diff HEAD -- 文件
+</code></pre><p>查看版本库最新版本和工作区之间的区别，貌似没什么卵用。</p>
+<pre><code>9. git difftool --tool-help
+</code></pre><p>查看系统支持哪些 Git Diff 插件，貌似没什么卵用。</p>
+<pre><code>10. git show
+</code></pre><p>查看最后一个 commit 的修改。</p>
+<pre><code>11. git show HEAD~3
+</code></pre><p>查看倒数第四个 commit 的修改，HEAD~3 就是向前数三个的 commit，即倒数第四个 commit。</p>
+<pre><code>12. git show deadbeef
+</code></pre><p>查看 hash 为 deadbeef 的 commit 的修改。</p>
+<pre><code>13. git blame 文件
+</code></pre><p>查看谁什么时间改了哪些文件。</p>
+<p>##LOG AND RESET</p>
+<pre><code>1. git log
+</code></pre><p>显示从最近到最远的提交日志，包括每个提交的 SHA-1 校验和、作者的名字和电子邮件地址、提交时间以及提交说明等基本信息。</p>
+<pre><code>2. git log -p -2
+</code></pre><p>除显示基本信息之外，还显示每次提交的内容差异，-2 意思是仅显示最近两次提交。特别适用于进行代码审查，或者快速浏览某个搭档提交的 commit 所带来的变化。</p>
+<pre><code>3. git log --start
+</code></pre><p>显示每次提交的简略的统计信息，貌似不太好用。</p>
+<pre><code>4. git log --graph
+</code></pre><p>查看分支合并图。</p>
+<pre><code>5. git log --pretty=oneline
+</code></pre><p>简化日志信息，将每个提交放在一行显示，查看的提交数很大时非常有用，也可带有 –graph 参数，效果同 git config format.pretty oneline。</p>
+<pre><code>6. git log --graph --pretty=oneline --abbrev-commit
+</code></pre><p>查看分支的合并情况，包括分支合并图、一行显示、提交校验码缩略显示。</p>
+<pre><code>7. git log --oneline --decorate
+</code></pre><p>查看各个分支当前所指的提交对象（commit object）。Git 仓库中有五个对象：三个 blob 对象（保存着文件快照）、一个树对象（记录着目录结构和 blob 对象索引）以及一个提交对象（包含着指向前述树对象的指针和所有提交信息）。</p>
+<pre><code>8. git log --oneline --decorate --graph --all
+</code></pre><p>查看分叉历史，包括：提交历史、各个分支的指向以及项目的分支分叉情况。</p>
+<pre><code>9. git reset --hard HEAD^
+</code></pre><p>回退到上一个版本。同理，回退到上上个版本为：HEAD^ ^， 回退到上100个版本为：HEAD-100，貌似波浪号 ~ 也可以，变成倒数第101个。</p>
+<pre><code>10. git reflog
+</code></pre><p>纪录每一次命令，可用于查找某一提交版本的 commit id。</p>
+<pre><code>11. git reset --hard &lt;commit id&gt;
+</code></pre><p>回退到某一提交过的版本，如果已经 push，则回退的意义不大了。恢复一个彻底删掉的 commit，见链接：<a href="https://github.com/xhacker/GitProTips/blob/master/zh_CN.md#别人-push-了修改我无法-push-了怎么办。" target="_blank" rel="external">https://github.com/xhacker/GitProTips/blob/master/zh_CN.md#别人-push-了修改我无法-push-了怎么办。</a></p>
+<p>##WORKING AREA AND REPO AREA</p>
+<pre><code>1. 工作区（Working Directory）
+</code></pre><p>项目所在的文件目录。</p>
+<pre><code>2. 版本库（Repository）
+</code></pre><p>工作区有一个隐藏目录文件 .git（可通过命令 ls -ah 查看隐藏文件），这就是 Git 的版本库。版本库里主要有称为 stage 的暂存区、Git 自动创建的 master 分支，以及指向 master 的一个指针 HEAD，表示版本库的最新版本。</p>
+<p>##RESET AND REVERT</p>
+<pre><code>1. git checkout -- 文件
+</code></pre><p>丢弃工作区的修改，包括修改后还没有放到暂存区和添加到暂存区后又作了修改两种情况。总之，让该文件回到最近一次 git commit 或 git add 之后的状态。注意：没有 – ，就变成了切换分支的命令了。郭神的书 P195 没有 – 符号，可能是笔误。</p>
+<pre><code>2. git reset HEAD 文件
+</code></pre><p>把暂存区的修改撤销（unstage），回退到工作区。注意：在 Git 中任何已提交的东西几乎总是可以恢复的。甚至那些被删除的分支中的提交或使用 –amend 选项覆盖的提交也可以恢复。然而，任何未提交的东西丢失后很可能再也找不到了。</p>
+<pre><code>3. git reset --hard
+</code></pre><p>重置所有文件到未修改的状态。</p>
+<pre><code>4. git reset &lt;commit SHA&gt;
+</code></pre><p>重置到某个 commit。</p>
+<pre><code>5. git reset HEAD~1
+</code></pre><p>将当前 branch 重置为倒数第二个 commit（即丢弃最后一个 commit）。git reset 有三个参数可以选择，–soft、–mixed 和 –hard。</p>
+<pre><code>6. git reset --soft
+</code></pre><p>修改最后一个 commit。貌似没什么卵用。</p>
+<pre><code>7. git revert &lt;commit id&gt;
+</code></pre><p>还原某个 commit。还原（revert）的实质是产生一个新的 commit，内容和要还原的 commit 完全相反。比如，A commit 在 main.c 中增加了三行，revert A 产生的 commit 就会删除这三行。如果我们非常确定之前的某个 commit 产生了 bug，最好的办法就是 revert 它。git revert 后 git 会提示写一些 commit message，此处最好简单描述为什么要还原；而重置（reset）会修改历史，常用于还没有 push 的本地 commits。</p>
+<pre><code>8. git revert HEAD
+</code></pre><p>还原到上次 commit。</p>
+<p>##REMOVE</p>
+<pre><code>1. git rm 文件
+</code></pre><p>把文件从版本库中删除，不会再追踪到。</p>
+<pre><code>2. git rm -f 文件
+</code></pre><p>强制删除版本库中有修改的文件。</p>
+<pre><code>3. git rm --cached 文件
+</code></pre><p>把文件从版本库中删除，但让文件保留在工作区且不被 Git 继续追踪（track），通常适用于在 rm 之后把文件添加到 .gitignore 中的情况。</p>
+<pre><code>4. git rm log/\*.log
+</code></pre><p>删除 log/ 目录下扩展名为 .log 的所有文件。</p>
+<pre><code>5. git rm \*~
+</code></pre><p>删除以 ~ 结尾的所有文件。</p>
+<p>##REMOTE REPO</p>
+<p>##REMOTE AND PUSH</p>
+<pre><code>1. git remote
+</code></pre><p>查看已经配置的远程仓库服务器，效果同 git remote show。</p>
+<pre><code>2. git remote -v
+</code></pre><p>显示需要读写远程仓库使用的 Git 保存的简写与其对应的 URL。</p>
+<pre><code>3. git ls-remote &lt;remote-name&gt;
+</code></pre><p>显示获得远程引用的完整列表。</p>
+<pre><code>4. git remote show &lt;remote-name&gt;
+</code></pre><p>参数 remote-name 通常都是缩写名 origin，可以得到远程分支更为详细的信息以及 pull 和 push 相关提示信息。</p>
+<pre><code>5. git remote add &lt;shortname&gt; &lt;url&gt;
+</code></pre><p>添加并关联一个远程库。其中，shortname 一般是 origin，也可以是其他字符串，用来代替整个 url。</p>
+<pre><code>6. git push
+</code></pre><p>推送本地修改到 origin。</p>
+<pre><code>7. git push -u origin master
+</code></pre><p>关联后，使用该命令第一次推送 master 分支的所有内容，后续再推送的时候就可以省略后面三个参数了，其中参数 u 代表上游（upstream）的意思。</p>
+<pre><code>8. git push origin 远程分支（通常是 master）
+</code></pre><p>推送最新修改。注意：多人协作时，除了 merge 可能会发生冲突之外，推送时也有可能发生冲突。在他人推送之后是不能立即推送自己的修改的，想想也是，因为可能会覆盖他人的工作，所以必须先拉取（pull）别人的修改合并（merge）之后才能推送。如果不是第一次推送，后面的参数可省略。</p>
+<pre><code>9. git push &lt;remote-name&gt; &lt;commit SHA&gt;:&lt;remote-branch_name&gt;
+</code></pre><p>push 一部分 commit。例如：git push origin 9790eff:master 即为 push 9790eff 之前的所有 commit 到 master。</p>
+<pre><code>10. git remote rename old_name new_name
+</code></pre><p>重命名一个远程仓库的简写名。</p>
+<pre><code>11. git remote rm &lt;remote-name&gt;
+</code></pre><p>移除一个远程仓库。</p>
+<pre><code>12. git remote add origin http://github.com/username/&lt;repo name&gt;.git
+</code></pre><p>Create a remote repo named origin pointing at your Github repo (after you’ve already created the repo on Github) (used if you git init since the repo you created locally isn’t linked to a remote repo yet).</p>
+<pre><code>13. git remote add origin git@github.com:username/&lt;repo name&gt;.git
+</code></pre><p>Create a remote repo named origin pointing at your Github repo (using SSH url instead of HTTP url).</p>
+<p>##CLONE</p>
+<pre><code>1. git clone git@github.com:username/&lt;repo name&gt;.git
+</code></pre><p>从远程库（origin）克隆一份到本地，仓库名同远程仓库名。</p>
+<pre><code>2. git clone https://github.com/username/repo name.git
+</code></pre><p>作用同上。但不建议使用 https 协议，原因有二：一是速度慢；二是每次推送必须输入口令，麻烦。但在某些只开放 http 端口的公司内部就无法使用原生的 ssh 协议而只能用 https，仓库名同远程仓库名。</p>
+<pre><code>3. git clone &lt;repo url&gt; &lt;folder name&gt;
+</code></pre><p>克隆一个仓库到指定文件夹。</p>
+<pre><code>4. git clone &lt;repo url&gt; .
+</code></pre><p>克隆一个仓库到当前文件夹（应该是空的）。</p>
+<p>##BRANCH</p>
+<p>##BRANCH AND MERGE</p>
+<pre><code>1. git branch
+</code></pre><p>列出本地当前所有分支，方便查看。当前分支前面会标有一个 * 号。</p>
+<pre><code>2. git branch -r
+</code></pre><p>查看远程分支列表。</p>
+<pre><code>3. git branch -a
+</code></pre><p>显示所有分支，包括本地和远程。</p>
+<pre><code>4. git branch -v
+</code></pre><p>查看每一次分支的最后一次提交。</p>
+<pre><code>5. git branch -vv
+</code></pre><p>查看设置的所有跟踪分支。将所有的本地分支列出来并且包含更多的信息，如每一个分支正在跟踪哪个远程分支与本地分支是否是领先、落后或是都有。</p>
+<pre><code>6. git branch --merged
+</code></pre><p>查看所有已经被 merge 的 branch。</p>
+<pre><code>7. git branch --no-merged
+</code></pre><p>查看所有还没被 merge 的 branch。</p>
+<pre><code>8. git branch --merged | xargs git branch -d
+</code></pre><p>删除所有已经被 merge 的 branch。</p>
+<pre><code>9. git checkout -b 分支
+</code></pre><p>创建并切换到新的分支，相当于下面两条命令：git branch 分支 + git checkout 分支。</p>
+<pre><code>10. git checkout -
+</code></pre><p>切换到上一个 branch。</p>
+<pre><code>11. git cherry-pick &lt;commit id&gt;
+</code></pre><p>假如我们在某个 branch 做了一大堆 commit，而当前 branch 想应用其中的一个，可以使用该命令。</p>
+<pre><code>12. git merge 分支
+</code></pre><p>合并指定分支到当前所在的分支。</p>
+<pre><code>13. git merge --no-ff -m &quot;提交说明信息&quot; 分支
+</code></pre><p>参数 –no-ff 表示禁用 Fast forward 快进模式，用普通模式合并，这样合并后的历史有分支，能看出来曾经做过合并，而 fast forwad 合并就看不出来曾经做过合并。</p>
+<pre><code>14. git branch -d 分支
+</code></pre><p>普通删除分支（相对强制删除而言）。一般情况下，先合并完分支，然后再删除，否则会删除失败，除非使用 -D 参数强制删除。注意：因为创建、合并和删除分支非常快，所以 Git 鼓励使用分支完成某个任务，合并后再删除分支，这个直接在 master 分支上工作效果是一样的，但过程更安全。</p>
+<pre><code>15. git branch -D 分支
+</code></pre><p>强行删除分支，尤其适用分支内容有了新的修改但还没有被合并的情况。</p>
+<pre><code>16. git push origin --delete 远程分支 或 git push origin:远程分支
+</code></pre><p>删除一个远程分支。基本上这个命令做的只是从服务器上移除这个指针。 Git 服务器通常会保留数据一段时间直到垃圾回收运行，所以如果不小心删除掉了，通常是很容易恢复的。</p>
+<pre><code>17. git push origin -delete 分支
+</code></pre><p>在本地和远程同步删除分支。</p>
+<pre><code>18. git rebase 目标分支（通常是 master）
+</code></pre><p>在本地 master 上进行变基操作。注意：merge 与 rebase 都是整合来自不同分支的修改。</p>
+<p>merge 会把两个分支的最新快照以及二者最近的共同祖先进行三方合并，合并的结果是生成一个新的快照（并提交）。<br>rebase 会把提交到某一分支（当前分支）上的所有修改都转移至另一分支（目标分支）上，就好像“重新播放”一样。<br>变基是将一系列提交按照原有次序依次应用到另一分支上，而合并是把最终结果合在一起。简言之：这两种整合方法的最终结果没有任何区别，但是变基使得提交历史更加整洁。<br>采用变基操作后，项目的最终维护者就不再需要进行整合工作，只需要快进合并便可。</p>
+<pre><code>git rebase –ongo
+</code></pre><p>目标分支 第一分支 第二分支：选中在第二分支里但不在第一分支里的修改，将它们在目标分支（通常是 master）上重演。<br>变基有风险，需要遵守的准则是：不要对在你的仓库外有副本的分支执行变基。否则，会导致混乱。总的原则是，只对尚未推送或分享给别人的本地修改执行变基操作清理历史，从不对已推送至别处的提交执行变基操作，这样才能享受到两种方式带来的便利。<br>还可以有这样的命令：</p>
+<pre><code>git rebase -i master，git rebase -i 22e21f2，git rebase -i HEAD~3。
+</code></pre><p>STASH</p>
+<ol>
+<li><p>git stash<br>把当前分支的工作现场储存起来，等以后恢复现场后继续工作。一般适用于还没有 commit 的分支代码。</p>
+</li>
+<li><p>git stash list<br>查看储存的工作现场纪录列表。</p>
+</li>
+<li><p>git stash apply + git stash drop<br>用 git stash apply 命令恢复最近 stash 过的工作现场，但是恢复后，stash 内容并不删除，用 git stash drop 命令来删除。apply 和 drop 后面都可以加上某一指定的 stash_id。</p>
+</li>
+<li><p>git stash pop<br>相当于上面两条命令，恢复回到工作现场的同时把 stash 内容也删除了。</p>
+</li>
+<li><p>git stash clear<br>清空所有暂存区的 stash 纪录。drop 是只删除一条，当然后面可以跟 stash_id 参数来删除指定的某条纪录，不跟参数就是删除最近的。</p>
+</li>
+<li><p>git stash apply stash@{0}<br>上面命令中大括号中的数字不是固定的，因为可以多次 stash，恢复的时候，先用 git stash list 命令查看，然后恢复指定的 stash。</p>
+</li>
+<li><p>git biselect<br>发现了一个 bug，用该命令知道是哪个 commit 导致的，貌似不太好用。</p>
+</li>
+</ol>
+<p>PULL AND PUSH</p>
+<ol>
+<li><p>git push origin 分支<br>把该分支上的所有本地提交推送到远程库对应的远程分支上。</p>
+</li>
+<li><p>git checkout 分支 origin/分支<br>如果远程有某一个分支而本地没有，怎用该命令把远程的这个分支迁到本地。</p>
+</li>
+<li><p>git checkout -b 分支 origin/分支<br>把远程分支迁到本地顺便切换到该分支。</p>
+</li>
+<li><p>git pull<br>抓取远程库最新提交，拉取并合并。</p>
+</li>
+<li><p>git fetch<br>没有 merge 的 pull。</p>
+</li>
+<li><p>git branch –set-upstream 分支 origin/分支<br>建立本地分支和远程分支的关联。</p>
+</li>
+<li><p>git submodule update –recursive<br>第三方依赖与远程同步，还可以在最后添加 -f 参数。</p>
+</li>
+</ol>
+<p>##TAG</p>
+<p>##INIT TAG</p>
+<pre><code>1. git tag
+</code></pre><p>查看所有标签。注意：标签不是按照时间列出，而是按照字母排序，但这并不重要。</p>
+<pre><code>2. git show &lt;tag-name&gt;
+</code></pre><p>查看标签信息。</p>
+<pre><code>3. git tag -l &apos;tag-name&apos;
+</code></pre><p>使用特定的模式查找标签。</p>
+<pre><code>4. git checkout &lt;tag-name&gt;
+</code></pre><p>切换 tag。</p>
+<pre><code>5. git tag &lt;tag name&gt; &lt;commit id&gt;
+</code></pre><p>在需要打标签的分支上创建一个轻量标签（lightweight），默认为 HEAD，也可以指定一个 commit id。</p>
+<pre><code>6. git tag -a &lt;tag-name&gt; -m &quot;标签说明文字&quot; &lt;commit id&gt;
+</code></pre><p>创建附注标签（annotated），用 -a 指定标签名，-m 指定说明文字，也可以指定一个 commit id。</p>
+<pre><code>7. git tag -a &lt;tag-name&gt; 提交的校验和或部分校验和
+</code></pre><p>后期打标签，即对过去的提交打标签。校验和（checksum）：长度为 40位的16进制数的 SHA-1 值字符串。然而，只要没有冲突，通常可以用一个比较短的前缀来表示一个 commit。</p>
+<pre><code>8. git tag -s &lt;tag-name&gt; -m &quot;标签说明文字&quot; &lt;commit id&gt;
+</code></pre><p>通过 -s 用私钥签名一个标签。签名采用 GPG 签名，因此，必须首先按照 pgp（GnuPG），如果没有找到 gpg，或者没有 gpg 秘钥对，就会报错。如果报错，请参考 GnuPG 帮助文档配置 Key。</p>
+<p>##MANIPULATE TAG</p>
+<pre><code>1. git tag -d &lt;tag-name&gt;
+</code></pre><p>删除一个本地标签。因为创建的标签都只存储在本地，不会自动推送到远程。所以，打错的标签可以在本地安全删除。</p>
+<pre><code>2. git push origin &lt;tag-name&gt;
+</code></pre><p>推送本地某个标签到远程，默认情况下，git push 命令并不会推送标签到远程，必须显示推送。</p>
+<pre><code>3. git push origin --tags
+</code></pre><p>参数 –tags 表示一次性推送全部未推送到远程的本地标签，当其他人从仓库中克隆或拉取，他们也能得到那些标签。</p>
+<pre><code>4. git push origin :refs/tags/&lt;tag-name&gt;
+</code></pre><p>删除一个远程标签，先从本地删除，再用该命令从远程删除。</p>
+<pre><code>5. git checkout -b &lt;branch-name&gt; &lt;tag-name&gt;
+</code></pre><p>在特定的标签上创建一个新分支，貌似没什么卵用。</p>
+<p>##CUSTOM GIT</p>
+<p>##IGNORE</p>
+<pre><code>1. git add -f 文件
+</code></pre><p>使用 -f 参数，强制添加被 .gitignore 忽略的文件到 Git。</p>
+<pre><code>2. git check-ignore -v 文件
+</code></pre><p>可能是 .gitignore 写得有问题，使用该命令找出到底哪个命令写错了。</p>
+<pre><code>3. https://github.com/github/gitignore
+</code></pre><p>GitHub 上的一个十分详细的针对数十种项目及语言的 .gitignore 文件列表。</p>
+<p>注意：</p>
+<p>忽略某些文件时，需要编写 .gitignore 文件；<br>.gitignore 文件本身要放到版本库里，并且可以对 .gitignore 做版本管理。<br>ALIAS</p>
+<pre><code>1. git config --global alias.st status
+</code></pre><p>使用 git st 代替 git status 命令。</p>
+<pre><code>2. git config --global alias.co checkout
+</code></pre><p>使用 git co 代替 git checkout 命令。</p>
+<pre><code>3. git config --global alias.cm commit
+</code></pre><p>使用 git cm 代替 git commit 命令。</p>
+<pre><code>4. git config --global alias.br branch
+</code></pre><p>使用 git br 代替 git branch 命令。</p>
+<pre><code>5. git config --global alias.unstage &apos;reset HEAD --&apos;
+</code></pre><p>使用 git unstage 文件 命令代替 git reset HEAD – 文件 命令。</p>
+<pre><code>6. git config --global alias.last &apos;log -1&apos;
+</code></pre><p>配置一个 git last 命令，让其显示最近一次的提交信息。</p>
+<pre><code>`7. git config --global alias.lg &quot;log --color --graph --`pretty=format:&apos;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&apos; --abbrev-commit&quot;
+</code></pre><p>丧心病狂地配置 git lg 命令，让显示 log 更加优雅，逼格更高。</p>
+<ol>
+<li>git config –global alias.visual ‘!gitk’<br>Git 只是简单地将别名替换为对应的命令。，如果想要执行外部命令而不是一个 Git 子命令，可以在命令前面加入 ! 符号。 如果自己要写一些与 Git 仓库协作的工具的话，那会很有用。貌似没什么卵用。</li>
+</ol>
+<p>##HELP</p>
+<blockquote>
+<ol>
+<li>git help <key></key></li>
+<li>git <key> –help</key></li>
+<li>man git-<key> </key></li>
+<li>git –help<br>##OTHERS</li>
+</ol>
+</blockquote>
+<pre><code>1. git config -l 或 git config --list
+</code></pre><p>列举所有 Git 能找到的配置，如果有重复的变量名，Git 会使用它找到的每一个变量的最后一个配置。</p>
+<pre><code>2. git config &lt;key&gt;
+</code></pre><p>检查 Git 的某一项配置。</p>
+<pre><code>3. git config --glabal core.editor &lt;vim/emacs/...&gt;
+</code></pre><p>配置默认文本编辑器。</p>
+<pre><code>4. git config --global color.ui true 
+</code></pre><p>让 Git 显示颜色，使命令输出看起来更醒目。</p>
+<pre><code>5. git config core.ignorecase false
+</code></pre><p>Git 是大小写不敏感的，如果要大小写敏感需要执行此命令。</p>
+<pre><code>6. git config --global core.quotepath false
+</code></pre><p>设置显示中文文件名。</p>
+<pre><code>7. it config --global credential.helper cache
+</code></pre><p>如果正在使用 HTTPS URL 来推送，Git 服务器会询问用户名与密码。 默认情况下它会在终端中提示服务器是否允许你进行推送。如果不想在每一次推送时都输入用户名与密码，可以设置一个 “credential cache”。 最简单的方式就是将其保存在内存中几分钟，使用该命令即可，貌似没什么卵用。</p>
+<pre><code>8. git config --global user.name &quot;your name&quot;
+   git config --global user.email &quot;your email&quot;
+</code></pre><p>设置 commit 中的姓名和 email，去掉 –global 参数则为针对每个 repo 单独设定姓名和邮箱。</p>
+<pre><code>9. git commit --author &quot;your name &lt;your email&gt;&quot;
+</code></pre><p>以其他身份 commit。</p>
+<pre><code>10. git mv old_filename new_filename
+</code></pre><p>重命名文件。相当于下面三条命令：</p>
+<ul>
+<li>mv old_filename new_filename</li>
+<li>git rm old_filename<ul>
+<li>git add new_filename</li>
+</ul>
+</li>
+</ul>
+<hr>
+<pre><code>11. git log 常用选项
+</code></pre><ul>
+<li><p>-p — 按补丁格式显示每个更新之间的差异。</p>
+</li>
+<li><p>-stat — 显示每次更新的文件修改统计信息。</p>
+</li>
+<li><p>-shortstat — 只显示 –stat 中最后的行数修改添加移除统计。</p>
+</li>
+<li><p>-name-only — 仅在提交信息后显示已修改的文件清单。</p>
+</li>
+<li><p>-name-status – 显示新增、修改、删除的文件清单。</p>
+</li>
+<li><p>-abbrev-commit — 仅显示 SHA-1 的前几个字符，而非所有的 40 个字符。</p>
+</li>
+<li><p>-relative-date — 使用较短的相对时间显示（比如，“2 weeks ago”）。</p>
+</li>
+<li><p>-graph — 显示 ASCII 图形表示的分支合并历史。</p>
+</li>
+<li><p>-pretty — 使用其他格式显示历史提交信息。可用的选项包括 oneline，short，full，fuller 和 format（后跟指定格式）。</p>
+</li>
+</ul>
+<hr>
+<pre><code>12. git log --pretty=format：&quot;%h - %an, %ar : %s&quot;
+</code></pre><p>自定义 log 显示样式，也可带有 –graph 参数。常用的格式占位符写法及其代表的意义：</p>
+<ul>
+<li><p>%H — 提交对象（commit）的完整哈希字串</p>
+</li>
+<li><p>%h — 提交对象的简短哈希字串</p>
+</li>
+<li><p>%T — 树对象（tree）的完整哈希字串</p>
+</li>
+<li><p>%t — 树对象的简短哈希字串</p>
+</li>
+<li><p>%P — 父对象（parent）的完整哈希字串</p>
+</li>
+<li><p>%p — 父对象的简短哈希字串</p>
+</li>
+<li><p>%an — 作者（author）的名字</p>
+</li>
+<li><p>%ae — 作者的电子邮件地址</p>
+</li>
+<li><p>%ad — 作者修订日期（可以用 –date= 选项定制格式）</p>
+</li>
+<li><p>%ar — 作者修订日期，按多久以前的方式显示</p>
+</li>
+<li><p>%cn — 提交者(committer)的名字</p>
+</li>
+<li><p>%ce — 提交者的电子邮件地址</p>
+</li>
+<li><p>%cd — 提交日期</p>
+</li>
+<li><p>%cr — 提交日期，按多久以前的方式显示</p>
+</li>
+<li><p>%s — 提交说明</p>
+</li>
+</ul>
+<hr>
+<pre><code>13. git log --since=2.weeks
+</code></pre><p>显示按照时间限制的 log 信息，这个时间格式可以是：“2008-01-15” 或 “2 years 1 day 3 minutes ago” 等。可用的参数还有：–until，–author，–grep(提交说明中的关键字)等。注意：如果要得到同时满足这两个选项搜索条件的提交，就必须用 –all-match 选项。否则，满足任意一个条件的提交都会被匹配出来。</p>
+<pre><code>14. git log -Sfunction_name
+</code></pre><p>显示添加或移除某一个特定函数的引用（字符串）的提交。</p>
+<pre><code>15. 限制 git log 输出的选项
+</code></pre><ul>
+<li><p>-(n) — 仅显示最近的 n 条提交</p>
+</li>
+<li><p>–since, –after — 仅显示指定时间之后的提交。</p>
+</li>
+<li><p>–until, –before — 仅显示指定时间之前的提交。</p>
+</li>
+<li><p>–author — 仅显示指定作者相关的提交。</p>
+</li>
+<li><p>–committer — 仅显示指定提交者相关的提交。</p>
+</li>
+<li><p>–grep — 仅显示含指定关键字的提交</p>
+</li>
+<li><p>-S — 仅显示添加或移除了某个关键字的提交</p>
+</li>
+</ul>
+<p>For example，git log –pretty=”%h - %s” –author=gitster –since=”2008-10-01” \ –before=”2008-11-01” –no-merges – t/，即为：查看 Git 仓库中，2008 年 10 月期间，作者提交的但未合并的测试文件。</p>
+<p>#git</p>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+  
+	</div>
+	
+  <!-- css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+
+      <!-- http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif
+           因为本 hexo 生成的博客所用的 theme 的 a:hover 带动画效果，
+         为了在让打赏按钮显示效果正常 而 添加了以下几行 css，
+         嵌入其它博客时不一定要它们。 -->
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+      <!-- /让打赏按钮的效果显示正常 而 添加的几行 css 到此结束 -->
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+    <!-- Donate Module -->
+    <div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      打赏我的人，运气都不会太差~
+    </span>
+      
+    
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+    
+  <div id="donate_guide" class="donate_bar center hidden">
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      
+      <div width="100%" align="center"><div name="dashmain" id="dash-main-id-87895f" class="dash-main-3 87895f-0.99"></div></div>
+    <script type="text/javascript" charset="utf-8" src="http://www.dashangcloud.com/static/ds.js"></script>
+    
+
+    <a href="http://i.imgur.com/EhvkeWS.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+      <img src="http://i.imgur.com/EhvkeWS.png" title="微信打赏 Donate" height="190px" width="auto"/>
+    </a>
+        
+          
+
+    <a href="http://i.imgur.com/FhK6Sph.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+      <img src="http://i.imgur.com/FhK6Sph.png" title="支付宝打赏 Donate" height="190px" width="auto"/>
+    </a>
+
+    <span class="donate_txt">
+      打赏我的人，运气都不会太差~
+    </span>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className = 'hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+   
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/git/">git</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zilianliuxue.github.io/2016/08/20/git命令使用大全/" data-title="git命令使用大全 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/08/06/安卓实战开发之JNI再深入了解/"  title="安卓实战开发之JNI再深入了解">
+ <strong>下一篇：</strong><br/> 
+ <span>安卓实战开发之JNI再深入了解
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/08/20/git命令使用大全/" data-title="git命令使用大全" data-url="http://zilianliuxue.github.io/2016/08/20/git命令使用大全/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="zilianliuxue" data-width="220" data-height="88" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="android">android<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/快速开发/" title="快速开发">快速开发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jni-ndk/" title="jni ndk">jni ndk<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/" target="_blank" title="一个面向程序员交流分享的新一代社区">jianshu</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/u013278099" target="_blank" title="Losileeya CSDN">Losileeya CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.trinea.cn/" target="_blank" title="trinea">trinea</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.daimajia.com/" target="_blank" title="daimajia">daimajia</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.lcode.org/" target="_blank" title="江清清的技术专栏">江清清的技术专栏</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://www.aswifter.com/" target="_blank" title="阳春面的博客">阳春面的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/EventBus3/" style="font-size: 10px;">EventBus3</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jacman/" style="font-size: 10px;">jacman</a> <a href="/tags/jni-ndk/" style="font-size: 10px;">jni ndk</a> <a href="/tags/快速开发/" style="font-size: 10px;">快速开发</a>
+    </div>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3290293743&verifier=20a2ffb1&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Losileeya . <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3290293743" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zilianliuxue" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:847457332@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Losileeya">Losileeya</a>
+		
+		
+		</p>
+		<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','R4yoD_akDbrgyYA8-p3S','2.0.0');
+</script>
+	<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>	
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zilianliuxue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260017595'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1260017595%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
