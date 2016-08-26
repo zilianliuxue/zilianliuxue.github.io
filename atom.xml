@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zilianliuxue.github.io/"/>
-  <updated>2016-08-25T12:37:36.754Z</updated>
+  <updated>2016-08-26T06:39:46.084Z</updated>
   <id>http://zilianliuxue.github.io/</id>
   
   <author>
@@ -16,11 +16,480 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Android的线程和线程池</title>
+    <link href="http://zilianliuxue.github.io/2016/08/26/Android%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
+    <id>http://zilianliuxue.github.io/2016/08/26/Android的线程和线程池/</id>
+    <published>2016-08-26T06:35:26.963Z</published>
+    <updated>2016-08-26T06:39:46.084Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>在操作系统中，线程是操作系统调度的最小单元，当系统中存在大量线程时，系统会通过时间片轮转的方式调度每个线程，当进程中频繁的创建和销毁线程的时候应该采用线程池，线程池会缓存一定数量的线程，避免频繁创建和销毁线程带来的系统开销。</p>
+</blockquote>
+<h2 id="主线程和子线程"><a href="#主线程和子线程" class="headerlink" title="主线程和子线程"></a>主线程和子线程</h2><p>(1) 在Java中默认情况下一个进程只有一个线程，也就是主线程，其他线程都是子线程，也叫工作线程。Android中的主线程主要处理和界面相关的事情，而子线程则往往用于执行耗时操作。线程的创建和销毁的开销较大，所以如果一个进程要频繁地创建和销毁线程的话，都会采用线程池的方式。</p>
+<p>(2) 在Android中除了Thread，还有HandlerThread、AsyncTask以及IntentService等也都扮演着线程的角色，只是它们具有不同的特性和使用场景。AsyncTask封装了线程池和Handler，它主要是为了方便开发者在子线程中更新UI。HandlerThread是一种具有消息循环的线程，在它的内部可以使用Handler。IntentService是一个服务，它内部采用HandlerThread来执行任务，当任务执行完毕后就会自动退出。因为它是服务的缘故，所以和后台线程相比，它比较不容易被系统杀死。</p>
+<p>(3). 从Android 3.0开始，系统要求网络访问必须在子线程中进行，否则网络访问将会失败并抛出NetworkOnMainThreadException这个异常，这样做是为了避免主线程由于被耗时操作所阻塞从而出现ANR现象。</p>
+<h2 id="Android中的线程形态"><a href="#Android中的线程形态" class="headerlink" title="Android中的线程形态"></a>Android中的线程形态</h2><h3 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h3><p>AsyncTask是一个抽象泛型类，它提供了Params、Progress、Result三个泛型参数，如果task确实不需要传递具体的参数，那么都可以设置为Void。下面是它的四个核心方法，其中doInBackground不是在主线程执行的。<br>onPreExecute、doInBackground、onProgressUpdate、onPostResult</p>
+<h4 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h4><ul>
+<li>AsyncTask必须在主线程中加载</li>
+<li>必须在诛仙城中创建</li>
+<li>execute必须在UI线程调用</li>
+<li>一个AsyncTask对象只能执行一次，即只能调用一次execute方法</li>
+<li>在Android1.6的时候线程池是并行任务，在Android3.0为了避免并发错误采用串行执行任务。但是我们仍然可以用过executeOnExecutor方法并行执行任务。</li>
+</ul>
+<h3 id="HandlerThread"><a href="#HandlerThread" class="headerlink" title="HandlerThread"></a>HandlerThread</h3><p>它继承了Thread，是一种可以使用Handler的Thread.他的实现也很简单，就是在run方法中通过Looper。prepare来创建消息队列，并通过Looper.loop来开启消息循环，这样在使用的时候就可以在HandlerThread中创建Handler了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public void run() &#123;</div><div class="line">    mTid = Process.myTid();</div><div class="line">    Looper.prepare();</div><div class="line">    synchronized (this) &#123;</div><div class="line">        mLooper = Looper.myLooper();</div><div class="line">        notifyAll();</div><div class="line">    &#125;</div><div class="line">    Process.setThreadPriority(mPriority);</div><div class="line">    onLooperPrepared();</div><div class="line">    Looper.loop();</div><div class="line">    mTid = -1;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>HandlerThread在内部创建了消息队列，外界需要通过Handler的消息方式开通知它执行一个具体的任务，它的一个具体实现是IntentService。当我们不需要使用Handler的时候可以通过quit获取quitSafelt方法终结线程的执行。</p>
+<h3 id="IntentService"><a href="#IntentService" class="headerlink" title="IntentService"></a>IntentService</h3><p>继承了Service是一个抽象类，必须创建它的子类才可以使用它，IntentService可以执行后台耗时任务，当任务执行完毕之后会自动停止，因为他是服务，所以他的优先级比普通的线程高，比较适合执行一些高优先级的后台任务。</p>
+<h2 id="Android中的线程池"><a href="#Android中的线程池" class="headerlink" title="Android中的线程池"></a>Android中的线程池</h2><blockquote>
+<p>Android里面，耗时的网络操作，都会开子线程，在程序里面直接开过多的线程会消耗过多的资源，在众多的开源框架中也总能看到线程池的踪影，所以线程池是必须要会把握的一个知识点;</p>
+</blockquote>
+<h4 id="线程池的优点："><a href="#线程池的优点：" class="headerlink" title="线程池的优点："></a>线程池的优点：</h4><ul>
+<li>重用线程池中的线程，避免频繁创建和销毁带来的性能开销</li>
+<li>可以有效控制线程池中的最大并发数，避免大量线程之间互相抢占系统资源导致阻塞</li>
+<li>可以对线程进行简单管理。</li>
+</ul>
+<h4 id="线程运行机制"><a href="#线程运行机制" class="headerlink" title="线程运行机制"></a>线程运行机制</h4><ul>
+<li>开启线程过多，会消耗<code>cpu资源</code></li>
+<li>单核cpu，同一时刻只能处理一个线程，多核cpu同一时刻可以处理多个线程</li>
+<li>操作系统为每个运行线程安排一定的CPU时间—-<code>时间片</code>，系统通过一种循环的方式为线程提供时间片，线程在自己的时间内运行，因为时间相当短，多个线程频繁地发生切换，因此给用户的感觉就是好像多个线程同时运行一样，但是如果计算机有多个CPU，线程就能真正意义上的同时运行了.</li>
+</ul>
+<h4 id="线程池的作用"><a href="#线程池的作用" class="headerlink" title="线程池的作用"></a>线程池的作用</h4><ul>
+<li>线程池是预先创建线程的一种技术。线程池在还没有任务到来之前，创建一定数量的线程，放入空闲队列中，然后对这些资源进行复用。<code>减少频繁的创建和销毁对象。</code></li>
+<li>频繁创建和销毁线程耗资源，耗时间</li>
+<li>因为有的线程执行时间比创建和销毁一个线程的时间还短</li>
+</ul>
+<h4 id="线程池涉及的类"><a href="#线程池涉及的类" class="headerlink" title="线程池涉及的类"></a>线程池涉及的类</h4><ul>
+<li>Executor:Java里面线程池的顶级接口。</li>
+<li>ExecutorService:真正的线程池接口。</li>
+<li>ScheduledExecutorService:能和Timer/TimerTask类似，解决那些需要任务重复执行的问题。</li>
+<li>ThreadPoolExecutor(重点):ExecutorService的默认实现。</li>
+<li>ScheduledThreadPoolExecutor:继承ThreadPoolExecutor的ScheduledExecutorService接口实现，周期性任务调度的类实现。</li>
+<li>Executors:可以一行代码创建一些常见的线程池。</li>
+</ul>
+<h3 id="Executors介绍（把握使用，把握常见线程池）"><a href="#Executors介绍（把握使用，把握常见线程池）" class="headerlink" title="Executors介绍（把握使用，把握常见线程池）"></a>Executors介绍（把握使用，把握常见线程池）</h3><blockquote>
+<p>Executors:jdk1.5之后的一个新类，<code>提供了一些静态方法，帮助我们方便的生成一些常用的线程池</code>，ThreadPoolExecutor是Executors类的底层实现</p>
+</blockquote>
+<p>1.newSingleThreadExecutor</p>
+<blockquote>
+<p>创建一个单线程的线程池。这个线程池只有一个线程在工作，也就是相当于单线程串行执行&gt;所有任务。如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它。此线程池&gt;保证所有任务的执行顺序按照任务的提交顺序执行。</p>
+</blockquote>
+<p>2.newFixedThreadPool</p>
+<blockquote>
+<p>创建固定大小的线程池。每次提交一个任务就创建一个线程，直到线程达到线程池的最大大小。线程池的大小一旦达到最大值就会保持不变，如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。</p>
+</blockquote>
+<p>3.newCachedThreadPool</p>
+<blockquote>
+<p>创建一个可缓存的线程池。如果线程池的大小超过了处理任务所需要的线程，<br>那么就会回收部分空闲（60秒不执行任务）的线程，当任务数增加时，此线程池又可以智能的添加新线程来处理任务。此线程池不会对线程池大小做限制，线程池大小完全依赖于操作系统（或者说JVM）能够创建的最大线程大小。</p>
+</blockquote>
+<p>4.newScheduledThreadPool</p>
+<blockquote>
+<p>创建一个大小无限的线程池。此线程池支持定时以及周期性执行任务的需求。</p>
+</blockquote>
+<h4 id="ThreadPoolExecutor介绍"><a href="#ThreadPoolExecutor介绍" class="headerlink" title="ThreadPoolExecutor介绍"></a>ThreadPoolExecutor介绍</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//构造方法</div><div class="line">public ThreadPoolExecutor(int corePoolSize，//核心池的大小</div><div class="line">                              int maximumPoolSize，//线程池最大线程数</div><div class="line">                              long keepAliveTime，//保持时间</div><div class="line">                              TimeUnit unit，//时间单位</div><div class="line">                              BlockingQueue&lt;Runnable&gt; workQueue，//任务队列</div><div class="line">                              ThreadFactory threadFactory，//线程工厂</div><div class="line">                              RejectedExecutionHandler handler) //异常的捕捉器</div></pre></td></tr></table></figure>
+<h4 id="构造相关参数解释"><a href="#构造相关参数解释" class="headerlink" title="构造相关参数解释"></a>构造相关参数解释</h4><ul>
+<li><p>corePoolSize：<code>核心池的大小</code>，这个参数跟后面讲述的线程池的实现原理有非常大的关系。在创建了线程池后，默认情况下，线程池中并没有任何线程，而是等待有任务到来才创建线程去执行任务，除非调用了prestartAllCoreThreads()或者prestartCoreThread()方法，从这2个方法的名字就可以看出，是预创建线程的意思，即在没有任务到来之前就创建corePoolSize个线程或者一个线程。默认情况下，在创建了线程池后，线程池中的线程数为0，当有任务来之后，就会创建一个线程去执行任务，当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列当中；</p>
+</li>
+<li><p>maximumPoolSize：<code>’线程池最大线程数</code>，<br>这个参数也是一个非常重要的参数，它表示在线程池中最多能创建多少个线程；</p>
+</li>
+<li><p>keepAliveTime：<code>表示线程没有任务执行时最多保持多久时间会终止</code>。默认情况下，只有当线程池中的线程数大于corePoolSize时，keepAliveTime才会起作用，直到线程池中的线程数不大于corePoolSize，即当线程池中的线程数大于corePoolSize时，如果一个线程空闲的时间达到keepAliveTime，则会终止，直到线程池中的线程数不超过corePoolSize。但是如果调用了allowCoreThreadTimeOut(boolean)方法，在线程池中的线程数不大于corePoolSize时，keepAliveTime参数也会起作用，直到线程池中的线程数为0；</p>
+</li>
+<li><p>unit：参数keepAliveTime的<code>时间单位</code>，有7种取值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">TimeUnit.DAYS;               //天</div><div class="line">TimeUnit.HOURS;             //小时</div><div class="line">TimeUnit.MINUTES;           //分钟</div><div class="line">TimeUnit.SECONDS;           //秒</div><div class="line">TimeUnit.MILLISECONDS;      //毫秒</div><div class="line">TimeUnit.MICROSECONDS;      //微妙</div><div class="line">TimeUnit.NANOSECONDS;       //纳秒</div></pre></td></tr></table></figure>
+</li>
+<li><p>workQueue ： <code>任务队列</code>，是一个阻塞队列，用来存储等待执行的任务，这个参数的选择也很重要，会对线程池的运行过程产生重大影响，参考BlockingQueue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ArrayBlockingQueue</div><div class="line">LinkedBlockingQueue</div><div class="line">SynchronousQueue</div></pre></td></tr></table></figure>
+</li>
+<li><p>threadFactory : <code>线程工厂</code>，如何去创建线程的</p>
+</li>
+<li><p>handler ： 任务队列添加<code>异常的捕捉器</code>，参考 RejectedExecutionHandler</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。 </div><div class="line">ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。 </div><div class="line">ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）</div><div class="line">ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="基础API的介绍"><a href="#基础API的介绍" class="headerlink" title="基础API的介绍"></a>基础API的介绍</h4><ul>
+<li>isShutdown() ： 判断线程池是否关闭</li>
+<li>isTerminated() : 判断线程池中任务是否执行完成</li>
+<li>shutdown() : 调用后不再接收新任务，如果里面有任务，就执行完</li>
+<li>shutdownNow() : 调用后不再接受新任务，如果有等待任务，移出队列；有正在执行的，尝试停止之</li>
+<li>submit() : 提交执行任务</li>
+<li>execute() : 执行任务</li>
+</ul>
+<h4 id="任务提交给线程池之后的处理策略"><a href="#任务提交给线程池之后的处理策略" class="headerlink" title="任务提交给线程池之后的处理策略"></a>任务提交给线程池之后的处理策略</h4><ol>
+<li>如果当前线程池中的线程数目小于corePoolSize，则每来一个任务，就会创建执行这个任务；</li>
+<li>如果当前线程池中的线程数目&gt;=corePoolSize，则每来一个任务，会尝试将其添加到任务缓存队列当中<ol>
+<li>若添加成功，则该任务会等待空闲线程将其取出去执行；</li>
+<li>若添加失败（一般来说是任务缓存队列已满，针对的是有界队列），则会尝试创建新的线程去执行这个任务；</li>
+</ol>
+</li>
+<li>如果当前线程池中的线程数目达到maximumPoolSize，则会采取任务拒绝策略进行处理；</li>
+<li>如果线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止，直至线程池中的线程数目不大于corePoolSize；如果允许为核心池中的线程设置存活时间，那么核心池中的线程空闲时间超过keepAliveTime，线程也会被终止。</li>
+</ol>
+<h4 id="任务提交给线程池之后的处理策略-比喻"><a href="#任务提交给线程池之后的处理策略-比喻" class="headerlink" title="任务提交给线程池之后的处理策略_比喻"></a>任务提交给线程池之后的处理策略_比喻</h4><blockquote>
+<p>假如有一个工厂，工厂里面有10(<code>corePoolSize</code>)个工人，每个工人同时只能做一件任务。</p>
+<p>因此只要当10个工人中有工人是空闲的，<code>来了任务就分配</code>给空闲的工人做；</p>
+<p>当10个工人都有任务在做时，如果还来了任务，就把任务进行排队等待(<code>任务队列</code>)；</p>
+<p>如果说新任务数目增长的速度远远大于工人做任务的速度，那么此时工厂主管可能会想补救措施，比如重新招4个临时工人(<code>创建新线程</code>)进来；然后就将任务也分配给这4个临时工人做；</p>
+<p>如果说着14个工人做任务的速度还是不够，此时工厂主管可能就要考虑不再接收新的任务或者抛弃前面的一些任务了(<code>拒绝执行</code>)。</p>
+<p>当这14个工人当中有人空闲时，而且空闲超过一定时间(<code>空闲时间</code>)，新任务增长的速度又比较缓慢，工厂主管可能就考虑辞掉4个临时工了，只保持原来的10个工人，毕竟请额外的工人是要花钱的</p>
+</blockquote>
+<h3 id="阻塞队列的介绍（BlockingQueue）"><a href="#阻塞队列的介绍（BlockingQueue）" class="headerlink" title="阻塞队列的介绍（BlockingQueue）"></a>阻塞队列的介绍（BlockingQueue）</h3><p>阻塞队列，如果BlockingQueue是空的，从BlockingQueue取东西的操作将会被阻断进入等待状态，直到BlockingQueue进了东西才会被唤醒，同样，如果BlockingQueue是满的，任何试图往里存东西的操作也会被阻断进入等待状态，直到BlockingQueue里有空间时才会被唤醒继续操作。</p>
+<ol>
+<li>基础API介绍<ul>
+<li>往队列中加元素的方法<ul>
+<li>add(E) : 非阻塞方法， 把元素加到BlockingQueue里，如果BlockingQueue可以容纳，则返回true，否则抛出异常。</li>
+<li>offer(E) : 非阻塞， 表示如果可能的话，将元素加到BlockingQueue里，即如果BlockingQueue可以容纳，则返回true，否则返回false。</li>
+<li>put(E)：阻塞方法， 把元素加到BlockingQueue里，如果BlockingQueue没有空间，则调用此方法的线程被阻断直到BlockingQueue里有空间再继续。</li>
+</ul>
+</li>
+<li>从队列中取元素的方法<ul>
+<li>poll(time)： 阻塞方法，取走BlockingQueue里排在首位的元素，若不能立即取出，则可以等time参数规定的时间，取不到时返回null。</li>
+<li>take()：取走BlockingQueue里排在首位的对象，若BlockingQueue为空，阻断进入等待状态直到BlockingQueue有新的对象被加入为止。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>子类介绍<ul>
+<li><code>ArrayBlockingQueue(有界队列)</code>： FIFO 队列，规定大小的BlockingQueue，其构造函数必须带一个int参数来指明其大小</li>
+<li><code>LinkedBlockingQueue(无界队列)</code>：FIFO 队列，大小不定的BlockingQueue，若其构造函数带一个规定大小的参数，生成的BlockingQueue有大小限制，若不带大小参数，所生成的BlockingQueue的大小由Integer.MAX_VALUE来决定。</li>
+<li><code>PriorityBlockingQueue</code>：优先级队列， 类似于LinkedBlockingQueue，但队列中元素非 FIFO， 依据对象的自然排序顺序或者是构造函数所带的Comparator决定的顺序</li>
+<li><code>SynchronousQueue(直接提交策略)</code>: 交替队列，<code>队列中操作时必须是先放进去，接着取出来</code>，交替着去处理元素的添加和移除，这是一个很有意思的阻塞队列，其中每个插入操作必须等待另一个线程的移除操作，同样任何一个移除操作都等待另一个线程的插入操作。因此此队列内部其 实没有任何一个元素，或者说容量是0，严格说并不是一种容器。由于队列没有容量，因此不能调用peek操作，因为只有移除元素时才有元素。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;在操作系统中，线程是操作系统调度的最小单元，当系统中存在大量线程时，系统会通过时间片轮转的方式调度每个线程，当进程中频繁的创建和销毁线程的时候应该采用线程池，线程池会缓存一定数量的线程，避免频繁创建和销毁线程带来的系统开销。&lt;/p&gt;
+&lt;/block
+    
+    </summary>
+    
+      <category term="android" scheme="http://zilianliuxue.github.io/categories/android/"/>
+    
+    
+      <category term="线程池" scheme="http://zilianliuxue.github.io/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>window和windowManager</title>
+    <link href="http://zilianliuxue.github.io/2016/08/26/Window%E4%B8%8EWindowManager/"/>
+    <id>http://zilianliuxue.github.io/2016/08/26/Window与WindowManager/</id>
+    <published>2016-08-26T06:33:56.362Z</published>
+    <updated>2016-08-26T06:43:46.600Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Window是一个窗口的概念，是一个抽象类，具体实现是PhoneWindow。<br>通过WindowManager来创建Window。<br>Window的具体实现位于WindowManagerService，WindowsManager和WindowMannagerService的交互是一个IPC的过程。</p>
+</blockquote>
+<h2 id="Window与WindowManager"><a href="#Window与WindowManager" class="headerlink" title="Window与WindowManager"></a>Window与WindowManager</h2><p>(1). 使用WindowManager添加一个Window的过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Button button = new Button(this);</div><div class="line">button.setText(&quot;button&quot;);</div><div class="line">WindowManager.LayoutParams params = new WindowManager.LayoutParams(</div><div class="line">        WindowManager.LayoutParams.WRAP_CONTENT,</div><div class="line">        WindowManager.LayoutParams.WRAP_CONTENT,</div><div class="line">        0, 0, PixelFormat.TRANSPARENT);</div><div class="line">params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE</div><div class="line">        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL</div><div class="line">        | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;</div><div class="line">params.gravity = Gravity.LEFT | Gravity.TOP;</div><div class="line">params.x = 100;</div><div class="line">params.y = 300;</div><div class="line">WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);</div><div class="line">windowManager.addView(button,params);</div></pre></td></tr></table></figure>
+<p>上面的代码将一个Button添加到屏幕坐标为（100，300）的位置.<br>(2).WindowManager.LayoutParams中的flag参数表示Window的属性，下面是几个比较常用的属性。</p>
+<ul>
+<li>FLAG_NOT_FOCUSABLE</li>
+</ul>
+<p>表示window不需要获取焦点，也不需要接收各种输入事件。此标记会同时启用FLAG_NOT_TOUCH_MODAL，最终事件会直接传递给下层的具有焦点的window；</p>
+<ul>
+<li>FLAG_NOT_TOUCH_MODAL：</li>
+</ul>
+<p>在此模式下，系统会将window区域外的单击事件传递给底层的window，当前window区域内的单击事件则自己处理，一般都需要开启这个标记；</p>
+<ul>
+<li>FLAG_SHOW_WHEN_LOCKED</li>
+</ul>
+<p>开启此模式可以让Window显示在锁屏的界面上</p>
+<p>(3).TYPE参数表示Window的类型，有三种，分别是应用Window，子Window和系统Window。</p>
+<p>应用window对应着一个Activity，子window不能独立存在，需要附属在特定的父window之上，比如Dialog就是子window。系统window是需要声明权限才能创建的window，比如Toast和系统状态栏这些都是系统window，需要声明的权限是。</p>
+<p>(4). window是分层的，每个window都对应着z-ordered，层级大的会覆盖在层级小的上面，应用window的层级范围是1~99，子window的层级范围是1000~1999，系统window的层级范围是2000~2999。<br>[注意，应用window的层级范围并不是1~999哟]</p>
+<p>(5).WindowManager继承自ViewManager，常用的只有三个方法：addView、updateView和removeView。</p>
+<h2 id="Window的内部机制"><a href="#Window的内部机制" class="headerlink" title="Window的内部机制"></a>Window的内部机制</h2><p>(1).Window是一个抽象的概念，不是实际存在的，它也是以View的形式存在。在实际使用中无法直接访问Window，只能通过WindowManager才能访问Window。每个Window都对应着一个View和一个ViewRootImpl，Window和View通过ViewRootImpl来建立联系。</p>
+<p>(2). Window的添加、删除和更新过程都是IPC过程，以Window的添加为例，WindowManager的实现类对于addView、updateView和removeView方法都是委托给WindowManagerGlobal类，该类保存了很多数据列表，例如所有window对应的view集合mViews、所有window对应的ViewRootImpl的集合mRoots等，之后添加操作交给了ViewRootImpl来处理，接着会通过WindowSession来完成Window的添加过程，这个过程是一个IPC调用，因为最终是通过WindowManagerService来完成window的添加的。</p>
+<h2 id="Window的添加过程"><a href="#Window的添加过程" class="headerlink" title="Window的添加过程"></a>Window的添加过程</h2><p>(1)Activity的window创建过程</p>
+<p>1.Activity的启动过程很复杂，最终会由ActivityThread中的performLaunchActivity来完成整个启动过程，在这个方法内部会通过类加载器创建Activity的实例对象，并调用它的attach方法为其关联运行过程中所依赖的一系列上下文环境变量；</p>
+<p>2.Activity实现了Window的Callback接口，当window接收到外界的状态变化时就会回调Activity的方法，例如onAttachedToWindow、onDetachedFromWindow、dispatchTouchEvent等；</p>
+<p>3.Activity的Window是由PolicyManager来创建的，它的真正实现是Policy类，它会新建一个PhoneWindow对象，Activity的setContentView的实现是由PhoneWindow来实现的；</p>
+<p>4.Activity的顶级View是DecorView，它本质上是一个FrameLayout。如果没有DecorView，那么PhoneWindow会先创建一个DecorView，然后加载具体的布局文件并将view添加到DecorView的mContentParent中，最后就是回调Activity的onContentChanged通知Activity视图已经发生了变化；</p>
+<p>5.还有一个步骤是让WindowManager能够识别DecorView，在ActivityThread调用handleResumeActivity方法时，首先会调用Activity的onResume方法，然后会调用makeVisible方法，这个方法中DecorView真正地完成了添加和显示过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ViewManager vm = getWindowManager();</div><div class="line">vm.addView(mDecor, getWindow().getAttributes());</div><div class="line">mWindowAdded = true;</div></pre></td></tr></table></figure>
+<p>(2)Dialog的Window创建过程</p>
+<p>1.过程与Activity的Window创建过程类似，普通的Dialog的有一个特别之处，即它必须采用Activity的Context，如果采用Application的Context会报错。原因是Application没有应用token，应用token一般是Activity拥有的。</p>
+<p>(3)Toast的Window创建过程</p>
+<p>1.Toast属于系统Window，它内部的视图由两种方式指定：一种是系统默认的演示；另一种是通过setView方法来指定一个自定义的View。</p>
+<p>2.Toast具有定时取消功能，所以系统采用了Handler。Toast的显示和隐藏是IPC过程，都需要NotificationManagerService来实现。在Toast和NMS进行IPC过程时，NMS会跨进程回调Toast中的TN类中的方法，TN类是一个Binder类，运行在Binder线程池中，所以需要通过Handler将其切换到当前发送Toast请求所在的线程，所以Toast无法在没有Looper的线程中弹出。</p>
+<p>3.对于非系统应用来说，mToastQueue最多能同时存在50个ToastRecord，这样做是为了防止DOS(Denial of Service，拒绝服务)。因为如果某个应用弹出太多的Toast会导致其他应用没有机会弹出Toast。</p>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Window是一个窗口的概念，是一个抽象类，具体实现是PhoneWindow。&lt;br&gt;通过WindowManager来创建Window。&lt;br&gt;Window的具体实现位于WindowManagerService，WindowsManager和Win
+    
+    </summary>
+    
+      <category term="android" scheme="http://zilianliuxue.github.io/categories/android/"/>
+    
+    
+      <category term="window" scheme="http://zilianliuxue.github.io/tags/window/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ContentProvider的工作过程</title>
+    <link href="http://zilianliuxue.github.io/2016/08/26/ContentProvider%E7%9A%84%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B/"/>
+    <id>http://zilianliuxue.github.io/2016/08/26/ContentProvider的工作过程/</id>
+    <published>2016-08-26T06:33:12.568Z</published>
+    <updated>2016-08-26T06:38:38.456Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>ContentProvider是一种内容共享性组件，它通过Binder向其他组件乃至其他应用提供数据。</p>
+</blockquote>
+<p>首先来看一下流程图：</p>
+<p><img src="https://imuhao.github.io/image/androidart_contentprovider.png" alt="img"></p>
+<p>一个应用的入口方法为ActivityThread的main方法，该方法是一个静态方法，在main方法中会创建ActivityThread的实例并创建主线程的消息队列，然后在ActivityThread的attach方法中会远程调用AMS的attachApplication方法并将ApplicationThread对象提供给AMS，ApplicationThread是一个Binder对象，它的接口是IApplicattionThread，它主要用于ActivityThread和AMS之间通信。</p>
+<p>访问ContentProvider需要通过ContentResolver，它是一个抽象类，通过Context的getContentResolver方法获取的实际上是ApplicationContentResolver对象，该类继承了ContentResolver并实现了ContentResolver中的抽象方法。通过ContentProvider的四个方法中任何一个都可以触发ContentProvider的启动。这里选择query方法。</p>
+<p>ContentProvider的query方法首先会获取IContentProvider对象，最终会通过ApplicationContentResolver的acquireProvider方法，该方法没有做任何逻辑，直接调用了ActivityThread的acquireExistingProvider方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public final IContentProvider acquireProvider(</div><div class="line">        Context c, String auth, int userId, boolean stable) &#123;</div><div class="line">    final IContentProvider provider = acquireExistingProvider(c, auth, userId, stable);</div><div class="line">    if (provider != null) &#123;</div><div class="line">        return provider;</div><div class="line">    &#125;</div><div class="line">    IActivityManager.ContentProviderHolder holder = null;</div><div class="line">    try &#123;</div><div class="line">        holder = ActivityManagerNative.getDefault().getContentProvider(</div><div class="line">                getApplicationThread(), auth, userId, stable);</div><div class="line">    &#125; catch (RemoteException ex) &#123;</div><div class="line">    &#125;</div><div class="line">    if (holder == null) &#123;</div><div class="line">        Slog.e(TAG, &quot;Failed to find provider info for &quot; + auth);</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Install provider will increment the reference count for us, and break</div><div class="line">    // any ties in the race.</div><div class="line">    holder = installProvider(c, holder, holder.info,</div><div class="line">            true /*noisy*/, holder.noReleaseNeeded, stable);</div><div class="line">    return holder.provider;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码中首先会从ActivityThread中查找是否已经存在ContentProvider，如果存在就直接返回，ActivityThread中通过mProviderMap来存储已经启动的ContentProvider对象，该容器的声明如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">final ArrayMap&lt;ProviderKey, ProviderClientRecord&gt; mProviderMap= new ArrayMap&lt;ProviderKey, ProviderClientRecord&gt;();</div></pre></td></tr></table></figure>
+<p>如果不存在就发送一个进程间请求给AMS让其启动，再通过installProvider方法来修改引用计数。<br>AMS是通过startProcessLocked方法来完成进程的启动，内部主要通过Process的start方法来完成进程的启动，新进程启动后的入口方法为ActivityThread的main方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123;</div><div class="line"></div><div class="line">       ActivityThread thread = new ActivityThread();</div><div class="line">       thread.attach(false);</div><div class="line"></div><div class="line">       if (sMainThreadHandler == null) &#123;</div><div class="line">           sMainThreadHandler = thread.getHandler();</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       if (false) &#123;</div><div class="line">           Looper.myLooper().setMessageLogging(new</div><div class="line">                   LogPrinter(Log.DEBUG, &quot;ActivityThread&quot;));</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       // End of event ActivityThreadMain.</div><div class="line">       Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);</div><div class="line">       Looper.loop();</div><div class="line"></div><div class="line">       throw new RuntimeException(&quot;Main thread loop unexpectedly exited&quot;);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>在该方法中首先会调用ActivityThread的实例并调用attach方法进行初始化，然后进行消息循环，attach方法会将ApplicationThread对象通过AMS的attachApplication方法跨进程传给AMS，最终完成Contentprovider的创建。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">try &#123;</div><div class="line">                mgr.releaseSomeActivities(mAppThread);</div><div class="line">            &#125; catch (RemoteException e) &#123;</div><div class="line">            &#125;</div></pre></td></tr></table></figure>
+<p>APS的attachApplication方法调用了attachApplicationLocked方法，该方法又调用了ApplicationThread的bindApplication方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">thread.bindApplication(processName, appInfo, providers, app.instrumentationClass,</div><div class="line">        profilerInfo, app.instrumentationArguments, app.instrumentationWatcher,</div><div class="line">        app.instrumentationUiAutomationConnection, testMode, enableOpenGlTrace,</div><div class="line">        isRestrictedBackupMode || !normalMode, app.persistent,</div><div class="line">        new Configuration(mConfiguration), app.compat,</div><div class="line">        getCommonServicesLocked(app.isolated),</div><div class="line">        mCoreSettingsObserver.getCoreSettingsLocked());</div></pre></td></tr></table></figure>
+<p>ApplicationThread的bindApplication方法发送一个BIND_APPLICATION类型定位消息给mH，mH收到消息后会调用ActivityThread的handleBindApplication方法，该方法就完成了Application的创建以及Contentprovider的创建，可以分为四步：</p>
+<p>1 创建ContextImpl和Instrumentation</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">ContextImpl instrContext = ContextImpl.createAppContext(this, pi);</div><div class="line"></div><div class="line">try &#123;</div><div class="line">    java.lang.ClassLoader cl = instrContext.getClassLoader();</div><div class="line">    mInstrumentation = (Instrumentation)</div><div class="line">        cl.loadClass(data.instrumentationName.getClassName()).newInstance();</div><div class="line">&#125; catch (Exception e) &#123;</div><div class="line">    throw new RuntimeException(</div><div class="line">        &quot;Unable to instantiate instrumentation &quot;</div><div class="line">        + data.instrumentationName + &quot;: &quot; + e.toString(), e);</div><div class="line">&#125;</div><div class="line"></div><div class="line">mInstrumentation.init(this, instrContext, appContext,</div><div class="line">       new ComponentName(ii.packageName, ii.name), data.instrumentationWatcher,</div><div class="line">       data.instrumentationUiAutomationConnection);</div></pre></td></tr></table></figure>
+<p>2 创建Application对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Application app = data.info.makeApplication(data.restrictedBackupMode, null);</div><div class="line">mInitialApplication = app;</div></pre></td></tr></table></figure>
+<p>3 启动当前进程的ContentProvider并调用其中onCreate方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">List&lt;ProviderInfo&gt; providers = data.providers;</div><div class="line">if (providers != null) &#123;</div><div class="line">    installContentProviders(app, providers);</div><div class="line">    // For process that contains content providers, we want to</div><div class="line">    // ensure that the JIT is enabled &quot;at some point&quot;.</div><div class="line">    mH.sendEmptyMessageDelayed(H.ENABLE_JIT, 10*1000);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>installContentProviders完成的ContentProvider的启动工作,首先会遍历当前进程的ProviderInfo的列表，并一一调用installProvider方法来启动他们，然后将启动的ContentProvider发布到AMS中，AMS会把他们存储在ProviderMap中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">private void installContentProviders(</div><div class="line">    Context context, List&lt;ProviderInfo&gt; providers) &#123;</div><div class="line">final ArrayList&lt;IActivityManager.ContentProviderHolder&gt; results =</div><div class="line">    new ArrayList&lt;IActivityManager.ContentProviderHolder&gt;();</div><div class="line"></div><div class="line">for (ProviderInfo cpi : providers) &#123;</div><div class="line">    if (DEBUG_PROVIDER) &#123;</div><div class="line">        StringBuilder buf = new StringBuilder(128);</div><div class="line">        buf.append(&quot;Pub &quot;);</div><div class="line">        buf.append(cpi.authority);</div><div class="line">        buf.append(&quot;: &quot;);</div><div class="line">        buf.append(cpi.name);</div><div class="line">        Log.i(TAG, buf.toString());</div><div class="line">    &#125;</div><div class="line">    IActivityManager.ContentProviderHolder cph = installProvider(context, null, cpi,</div><div class="line">            false /*noisy*/, true /*noReleaseNeeded*/, true /*stable*/);</div><div class="line">    if (cph != null) &#123;</div><div class="line">        cph.noReleaseNeeded = true;</div><div class="line">        results.add(cph);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">try &#123;</div><div class="line">    ActivityManagerNative.getDefault().publishContentProviders(</div><div class="line">        getApplicationThread(), results);</div><div class="line">&#125; catch (RemoteException ex) &#123;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面来看一下COntentProvider对象的创建过程，在installProvider方法中有下面一段代码，通过类加载器完成对象创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">final java.lang.ClassLoader cl = c.getClassLoader();</div><div class="line">localProvider = (ContentProvider)cl.</div><div class="line">    loadClass(info.name).newInstance();</div><div class="line">provider = localProvider.getIContentProvider();</div><div class="line">if (provider == null) &#123;</div><div class="line">    Slog.e(TAG, &quot;Failed to instantiate class &quot; +</div><div class="line">          info.name + &quot; from sourceDir &quot; +</div><div class="line">          info.applicationInfo.sourceDir);</div><div class="line">    return null;</div><div class="line">&#125;</div><div class="line">if (DEBUG_PROVIDER) Slog.v(</div><div class="line">    TAG, &quot;Instantiating local provider &quot; + info.name);</div><div class="line">// XXX Need to create the correct context for this provider.</div><div class="line">localProvider.attachInfo(c, info);</div></pre></td></tr></table></figure>
+<p>上面代码还会调用COntentProvider的attachInfo方法来调用他的onCreate方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">private void attachInfo(Context context, ProviderInfo info, boolean testing) &#123;</div><div class="line">    mNoPerms = testing;</div><div class="line"></div><div class="line">    if (mContext == null) &#123;</div><div class="line">        mContext = context;</div><div class="line">        if (context != null) &#123;</div><div class="line">            mTransport.mAppOpsManager = (AppOpsManager) context.getSystemService(</div><div class="line">                    Context.APP_OPS_SERVICE);</div><div class="line">        &#125;</div><div class="line">        mMyUid = Process.myUid();</div><div class="line">        if (info != null) &#123;</div><div class="line">            setReadPermission(info.readPermission);</div><div class="line">            setWritePermission(info.writePermission);</div><div class="line">            setPathPermissions(info.pathPermissions);</div><div class="line">            mExported = info.exported;</div><div class="line">            mSingleUser = (info.flags &amp; ProviderInfo.FLAG_SINGLE_USER) != 0;</div><div class="line">            setAuthorities(info.authority);</div><div class="line">        &#125;</div><div class="line">        ContentProvider.this.onCreate();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>到此为止onCreate方法已经被调用，意味着ContentProvider已经启动完成。</p>
+<p>4 调用Application的onCreate方法</p>
+<p>经过上面四个步骤，ContentPorovider已经成功启动，然后其他应用就可通过AMS来访问这个ContentProvider，拿到该对象之后就可以通过它所提供的接口来访问它了。</p>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;ContentProvider是一种内容共享性组件，它通过Binder向其他组件乃至其他应用提供数据。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;首先来看一下流程图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://imuhao.github.i
+    
+    </summary>
+    
+      <category term="android" scheme="http://zilianliuxue.github.io/categories/android/"/>
+    
+    
+      <category term="ContentProvider" scheme="http://zilianliuxue.github.io/tags/ContentProvider/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>BroadcastReceiver 的工作过程</title>
+    <link href="http://zilianliuxue.github.io/2016/08/26/BroadcastReceiver%E7%9A%84%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B/"/>
+    <id>http://zilianliuxue.github.io/2016/08/26/BroadcastReceiver的工作过程/</id>
+    <published>2016-08-26T06:31:57.830Z</published>
+    <updated>2016-08-26T06:42:16.251Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>本文将介绍BroadcastReceiver的工作过程,主要包含两个方面的内容，一个是广播的注册过程，一个是广播的发送和接受过程。</p>
+</blockquote>
+<h2 id="广播的注册过程"><a href="#广播的注册过程" class="headerlink" title="广播的注册过程"></a>广播的注册过程</h2><p>首先看下流程图：</p>
+<p><img src="https://imuhao.github.io/image/androidart_broadcastreceiver1.png" alt="img"></p>
+<p>广播注册分为静态和动态注册，静态注册是由PMS（PackageManagerService）来实现的，除了广播其他三大组建都是应用安装时由PMS解析并注册的。<br>这里只分析广播的动态注册，动态注册过程是从ContextWrapper的registerReceiver方法开始的，ContextWrapper并没有实际工作，而是将注册交给了ContextImpl来完成。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) &#123;</div><div class="line">    return registerReceiver(receiver, filter, null, null);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ContextImpl调用自己的registerReceiverInternal方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">private Intent registerReceiverInternal(BroadcastReceiver receiver, int userId,</div><div class="line">            IntentFilter filter, String broadcastPermission,</div><div class="line">            Handler scheduler, Context context) &#123;</div><div class="line">        IIntentReceiver rd = null;</div><div class="line">        if (receiver != null) &#123;</div><div class="line">            if (mPackageInfo != null &amp;&amp; context != null) &#123;</div><div class="line">                if (scheduler == null) &#123;</div><div class="line">                    scheduler = mMainThread.getHandler();</div><div class="line">                &#125;</div><div class="line">                rd = mPackageInfo.getReceiverDispatcher(</div><div class="line">                    receiver, context, scheduler,</div><div class="line">                    mMainThread.getInstrumentation(), true);</div><div class="line">            &#125; else &#123;</div><div class="line">                if (scheduler == null) &#123;</div><div class="line">                    scheduler = mMainThread.getHandler();</div><div class="line">                &#125;</div><div class="line">                rd = new LoadedApk.ReceiverDispatcher(</div><div class="line">                        receiver, context, scheduler, null, true).getIIntentReceiver();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        try &#123;</div><div class="line">            return ActivityManagerNative.getDefault().registerReceiver(</div><div class="line">                    mMainThread.getApplicationThread(), mBasePackageName,</div><div class="line">                    rd, filter, broadcastPermission, userId);</div><div class="line">        &#125; catch (RemoteException e) &#123;</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>在上面代码中系统从mPackageInfo中获取IIntentReceiver对象，然后采用跨进成的方式向AMS发送广播注册的请求，之所以采用IIntentReceiver是因为注册是一个进程间通信的过程，IIntentReceiver是一个Binder接口，他的具体实现是LoadedApk.ReceiverDispatcher内部类，该内部类同时保存了BroadcastReceivr和InnerReceiver，这样当接受到广播时，ReceiverDispatcher可以很方便的调用广播的onReceiver方法。</p>
+<p>广播的真正实现过程是在AMS中的，AMS的registerReceiver的关键只有下面一部分，最终会把远程的InnerReceiver对象以及IntentFilter对象存储起来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public Intent registerReceiver(IApplicationThread caller, String callerPackage,IIntentReceiver receiver, 、</div><div class="line">IntentFilter filter, String permission, int userId) </div><div class="line"></div><div class="line">mRegisteredReceivers.put(receiver.asBinder(), rl);</div><div class="line">BroadcastFilter bf = new BroadcastFilter(filter, rl, callerPackage,</div><div class="line">                permission, callingUid, userId);</div><div class="line"> rl.add(bf);</div><div class="line">        if (!bf.debugCheck()) &#123;</div><div class="line">            Slog.w(TAG, &quot;==&gt; For Dynamic broadcast&quot;);</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>这样整个广播的注册过程就完成了。</p>
+<h2 id="广播的发送和接受过程"><a href="#广播的发送和接受过程" class="headerlink" title="广播的发送和接受过程"></a>广播的发送和接受过程</h2><p>流程图：</p>
+<p><img src="https://imuhao.github.io/image/androidart_broadcastreceiver2.png" alt="img"></p>
+<p>当通过send方法来发送广播时，AMS会查找出匹配的广播接受者并将广播发送给他们处理。<br>广播发送有几种类型：普通广播、有序广播、粘性广播。这里只分析普通广播的实现。</p>
+<p>广播的发送开始于ContextImpl的sendBroadcast，源码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public void sendBroadcast(Intent intent) &#123;</div><div class="line">    warnIfCallingFromSystemProcess();</div><div class="line">    String resolvedType = intent.resolveTypeIfNeeded(getContentResolver());</div><div class="line">    try &#123;</div><div class="line">        intent.prepareToLeaveProcess();</div><div class="line">        ActivityManagerNative.getDefault().broadcastIntent(</div><div class="line">                mMainThread.getApplicationThread(), intent, resolvedType, null,</div><div class="line">                Activity.RESULT_OK, null, null, null, AppOpsManager.OP_NONE, null, false, false,</div><div class="line">                getUserId());</div><div class="line">    &#125; catch (RemoteException e) &#123;</div><div class="line">        throw new RuntimeException(&quot;Failure from system&quot;, e);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ContextImpl几乎什么都没干，直接向AMS发起一个异步请求发送广播。下面是AMS对广播发送过程的处理。AMS的broadcastIntent的方法源码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">public final int broadcastIntent(IApplicationThread caller,Intent intent, String resolvedType, IIntentReceiver resultTo,int resultCode, String resultData, Bundle resultExtras,String[] requiredPermissions, int appOp, Bundle options, boolean serialized, boolean sticky, int userId) &#123;</div><div class="line"></div><div class="line">    enforceNotIsolatedCaller(&quot;broadcastIntent&quot;);</div><div class="line">    synchronized(this) &#123;</div><div class="line">        intent = verifyBroadcastLocked(intent);</div><div class="line"></div><div class="line">        final ProcessRecord callerApp = getRecordForAppLocked(caller);</div><div class="line">        final int callingPid = Binder.getCallingPid();</div><div class="line">        final int callingUid = Binder.getCallingUid();</div><div class="line">        final long origId = Binder.clearCallingIdentity();</div><div class="line">        int res = broadcastIntentLocked(callerApp,</div><div class="line">                callerApp != null ? callerApp.info.packageName : null,</div><div class="line">                intent, resolvedType, resultTo, resultCode, resultData, resultExtras,</div><div class="line">                requiredPermissions, appOp, null, serialized, sticky,</div><div class="line">                callingPid, callingUid, userId);</div><div class="line">        Binder.restoreCallingIdentity(origId);</div><div class="line">        return res;</div><div class="line">    &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>broadcastIntent方法又调用了broadcastIntentLocked方法。该方法的开始有这一行代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// By default broadcasts do not go to stopped apps.</div><div class="line">   intent.addFlags(Intent.FLAG_EXCLUDE_STOPPED_PACKAGES);</div></pre></td></tr></table></figure>
+<p>这表示广播不会发送给已经停止的我应用，从Android3.1开始已经具有这种特性，这是因为在Android3.1中为Intent添加了两个标记，分别是FLAG_EXCLUDE_STOPPED_PACKAGES和FLAG_EXCLUDE_STOPPED_PACKAGES用来控制广播是否对停止应用起作用。</p>
+<ul>
+<li>FLAG <em>INCLUDE </em>STOPPED _ PACKAGES</li>
+</ul>
+<p>表示包含已经停止的应用，这个时候广播会发送给已经停止的应用</p>
+<ul>
+<li>FLAG <em>EXCLUDE </em>STOPPED _ PACKAGES</li>
+</ul>
+<p>表示不包含已经停止的应用，这个时候广播不会发送给已经停止的应用。</p>
+<p>从3.1开始默认为所有广播添加了FLAG <em>EXCLUDE </em>STOPPED _ PACKAGES标志。</p>
+<p>处于停止状态分为两种情形：</p>
+<ol>
+<li>应用安装后未运行</li>
+<li>应用被手动或其他应用强停。</li>
+</ol>
+<p>从Android3.1开始处于停止状态的应用同样无法接收到开机广播。</p>
+<p>在broadcastIntentLocked内部会根据intentfilter查找匹配的广播接受者，将满足条件的广播添加到BroadcastQueue中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">if ((receivers != null &amp;&amp; receivers.size() &gt; 0)</div><div class="line">                || resultTo != null) &#123;</div><div class="line">            BroadcastQueue queue = broadcastQueueForIntent(intent);</div><div class="line">            BroadcastRecord r = new BroadcastRecord(queue, intent, callerApp,</div><div class="line">                    callerPackage, callingPid, callingUid, resolvedType,</div><div class="line">                    requiredPermissions, appOp, brOptions, receivers, resultTo, resultCode,</div><div class="line">                    resultData, resultExtras, ordered, sticky, false, userId);</div><div class="line"></div><div class="line">            if (DEBUG_BROADCAST) Slog.v(TAG_BROADCAST, &quot;Enqueueing ordered broadcast &quot; + r</div><div class="line">                    + &quot;: prev had &quot; + queue.mOrderedBroadcasts.size());</div><div class="line">            if (DEBUG_BROADCAST) Slog.i(TAG_BROADCAST,</div><div class="line">                    &quot;Enqueueing broadcast &quot; + r.intent.getAction());</div><div class="line"></div><div class="line">            boolean replaced = replacePending &amp;&amp; queue.replaceOrderedBroadcastLocked(r);</div><div class="line">            if (!replaced) &#123;</div><div class="line">                queue.enqueueOrderedBroadcastLocked(r);</div><div class="line">                queue.scheduleBroadcastsLocked();</div><div class="line">            &#125;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>接着我们来看BroadcastQueue的scheduleBroadcastsLocked方法实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public void scheduleBroadcastsLocked() &#123;</div><div class="line">       if (mBroadcastsScheduled) &#123;</div><div class="line">           return;</div><div class="line">       &#125;</div><div class="line">       mHandler.sendMessage(mHandler.obtainMessage(BROADCAST_INTENT_MSG, this));</div><div class="line">       mBroadcastsScheduled = true;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>该方法并没有立即发送广播，而是发送了一个BROADCAST_INTENT_MSG类型的消息。当BroadcastQueue收到消息之后会调用processNextBroadcast方法。该方法对普通广播的处理如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">while (mParallelBroadcasts.size() &gt; 0) &#123;</div><div class="line">    r = mParallelBroadcasts.remove(0);</div><div class="line">    r.dispatchTime = SystemClock.uptimeMillis();</div><div class="line">    r.dispatchClockTime = System.currentTimeMillis();</div><div class="line">    final int N = r.receivers.size();</div><div class="line">    if (DEBUG_BROADCAST_LIGHT) Slog.v(TAG_BROADCAST, &quot;Processing parallel broadcast [&quot;</div><div class="line">            + mQueueName + &quot;] &quot; + r);</div><div class="line">    for (int i=0; i&lt;N; i++) &#123;</div><div class="line">        Object target = r.receivers.get(i);</div><div class="line">        if (DEBUG_BROADCAST)  Slog.v(TAG_BROADCAST,</div><div class="line">                &quot;Delivering non-ordered on [&quot; + mQueueName + &quot;] to registered &quot;</div><div class="line">                + target + &quot;: &quot; + r);</div><div class="line">        deliverToRegisteredReceiverLocked(r, (BroadcastFilter)target, false);</div><div class="line">    &#125;</div><div class="line">    addBroadcastToHistoryLocked(r);</div><div class="line">    if (DEBUG_BROADCAST_LIGHT) Slog.v(TAG_BROADCAST, &quot;Done with parallel broadcast [&quot;</div><div class="line">            + mQueueName + &quot;] &quot; + r);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到无序广播存储在mParallelBroadcasts中，系统会遍历该集合并发送给他们的处理者，具体的发送过程是通过deliverToRegisteredReceiverLocked方法来实现，该方法将一个广播发送给一个特定的接受者，它的内部调用了performReceiveLocked方法来完成具体的发送过程，实现如下，由于广播会调起应用程序，因此app.thread不为空app.thread指ApplicationThread。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">private static void performReceiveLocked(ProcessRecord app, IIntentReceiver receiver,</div><div class="line">        Intent intent, int resultCode, String data, Bundle extras,</div><div class="line">        boolean ordered, boolean sticky, int sendingUser) throws RemoteException &#123;</div><div class="line">    // Send the intent to the receiver asynchronously using one-way binder calls.</div><div class="line">    if (app != null) &#123;</div><div class="line">        if (app.thread != null) &#123;</div><div class="line">            // If we have an app thread, do the call through that so it is</div><div class="line">            // correctly ordered with other one-way calls.</div><div class="line">            app.thread.scheduleRegisteredReceiver(receiver, intent, resultCode,</div><div class="line">                    data, extras, ordered, sticky, sendingUser, app.repProcState);</div><div class="line">        &#125; else &#123;</div><div class="line">            // Application has died. Receiver doesn&apos;t exist.</div><div class="line">            throw new RemoteException(&quot;app.thread must not be null&quot;);</div><div class="line">        &#125;</div><div class="line">    &#125; else &#123;</div><div class="line">        receiver.performReceive(intent, resultCode, data, extras, ordered,</div><div class="line">                sticky, sendingUser);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法会调用ApplicationThread的scheduleRegisteredReceiver，他的实现比较简单，通过InnerReceiver来实现广播的接受。InnerReceiver的performRecerver方法会调用LoadedApk.ReceiverDispatcher的performReceive方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">    public void performReceive(Intent intent, int resultCode, String data,</div><div class="line">            Bundle extras, boolean ordered, boolean sticky, int sendingUser) &#123;</div><div class="line">        Args args = new Args(intent, resultCode, data, extras, ordered,</div><div class="line">                sticky, sendingUser);</div><div class="line">        if (!mActivityThread.post(args)) &#123;</div><div class="line">            if (mRegistered &amp;&amp; ordered) &#123;</div><div class="line">                IActivityManager mgr = ActivityManagerNative.getDefault();</div><div class="line">                if (ActivityThread.DEBUG_BROADCAST) Slog.i(ActivityThread.TAG,</div><div class="line">                        &quot;Finishing sync broadcast to &quot; + mReceiver);</div><div class="line">                args.sendFinished(mgr);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在上面代码中会创建一个Args对象并通过mActivityThread的post方法来执行args中的逻辑，而args实现了Runnable接口。mActivityThread是一个Handler，它其实就是ActivityThread中的mH，mH的类型是ActivityThread的内部类H。在args的run方法中有如下几行代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">final BroadcastReceiver receiver = mReceiver;</div><div class="line">receiver.setPendingResult(this);</div><div class="line">receiver.onReceive(mContext, intent);</div></pre></td></tr></table></figure>
+<p>很显然这个时候BroadcastReceiver的onReceiver方法被执行了，也就是说应用已经接收到广播。</p>
+<p>到这里这个广播的注册，发送和接受过程已经分析完了，读者应该对广播的整个过程有了一定的理解。</p>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;本文将介绍BroadcastReceiver的工作过程,主要包含两个方面的内容，一个是广播的注册过程，一个是广播的发送和接受过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;广播的注册过程&quot;&gt;&lt;a href=&quot;#广播的注册过程&quot; clas
+    
+    </summary>
+    
+      <category term="android" scheme="http://zilianliuxue.github.io/categories/android/"/>
+    
+    
+      <category term="BroadcastReceiver" scheme="http://zilianliuxue.github.io/tags/BroadcastReceiver/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Service 的工作过程</title>
+    <link href="http://zilianliuxue.github.io/2016/08/26/Service%E7%9A%84%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B/"/>
+    <id>http://zilianliuxue.github.io/2016/08/26/Service的工作过程/</id>
+    <published>2016-08-26T06:30:49.319Z</published>
+    <updated>2016-08-26T06:41:29.728Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">本文将介绍Service的工作过程,通过本文分析,你将会对Service的一些工作原理有更进一步的认识</div><div class="line">比如Service的启动过程和绑定过程.</div></pre></td></tr></table></figure>
+<h3 id="Service有两种状态-一种是启动状态-主要用于执行后台计算-另一种是绑定状态-主要用于与其他组件进行交互-这两种状态是可以共存的"><a href="#Service有两种状态-一种是启动状态-主要用于执行后台计算-另一种是绑定状态-主要用于与其他组件进行交互-这两种状态是可以共存的" class="headerlink" title="Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的."></a>Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的.</h3><h2 id="Service的启动过程"><a href="#Service的启动过程" class="headerlink" title="Service的启动过程"></a>Service的启动过程</h2><p>启动过程流程图</p>
+<p><img src="https://imuhao.github.io/image/androidart_service1.png" alt="img"></p>
+<p>Service的启动过程从ContextWrapper的startService方法开始,如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public ComponentName startService(Intent service) &#123;</div><div class="line">       return mBase.startService(service);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>上面代码中的mBase的类型是ContextImpl,在Activity创建时会通过attach方法将ContextImpl对象关联起来,ContextWrapper的大部分操作都是mBase来实现的,这种模式叫桥接模式.<br>在ContextImpl中,startService方法会调用startServiceCommon方法,而该方法会用过ActivityManagerNative.getDefault()对象来启动一个服务,也就是AMS,在AMS来启动服务的行为是一个远程过程调用,在AMS中会通过mServices这个对象完成后续的启动过程,mService对象 的类型是ActivityService,他是辅助AMS进行Service管理的类.包括启动、绑定、停止等.在它的startServiceLocked方法最后会调用startServiceInnerLocked方法,在该方法中并没有完成具体的启动工作,而是把后续的工作交给了bringUpServiceLocked来处理,在该方法中又调用了realStartServiceLocked方法,通过方法名来看这个方法应该是真正启动一个Service.</p>
+<p>在realStartServiceLocked方法中首先是通过app.thread的scheduleCreateService方法来调用Service的其他方法,比如onStartCommand,这两个过程均是进程通信.</p>
+<p>app.thread是IApplicationThread类型,它实际上是一个Bunder,他的具体实现是ApplicationThread和ApplicationThreadNative,而前者是继承与后者的,所以我们直接看ApplicationThread对Service启动过程的处理即可.这对应着它的scheduleCreateService方法,这个过程和Activity的启动过程是类似的,都是通过发送消息给Handler H来完成Service的最终完成.</p>
+<p>handlerCreateService方法主要做了这几件事</p>
+<ol>
+<li>首先通过类加载器创建Service的实例</li>
+<li>创建Application对象并调用其onCreate方法.创建过程只会有一次</li>
+<li>创建ConTextImpl对象并通过Service的attach方法建立二者的关系.</li>
+<li>最后调用Service的onCreate方法并将Service对象存储到ActivityThread中的一个列表中.</li>
+</ol>
+<p>到这里Service的启动过程已经分析完了,下面分析Service的绑定过程.</p>
+<h2 id="Service的绑定过程"><a href="#Service的绑定过程" class="headerlink" title="Service的绑定过程"></a>Service的绑定过程</h2><p>绑定流程图<br><img src="https://imuhao.github.io/image/androidart_service2.png" alt="img"><br>和Service启动过程一样,它的绑定过程也是从ContextWrapper开始的,如下所示.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public boolean bindService(Intent service, ServiceConnection conn,</div><div class="line">           int flags) &#123;</div><div class="line">       return mBase.bindService(service, conn, flags);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>mBase同样是ContextImpl类型的对象,mBase的bindService方法最终会调用自己的bindServiceCommon方法</p>
+<p>bindServiceCommon方法主要完成如下两件事:</p>
+<p>首先将客户端的ServiceConnection对象转化为ServiceDispatcher.IServiceConnection对象.之所以不能使用ServiceConnection对象是因为服务的绑定可能是跨进成的,因此ServiceConnection对象必须借助与Binder才能让远程服务端回调自己的方法,而ServiceDispatcher的内部类IServiceConnection刚好充当了Binder这个角色.ServiceConnection起着连接SercviceConnection和InnerConnection的作用,这个过程由LoadedApk的getServiceDispatcher方法来完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public final IServiceConnection getServiceDispatcher(ServiceConnection c,</div><div class="line">        Context context, Handler handler, int flags) &#123;</div><div class="line">    synchronized (mServices) &#123;</div><div class="line">        LoadedApk.ServiceDispatcher sd = null;</div><div class="line">        ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt; map = mServices.get(context);</div><div class="line">        if (map != null) &#123;</div><div class="line">            sd = map.get(c);</div><div class="line">        &#125;</div><div class="line">        if (sd == null) &#123;</div><div class="line">            sd = new ServiceDispatcher(c, context, handler, flags);</div><div class="line">            if (map == null) &#123;</div><div class="line">                map = new ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt;();</div><div class="line">                mServices.put(context, map);</div><div class="line">            &#125;</div><div class="line">            map.put(c, sd);</div><div class="line">        &#125; else &#123;</div><div class="line">            sd.validate(context, handler);</div><div class="line">        &#125;</div><div class="line">        return sd.getIServiceConnection();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在上面的代码中mServices是一个ArrayMap,它存储了一个应用当前活动的ServiceConnection和ServiceDispatcher的映射关系,它的定义如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private final ArrayMap&lt;Context, ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt;&gt; mServices</div></pre></td></tr></table></figure>
+<p>接着bindServiceCommon方法会通过AMS完成Service的具体绑定过程.对应着AMS的binService方法,而该方法在调用bindServiceLocked方法,bindServiceLocked方法又会调用bringUpServiceLocked方法,bringUpServiceLocked又会调用realStartServiceLocked方法,realStartServiceLocked的执行逻辑和启动的逻辑类似,都是通过ApplicationThread来完成Service的创建并执行onCreate方法</p>
+<p>和启动Service不同的是,Service的绑定过程会调用app.thread的scheduleBindService方法,这个过程的实现在ActivityService的requestServiceBindingLocked方法,在该方法中调用了app.thread的scheduleBindService方法,他的内部都是通过Handler H中转的.</p>
+<p>在H内部接收到BIND_SERVICE这类消息时,会交给ActivityThread’的handleBind-Service方法来处理.在该方法中会根据Service的token取出Service对象,然后调用onBind方法.onBind方法会返回一个Binder对象给客户端使用.原则上此时已经属于绑定状态了,但是onBind方法是Service的方法,这个时候客户端并不知道已经成功连接了,所以还必须调用客户端的ServiceConnection中的onServiceConected,这个过程由ActivityManagerNative.getDefault()的publishService方法来完成的.他其实就是AMS.</p>
+<p>而AMS的publishService方法将具体的工作交给了ActivityServices类型的mServices对象来处理.在ActiveServices的publishServiceLocked方法核心代码只有一句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">c.conn.connected(r.name, service);</div></pre></td></tr></table></figure>
+<p>其中c的类型是ConnectionRecore.c.conn的类型是ServiceDispatcherInnerConnection.service就是Service的onBind方法返回的Binder对象. 从InnerConection的定义可以看出他的connected方法又调用了ServiceDispatcher的connected方法.</p>
+<p>对于Service的绑定过程来说,ServiceDisptcher的mActivityThread是一个Handler,他就是ActivityThread中的H,这样一来RunConnection就可以经过H的post方法从而运行在主线程中,因此客户端ServiceConnection中的方法是在主线程中回调的.</p>
+<p>客户端的onServiceConnected方法执行完毕之后,Service的绑定过程也就分析完成了.</p>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;c
+    
+    </summary>
+    
+      <category term="android" scheme="http://zilianliuxue.github.io/categories/android/"/>
+    
+    
+      <category term="Service" scheme="http://zilianliuxue.github.io/tags/Service/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Activity 的工作过程</title>
+    <link href="http://zilianliuxue.github.io/2016/08/26/Activity%E7%9A%84%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B/"/>
+    <id>http://zilianliuxue.github.io/2016/08/26/Activity的工作过程/</id>
+    <published>2016-08-26T06:29:04.100Z</published>
+    <updated>2016-08-26T06:43:49.173Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Activity对于开发者来说最普通不过了,但是你有没有想过当我们看到一个Activity的之后系统内部到底是如何启动一个Activity的呢?比如新Activity对象是何时创建的?Activity的onCreate方法又是在何时被系统回调的呢?</p>
+</blockquote>
+<p>首先来看一下流程图:</p>
+<p><img src="https://imuhao.github.io/image/androidart_activity.png" alt="img"></p>
+<p>从Activity的startActivity()方法开始分析,有好几个重载方法,他们最终都会调用startActivityFriResult方法,在该方法中会执行Instrumentation的execStartActivity方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public ActivityResult execStartActivity(Context who, IBinder contextThread, IBinder token, Activity target,</div><div class="line">       Intent intent, int requestCode, Bundle options)</div><div class="line">           ....省略代码...</div><div class="line">int result = ActivityManagerNative.getDefault()</div><div class="line">.startActivity(whoThread, who.getBasePackageName(), intent, intent.resolveTypeIfNeeded</div><div class="line">(who.getContentResolver()),token, target != null ? target.mEmbeddedID : null,</div><div class="line">                   requestCode, 0, null, options);</div></pre></td></tr></table></figure>
+<p>从代码中可以启动Activity真正的实现由ActivityManagerNative.getDefault()的startActivity方法来完成,ActivityManagerNative(下面简称AMS)继承自Binder接口,因此AMS也是一个Binder,因此他也是一个Binder,它是IActivityManager类型的Binder对象.因此Activity的启动过程又转移到了AMS中.</p>
+<p>在AMS的startActivity中又转移到了ActivityStacjSupervisor的startActivityMayWait方法中.</p>
+<p>在该方法中又调用了startActivityLocked方法,接着调用了startActivityUncheckedLocked方法,又调用了ActivityStack的resumeTopActivityLocked.</p>
+<p>这个时候启动已经从ActivityStackSupervisor转移到了ActivityStack,resumeTopActivityLocked调用了resumeTopActivityLocked方法,resumeTopActivityLocked方法,又调用了ActivityStackSupervisor的startSpecificActivityLocked方法</p>
+<p>在该方法中调用了realStartActivityLocked方法,在该方法中有这么一段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">app.thread.scheduleLaunchActivity(new Intent(r.intent), r.appToken,</div><div class="line">System.identityHashCode(r), r.info, new Configuration(mService.mConfiguration),</div><div class="line">new Configuration(stack.mOverrideConfig), r.compat, r.launchedFromPackage,</div><div class="line">task.voiceInteractor, app.repProcState, r.icicle, r.persistentState, results,</div><div class="line">newIntents, !andResume, mService.isNextTransitionForward(), profilerInfo);</div></pre></td></tr></table></figure>
+<p>这段代码很重要,其中app.thread的类型为IApplicationThread,他继承了IInterface接口,所以他是一个Binder类型的接口.该接口内部包含了大量的启动、停止Activity的接口,此外还包含了启动和停止服务的接口,IApplicationThread这个Binder接口的实现者完成了大量的Activity以及Service启动停止相关的功能.他的实现者就是ActivityThread中的内部类ApplicationThread,</p>
+<p>ApplicationThread继承了ApplicationThreadNative,而ApplicationThreadNative则继承了Binder并实现了IApplicationThread接口.</p>
+<p>在ApplicationThreadNative的内部,还有一个ApplicationThreadProxy这个类为AIDL文件自动生成的代理类,种种迹象表明ApplicationThreadNative就是IAppilicationthread的实现者,由于ApplicationThreadNative被系统定义为抽象类,所以ApplicationThread就成了IApplicationthread最终的实现者.</p>
+<p>绕了一大圈,Activity的启动过程最终回到了ApplicationThread中,ApplicationThread通过scheduleLaunchActivity方式来启动Activity,在该方法中通过发送一个启动Activity的消息交由Handler处理,这个Handler有个简洁的名字H,在H对LAUNCH_ACTIVITY这个消息进行处理可以知道,Activity启动过程由ActivityThread的handleLaunchActivity方法来实现</p>
+<p>在该方法中最终通过performLaunchActivity方法完成了Activity对象的创建和启动过程,并且ActivityThread通过handleResumeActivity方法来调用被启动Activity的onResume这一生命周期.</p>
+<p>performLaunchActivity方法主要完成了如下几件事</p>
+<ol>
+<li>从ActivityClientRecord中获取待启动Activity的组建信息.</li>
+<li>通过mInstrumentation的newActivity方法使用类加载器创建Activity对象</li>
+<li>通过LoadedApk的makeApplication方法尝试创建Application对象</li>
+<li>创建ContextImpl对象并通过Activity的attach方法来完成这些重要数据的初始化</li>
+<li>调用Activity的onCreate方法<br>mInstrumentation.callActivityOnCreate(activity, r.state);</li>
+</ol>
+<p>至此Activity已经完成了启动过程</p>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Activity对于开发者来说最普通不过了,但是你有没有想过当我们看到一个Activity的之后系统内部到底是如何启动一个Activity的呢?比如新Activity对象是何时创建的?Activity的onCreate方法又是在何时被系统回调的呢?
+    
+    </summary>
+    
+      <category term="android" scheme="http://zilianliuxue.github.io/categories/android/"/>
+    
+    
+      <category term="activity" scheme="http://zilianliuxue.github.io/tags/activity/"/>
+    
+  </entry>
+  
+  <entry>
     <title>java 线程池</title>
     <link href="http://zilianliuxue.github.io/2016/08/25/java%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
     <id>http://zilianliuxue.github.io/2016/08/25/java线程池/</id>
     <published>2016-08-25T12:30:16.351Z</published>
-    <updated>2016-08-25T12:37:36.754Z</updated>
+    <updated>2016-08-26T06:36:04.716Z</updated>
     
     <content type="html"><![CDATA[<p>线程池：基本思想还是一种对象池的思想，开辟一块内存空间，里面存放了众多(未死亡)的线程，池中线程执行调度由池管理器来处理。当有线程任务时，从池中取一个，执行完成后线程对象归池，这样可以避免反复创建线程对象所带来的性能开销，节省了系统的资源。</p>
 <h1 id="ExecutorService"><a href="#ExecutorService" class="headerlink" title="ExecutorService"></a><strong>ExecutorService</strong></h1><p>通过上述分析，我们知道了通过new Thread().start()方式创建线程去处理任务的弊端，而为了解决这些问题，Java为我们提供了ExecutorService线程池来优化和管理线程的使用</p>

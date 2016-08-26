@@ -4,50 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Java-Android并发编程引气入门篇 | ♀紫☆恋&amp;流★雪♂</title>
+    <title>window和windowManager | ♀紫☆恋&amp;流★雪♂</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Losileeya">
     
 
     
-    <meta name="description" content="转自Abner_泥阿布
-Android的并发编程，即多线程开发，而Android的多线程开发模型也是源于Java中的多线程模型。所以本篇也会先讲一些Java中的多线程理念，再讲解具体涉及的类，最后深入Android中的并发场景和实践。
-并发什么是并发举个很简单的栗子，当你一边在撸撸撸，一边在看小视频，同时在做两件事，这就是并发。
-咳，年轻人节制啊。
-并发的好处
-提高资源利用率
-当一个任务并没有完全">
+    <meta name="description" content="Window是一个窗口的概念，是一个抽象类，具体实现是PhoneWindow。通过WindowManager来创建Window。Window的具体实现位于WindowManagerService，WindowsManager和WindowMannagerService的交互是一个IPC的过程。
+
+Window与WindowManager(1). 使用WindowManager添加一个Window">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java-Android并发编程引气入门篇">
-<meta property="og:url" content="http://zilianliuxue.github.io/2016/08/25/Java-Android并发编程引气入门篇/index.html">
+<meta property="og:title" content="window和windowManager">
+<meta property="og:url" content="http://zilianliuxue.github.io/2016/08/26/Window与WindowManager/index.html">
 <meta property="og:site_name" content="♀紫☆恋&流★雪♂">
-<meta property="og:description" content="转自Abner_泥阿布
-Android的并发编程，即多线程开发，而Android的多线程开发模型也是源于Java中的多线程模型。所以本篇也会先讲一些Java中的多线程理念，再讲解具体涉及的类，最后深入Android中的并发场景和实践。
-并发什么是并发举个很简单的栗子，当你一边在撸撸撸，一边在看小视频，同时在做两件事，这就是并发。
-咳，年轻人节制啊。
-并发的好处
-提高资源利用率
-当一个任务并没有完全">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/%E5%A4%9A%E7%BA%BF%E7%A8%8B.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/runnable.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/Thread.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/threadRun.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/threadStart.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/concurrent.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/BlockingQueue.png">
-<meta property="og:image" content="http://i.imgur.com/txrnQN4.png">
-<meta property="og:updated_time" content="2016-08-25T13:34:31.158Z">
+<meta property="og:description" content="Window是一个窗口的概念，是一个抽象类，具体实现是PhoneWindow。通过WindowManager来创建Window。Window的具体实现位于WindowManagerService，WindowsManager和WindowMannagerService的交互是一个IPC的过程。
+
+Window与WindowManager(1). 使用WindowManager添加一个Window">
+<meta property="og:updated_time" content="2016-08-26T06:43:46.600Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java-Android并发编程引气入门篇">
-<meta name="twitter:description" content="转自Abner_泥阿布
-Android的并发编程，即多线程开发，而Android的多线程开发模型也是源于Java中的多线程模型。所以本篇也会先讲一些Java中的多线程理念，再讲解具体涉及的类，最后深入Android中的并发场景和实践。
-并发什么是并发举个很简单的栗子，当你一边在撸撸撸，一边在看小视频，同时在做两件事，这就是并发。
-咳，年轻人节制啊。
-并发的好处
-提高资源利用率
-当一个任务并没有完全">
-<meta name="twitter:image" content="http://abner-nimengbo.cn/images/%E5%A4%9A%E7%BA%BF%E7%A8%8B.png">
+<meta name="twitter:title" content="window和windowManager">
+<meta name="twitter:description" content="Window是一个窗口的概念，是一个抽象类，具体实现是PhoneWindow。通过WindowManager来创建Window。Window的具体实现位于WindowManagerService，WindowsManager和WindowMannagerService的交互是一个IPC的过程。
+
+Window与WindowManager(1). 使用WindowManager添加一个Window">
 
     
     <link rel="alternative" href="/atom.xml" title="♀紫☆恋&amp;流★雪♂" type="application/atom+xml">
@@ -116,14 +95,14 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/08/25/Java-Android并发编程引气入门篇/" title="Java-Android并发编程引气入门篇" itemprop="url">Java-Android并发编程引气入门篇</a>
+      <a href="/2016/08/26/Window与WindowManager/" title="window和windowManager" itemprop="url">window和windowManager</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-25T08:04:00.000Z" itemprop="datePublished"> 发表于 2016-08-25</time>
+    <time datetime="2016-08-26T06:33:56.362Z" itemprop="datePublished"> 发表于 2016-08-26</time>
    <span id="busuanzi_container_page_pv">
     总阅读<span id="busuanzi_value_page_pv"></span>次
    </span>
@@ -134,107 +113,49 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#并发"><span class="toc-number">1.</span> <span class="toc-text">并发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是并发"><span class="toc-number">2.</span> <span class="toc-text">什么是并发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#并发的风险"><span class="toc-number">3.</span> <span class="toc-text">并发的风险</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程篇"><span class="toc-number">4.</span> <span class="toc-text">线程篇</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程是什么"><span class="toc-number">5.</span> <span class="toc-text">进程是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程与线程的关系"><span class="toc-number">6.</span> <span class="toc-text">进程与线程的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单线程"><span class="toc-number">7.</span> <span class="toc-text">单线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程"><span class="toc-number"></span> <span class="toc-text">多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程并发过程中会遇到的问题"><span class="toc-number"></span> <span class="toc-text">多线程并发过程中会遇到的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程如何去用"><span class="toc-number">1.</span> <span class="toc-text">线程如何去用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的优先级"><span class="toc-number">2.</span> <span class="toc-text">线程的优先级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池"><span class="toc-number"></span> <span class="toc-text">线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#队列"><span class="toc-number">1.</span> <span class="toc-text">队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程安全"><span class="toc-number"></span> <span class="toc-text">线程安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#锁"><span class="toc-number">1.</span> <span class="toc-text">锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#感谢"><span class="toc-number">2.</span> <span class="toc-text">感谢</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Window与WindowManager"><span class="toc-number">1.</span> <span class="toc-text">Window与WindowManager</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Window的内部机制"><span class="toc-number">2.</span> <span class="toc-text">Window的内部机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Window的添加过程"><span class="toc-number">3.</span> <span class="toc-text">Window的添加过程</span></a></li></ol>
 		
 		</div>
 		
-		<p>转自<a href="http://abner-nimengbo.cn/" target="_blank" rel="external">Abner_泥阿布</a></p>
-<p>Android的并发编程，即多线程开发，而Android的多线程开发模型也是源于Java中的多线程模型。<br>所以本篇也会先讲一些Java中的多线程理念，再讲解具体涉及的类，最后深入Android中的并发场景和实践。</p>
-<h3 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h3><h3 id="什么是并发"><a href="#什么是并发" class="headerlink" title="什么是并发"></a>什么是并发</h3><p>举个很简单的栗子，当你一边在撸撸撸，一边在看小视频，同时在做两件事，这就是并发。</p>
-<p>咳，年轻人节制啊。</p>
-<p>并发的好处</p>
-<p>提高资源利用率</p>
-<p>当一个任务并没有完全占用系统资源，就可以利用并发来提高资源利用率，同时也能更快地完成任务。</p>
-<p>当你的右手在干些什么的时候，左手是不是在没事做呢？那就也用起来呗。<br>(某次聚会，一名骑马的汉子说自己左右互搏(lu)特厉害）。</p>
-<p>在程序任务上更加精简</p>
-<p>就拿上一个栗子来说，左手做什么，右手做什么，任务明确分配好，又能同时进行，既提高了效率，逻辑又清晰。</p>
-<p>更好的响应程序</p>
-<p>这个拿Android客户端举个栗子，上传图片时，当前界面还是正常运转没有卡死，图片也正常上传，既保证了界面被响应，又保证图片可以上传。</p>
-<h3 id="并发的风险"><a href="#并发的风险" class="headerlink" title="并发的风险"></a>并发的风险</h3><p>###　并发的代价</p>
-<p>需要占用更多的资源。<br>设计好一个并发程序并不容易。<br>并发的资源交互问题复杂。<br>并发的隐患</p>
-<p>滥用资源导致系统不稳定<br>结果与预期不符<br>出现BUG难以排查</p>
-<h3 id="线程篇"><a href="#线程篇" class="headerlink" title="线程篇"></a>线程篇</h3><h3 id="进程是什么"><a href="#进程是什么" class="headerlink" title="进程是什么"></a>进程是什么</h3><p>就拿Android中的App来说，一般来说一个app就是一个进程，（除了特殊的手段开启了多个进程，这里不深入这个话题，就是一个一对多的关系）。</p>
-<p>线程是什么</p>
-<p>进程只是一个程序、任务的统称，但是却不能执行任务，真正执行任务的是线程，所以线程是由进程创建的，一个进程可以创建多个线程。</p>
-<p>线程可以调度资源等等，在这里只需要了解大致的概念就好，如果要深入可以学习一下操作系统。</p>
-<h3 id="进程与线程的关系"><a href="#进程与线程的关系" class="headerlink" title="进程与线程的关系"></a>进程与线程的关系</h3><p>人脑就相当于是CPU，想做一件事的时候，这个任务就是一个进程了，需要运用手脚等器官去完成这个任务，而手脚器官就可以理解成一个个线程，去做了不同的事，从而完成任务。</p>
-<h3 id="单线程"><a href="#单线程" class="headerlink" title="单线程"></a>单线程</h3><p>还是用Android举栗子，当你在手机上操作的时候，这个被称之为UI线程（之后会详解）。而一个最基本的app，不需要复杂的功能时，就只有一个UI线程和我们交互，那么这个app就是个单线程的。一般的程序面向用户的线程就是UI线程，也称之为主线程，单线程程序，其实就是只有一个主线程的程序。</p>
-<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><p>多个进程可以算是并发，但是我们所说的并发场景，大部分是在一个进程中的，而并发就是由线程完成的，多个线程同时执行任务，就称之为并发。</p>
-<p>以下为多线程工作示意图：</p>
-<p><img src="http://abner-nimengbo.cn/images/%E5%A4%9A%E7%BA%BF%E7%A8%8B.png" alt=""></p>
-<h2 id="多线程并发过程中会遇到的问题"><a href="#多线程并发过程中会遇到的问题" class="headerlink" title="多线程并发过程中会遇到的问题"></a>多线程并发过程中会遇到的问题</h2><ol>
-<li>资源共享</li>
-</ol>
-<p>A线程要写文件C，B线程也要写文件C，这个时候就好像你拿着两只笔同时往纸上写东西，写出来的是什么自己也不知道。</p>
-<p>这个时候我们需要一个类似于锁的东西，当C被A在写的时候，B不能写，B要等A写完了才能继续写。</p>
-<p>至于这个锁到底是什么会在后面继续讲到。</p>
-<ol>
-<li>死锁问题</li>
-</ol>
-<p>死锁的四个条件是：</p>
+		<blockquote>
+<p>Window是一个窗口的概念，是一个抽象类，具体实现是PhoneWindow。<br>通过WindowManager来创建Window。<br>Window的具体实现位于WindowManagerService，WindowsManager和WindowMannagerService的交互是一个IPC的过程。</p>
+</blockquote>
+<h2 id="Window与WindowManager"><a href="#Window与WindowManager" class="headerlink" title="Window与WindowManager"></a>Window与WindowManager</h2><p>(1). 使用WindowManager添加一个Window的过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Button button = new Button(this);</div><div class="line">button.setText(&quot;button&quot;);</div><div class="line">WindowManager.LayoutParams params = new WindowManager.LayoutParams(</div><div class="line">        WindowManager.LayoutParams.WRAP_CONTENT,</div><div class="line">        WindowManager.LayoutParams.WRAP_CONTENT,</div><div class="line">        0, 0, PixelFormat.TRANSPARENT);</div><div class="line">params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE</div><div class="line">        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL</div><div class="line">        | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;</div><div class="line">params.gravity = Gravity.LEFT | Gravity.TOP;</div><div class="line">params.x = 100;</div><div class="line">params.y = 300;</div><div class="line">WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);</div><div class="line">windowManager.addView(button,params);</div></pre></td></tr></table></figure>
+<p>上面的代码将一个Button添加到屏幕坐标为（100，300）的位置.<br>(2).WindowManager.LayoutParams中的flag参数表示Window的属性，下面是几个比较常用的属性。</p>
 <ul>
-<li>禁止抢占：no preemption</li>
+<li>FLAG_NOT_FOCUSABLE</li>
 </ul>
+<p>表示window不需要获取焦点，也不需要接收各种输入事件。此标记会同时启用FLAG_NOT_TOUCH_MODAL，最终事件会直接传递给下层的具有焦点的window；</p>
 <ul>
-<li>持有和等待：hold and wait</li>
+<li>FLAG_NOT_TOUCH_MODAL：</li>
 </ul>
+<p>在此模式下，系统会将window区域外的单击事件传递给底层的window，当前window区域内的单击事件则自己处理，一般都需要开启这个标记；</p>
 <ul>
-<li>互斥：mutual exclusion</li>
+<li>FLAG_SHOW_WHEN_LOCKED</li>
 </ul>
-<ul>
-<li>循环等待：circular waiting</li>
-</ul>
-<p>预防死锁就是至少破坏这四个条件其中一项，即破坏“禁止抢占”、破坏“持有等待”、破坏“资源互斥”和破坏“循环等待”。</p>
-<p>举个例子：</p>
-<p>A在B那边割包皮，B把A割坏了，A占着B的床位，要B赔钱，B要A让出床位才给钱。双方僵持不下。</p>
-<h3 id="线程如何去用"><a href="#线程如何去用" class="headerlink" title="线程如何去用"></a>线程如何去用</h3><p>在Java中，线程通常就是指Thread这个类，或者实现了Runnable的类，其实Thread这个类也是实现了Runnable接口的，可以看一下Runnable接口的代码：</p>
-<p><img src="http://abner-nimengbo.cn/images/runnable.png" alt=""></p>
-<p>里面就是一个run方法需要被实现。</p>
-<p>再看一下Thread类的声明：</p>
-<p><img src="http://abner-nimengbo.cn/images/Thread.png" alt=""></p>
-<p>确实是一个实现了Runnable的类。</p>
-<p>那么Thread类中拥有start()方法，和run()方法，下面用run()方法直接调用<br>得到信息：</p>
-<p><img src="http://abner-nimengbo.cn/images/threadRun.png" alt=""></p>
-<p>发现其实和外面的线程是在同一个线程上。</p>
-<p>而调用start()方法得到的信息是：</p>
-<p><img src="http://abner-nimengbo.cn/images/threadStart.png" alt=""></p>
-<p>发现线程名不一样了，用start会开启一个新的线程，而run还是在当前线程执行。</p>
-<p>另外在Java1.5之后，还有Callable、Future和FutureTask，在这里就不详细介绍，还有线程的wait、<br>yield、sleep等在下一章会一起详细介绍。</p>
-<h3 id="线程的优先级"><a href="#线程的优先级" class="headerlink" title="线程的优先级"></a>线程的优先级</h3><p>在Java中，线程的优先级有1~10，而默认的是5。1最低，10最高。在Thread类中有三个常量：</p>
-<ul>
-<li>MIN_PRIORITY = 1</li>
-</ul>
-<ul>
-<li>NORM_PRIORITY = 5</li>
-</ul>
-<ul>
-<li>MAX_PRIORITY = 10</li>
-</ul>
-<p>在同一个线程池中的线程优先级是相同的。</p>
-<p>JVM会根据线程的优先级去抢先调度，然而线程的优先级只能保证抢占资源的概率较大，并不能保障线程的执行顺序，所以不能过于依赖设置线程的优先级。</p>
-<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>频繁地创建和销毁线程会导致性能大幅度降低，这肯定不是你希望的。</p>
-<p>线程池的出现，就是为了解决这个问题，根据java中提供不同的线程池机制，有效地提高资源利用率。</p>
-<p>直接在代码中创建Thread、Runnable去start或者run容易出现不可预测的问题，在java1.5开始，引入了java.util.concurrent包，其中有个并发的框架：Executor，使用ExecutorService替代直接操作线程类，而Executors是用来创建线程池的，内部提供了很多静态方法去创建你想要的线程池，不需要你再手动去创建实现。<br>看一下关于Executor中的类和接口的大致的成员与关系：</p>
-<p><img src="http://abner-nimengbo.cn/images/concurrent.png" alt=""></p>
-<p>关于这些类如何使用，以及有什么特性，下一章会作介绍。</p>
-<h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>在java中提到队列肯定会想起Queue,而线程队列用的是BlockingQueue,这是个接口，在concurrent包中有好几个类实现了这个接口。</p>
-<p><img src="http://abner-nimengbo.cn/images/BlockingQueue.png" alt=""></p>
-<p>介绍一下BlockingQueue常用的方法</p>
-<p><img src="http://i.imgur.com/txrnQN4.png" alt=""></p>
-<h2 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h2><h3 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h3><p>在前面讲过死锁，死锁是由于使用不当引起的一种现象，而这里的锁是人工干预的，让并发按照你的意思走。</p>
-<p>在java中的锁有synchonrized、Lock。锁的出现主要是为了解决线程安全问题。</p>
-<p>关于线程的状态会在下一章讲锁的机制时候再讲，因为线程的状态会影响到锁。</p>
-<p>线程安全的集合</p>
-<p>因为多线程访问资源可能会造成数据不一致或者数据污染，而某些集合会用一些锁或者同步机制做了处理。</p>
-<p>线程安全的集合有：HashTable、SynchronizedCollection、ConcurrentHashMap、Vector等。</p>
-<p>线程安不安全的首要前提是在多线程访问同一个对象的情况下。</p>
-<h3 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h3><blockquote>
-<p>《Java并发编程实践》</p>
-<p>《Thinking in Java》</p>
-<p>baoyongzhang(鲍老师)</p>
+<p>开启此模式可以让Window显示在锁屏的界面上</p>
+<p>(3).TYPE参数表示Window的类型，有三种，分别是应用Window，子Window和系统Window。</p>
+<p>应用window对应着一个Activity，子window不能独立存在，需要附属在特定的父window之上，比如Dialog就是子window。系统window是需要声明权限才能创建的window，比如Toast和系统状态栏这些都是系统window，需要声明的权限是。</p>
+<p>(4). window是分层的，每个window都对应着z-ordered，层级大的会覆盖在层级小的上面，应用window的层级范围是1~99，子window的层级范围是1000~1999，系统window的层级范围是2000~2999。<br>[注意，应用window的层级范围并不是1~999哟]</p>
+<p>(5).WindowManager继承自ViewManager，常用的只有三个方法：addView、updateView和removeView。</p>
+<h2 id="Window的内部机制"><a href="#Window的内部机制" class="headerlink" title="Window的内部机制"></a>Window的内部机制</h2><p>(1).Window是一个抽象的概念，不是实际存在的，它也是以View的形式存在。在实际使用中无法直接访问Window，只能通过WindowManager才能访问Window。每个Window都对应着一个View和一个ViewRootImpl，Window和View通过ViewRootImpl来建立联系。</p>
+<p>(2). Window的添加、删除和更新过程都是IPC过程，以Window的添加为例，WindowManager的实现类对于addView、updateView和removeView方法都是委托给WindowManagerGlobal类，该类保存了很多数据列表，例如所有window对应的view集合mViews、所有window对应的ViewRootImpl的集合mRoots等，之后添加操作交给了ViewRootImpl来处理，接着会通过WindowSession来完成Window的添加过程，这个过程是一个IPC调用，因为最终是通过WindowManagerService来完成window的添加的。</p>
+<h2 id="Window的添加过程"><a href="#Window的添加过程" class="headerlink" title="Window的添加过程"></a>Window的添加过程</h2><p>(1)Activity的window创建过程</p>
+<p>1.Activity的启动过程很复杂，最终会由ActivityThread中的performLaunchActivity来完成整个启动过程，在这个方法内部会通过类加载器创建Activity的实例对象，并调用它的attach方法为其关联运行过程中所依赖的一系列上下文环境变量；</p>
+<p>2.Activity实现了Window的Callback接口，当window接收到外界的状态变化时就会回调Activity的方法，例如onAttachedToWindow、onDetachedFromWindow、dispatchTouchEvent等；</p>
+<p>3.Activity的Window是由PolicyManager来创建的，它的真正实现是Policy类，它会新建一个PhoneWindow对象，Activity的setContentView的实现是由PhoneWindow来实现的；</p>
+<p>4.Activity的顶级View是DecorView，它本质上是一个FrameLayout。如果没有DecorView，那么PhoneWindow会先创建一个DecorView，然后加载具体的布局文件并将view添加到DecorView的mContentParent中，最后就是回调Activity的onContentChanged通知Activity视图已经发生了变化；</p>
+<p>5.还有一个步骤是让WindowManager能够识别DecorView，在ActivityThread调用handleResumeActivity方法时，首先会调用Activity的onResume方法，然后会调用makeVisible方法，这个方法中DecorView真正地完成了添加和显示过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ViewManager vm = getWindowManager();</div><div class="line">vm.addView(mDecor, getWindow().getAttributes());</div><div class="line">mWindowAdded = true;</div></pre></td></tr></table></figure>
+<p>(2)Dialog的Window创建过程</p>
+<p>1.过程与Activity的Window创建过程类似，普通的Dialog的有一个特别之处，即它必须采用Activity的Context，如果采用Application的Context会报错。原因是Application没有应用token，应用token一般是Activity拥有的。</p>
+<p>(3)Toast的Window创建过程</p>
+<p>1.Toast属于系统Window，它内部的视图由两种方式指定：一种是系统默认的演示；另一种是通过setView方法来指定一个自定义的View。</p>
+<p>2.Toast具有定时取消功能，所以系统采用了Handler。Toast的显示和隐藏是IPC过程，都需要NotificationManagerService来实现。在Toast和NMS进行IPC过程时，NMS会跨进程回调Toast中的TN类中的方法，TN类是一个Binder类，运行在Binder线程池中，所以需要通过Handler将其切换到当前发送Toast请求所在的线程，所以Toast无法在没有Looper的线程中弹出。</p>
+<p>3.对于非系统应用来说，mToastQueue最多能同时存在50个ToastRecord，这样做是为了防止DOS(Denial of Service，拒绝服务)。因为如果某个应用弹出太多的Toast会导致其他应用没有机会弹出Toast。</p>
 <hr>
 <p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
-</blockquote>
   
 	</div>
 	
@@ -348,13 +269,13 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/java/">java</a>
+  <a class="article-category-link" href="/categories/android/">android</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/线程池/">线程池</a>
+  <span></span> <a href="/tags/window/">window</a>
   </div>
 
 </div>
@@ -363,7 +284,7 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zilianliuxue.github.io/2016/08/25/Java-Android并发编程引气入门篇/" data-title="Java-Android并发编程引气入门篇 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  <div data-url="http://zilianliuxue.github.io/2016/08/26/Window与WindowManager/" data-title="window和windowManager | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -377,18 +298,18 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/08/25/java线程池/" title="java 线程池">
+ <a href="/2016/08/26/Android的线程和线程池/" title="Android的线程和线程池">
   <strong>上一篇：</strong><br/>
   <span>
-  java 线程池</span>
+  Android的线程和线程池</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/08/23/View事件机制21问21答/"  title="view事件机制21问21答">
+<a href="/2016/08/26/ContentProvider的工作过程/"  title="ContentProvider的工作过程">
  <strong>下一篇：</strong><br/> 
- <span>view事件机制21问21答
+ <span>ContentProvider的工作过程
 </span>
 </a>
 </div>
@@ -397,7 +318,7 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/08/25/Java-Android并发编程引气入门篇/" data-title="Java-Android并发编程引气入门篇" data-url="http://zilianliuxue.github.io/2016/08/25/Java-Android并发编程引气入门篇/"></div>
+	<div class="ds-thread" data-thread-key="2016/08/26/Window与WindowManager/" data-title="window和windowManager" data-url="http://zilianliuxue.github.io/2016/08/26/Window与WindowManager/"></div>
 </section>
 
 
@@ -407,7 +328,7 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#并发"><span class="toc-number">1.</span> <span class="toc-text">并发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是并发"><span class="toc-number">2.</span> <span class="toc-text">什么是并发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#并发的风险"><span class="toc-number">3.</span> <span class="toc-text">并发的风险</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程篇"><span class="toc-number">4.</span> <span class="toc-text">线程篇</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程是什么"><span class="toc-number">5.</span> <span class="toc-text">进程是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程与线程的关系"><span class="toc-number">6.</span> <span class="toc-text">进程与线程的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单线程"><span class="toc-number">7.</span> <span class="toc-text">单线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程"><span class="toc-number"></span> <span class="toc-text">多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程并发过程中会遇到的问题"><span class="toc-number"></span> <span class="toc-text">多线程并发过程中会遇到的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程如何去用"><span class="toc-number">1.</span> <span class="toc-text">线程如何去用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的优先级"><span class="toc-number">2.</span> <span class="toc-text">线程的优先级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池"><span class="toc-number"></span> <span class="toc-text">线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#队列"><span class="toc-number">1.</span> <span class="toc-text">队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程安全"><span class="toc-number"></span> <span class="toc-text">线程安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#锁"><span class="toc-number">1.</span> <span class="toc-text">锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#感谢"><span class="toc-number">2.</span> <span class="toc-text">感谢</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Window与WindowManager"><span class="toc-number">1.</span> <span class="toc-text">Window与WindowManager</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Window的内部机制"><span class="toc-number">2.</span> <span class="toc-text">Window的内部机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Window的添加过程"><span class="toc-number">3.</span> <span class="toc-text">Window的添加过程</span></a></li></ol>
  
   </div>
 

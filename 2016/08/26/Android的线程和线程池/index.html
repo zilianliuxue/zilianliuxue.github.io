@@ -1,0 +1,851 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Android的线程和线程池 | ♀紫☆恋&amp;流★雪♂</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Losileeya">
+    
+
+    
+    <meta name="description" content="在操作系统中，线程是操作系统调度的最小单元，当系统中存在大量线程时，系统会通过时间片轮转的方式调度每个线程，当进程中频繁的创建和销毁线程的时候应该采用线程池，线程池会缓存一定数量的线程，避免频繁创建和销毁线程带来的系统开销。
+
+主线程和子线程(1) 在Java中默认情况下一个进程只有一个线程，也就是主线程，其他线程都是子线程，也叫工作线程。Android中的主线程主要处理和界面相关的事情，而子线">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android的线程和线程池">
+<meta property="og:url" content="http://zilianliuxue.github.io/2016/08/26/Android的线程和线程池/index.html">
+<meta property="og:site_name" content="♀紫☆恋&流★雪♂">
+<meta property="og:description" content="在操作系统中，线程是操作系统调度的最小单元，当系统中存在大量线程时，系统会通过时间片轮转的方式调度每个线程，当进程中频繁的创建和销毁线程的时候应该采用线程池，线程池会缓存一定数量的线程，避免频繁创建和销毁线程带来的系统开销。
+
+主线程和子线程(1) 在Java中默认情况下一个进程只有一个线程，也就是主线程，其他线程都是子线程，也叫工作线程。Android中的主线程主要处理和界面相关的事情，而子线">
+<meta property="og:updated_time" content="2016-08-26T06:39:46.084Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android的线程和线程池">
+<meta name="twitter:description" content="在操作系统中，线程是操作系统调度的最小单元，当系统中存在大量线程时，系统会通过时间片轮转的方式调度每个线程，当进程中频繁的创建和销毁线程的时候应该采用线程池，线程池会缓存一定数量的线程，避免频繁创建和销毁线程带来的系统开销。
+
+主线程和子线程(1) 在Java中默认情况下一个进程只有一个线程，也就是主线程，其他线程都是子线程，也叫工作线程。Android中的主线程主要处理和界面相关的事情，而子线">
+
+    
+    <link rel="alternative" href="/atom.xml" title="♀紫☆恋&amp;流★雪♂" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+	
+    <form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+	<label>Search</label>
+	<input type="text" id="search" class="st-default-search-input" maxlength="20" placeholder="Search" />
+	</form>
+    
+    <link rel="stylesheet" href="/css/style.css">
+	
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.gif" alt="♀紫☆恋&amp;流★雪♂" title="♀紫☆恋&amp;流★雪♂"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="♀紫☆恋&amp;流★雪♂">♀紫☆恋&amp;流★雪♂</a></h1>
+				<h2 class="blog-motto">编程中我们会遇到多少挫折？不放弃，沙漠尽头必是绿洲，不是天方夜谭</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="search" />
+						<input type="hidden" name="q" value="site:zilianliuxue.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/26/Android的线程和线程池/" title="Android的线程和线程池" itemprop="url">Android的线程和线程池</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-26T06:35:26.963Z" itemprop="datePublished"> 发表于 2016-08-26</time>
+   <span id="busuanzi_container_page_pv">
+    总阅读<span id="busuanzi_value_page_pv"></span>次
+   </span>
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#主线程和子线程"><span class="toc-number">1.</span> <span class="toc-text">主线程和子线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android中的线程形态"><span class="toc-number">2.</span> <span class="toc-text">Android中的线程形态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AsyncTask"><span class="toc-number">2.1.</span> <span class="toc-text">AsyncTask</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意事项："><span class="toc-number">2.1.1.</span> <span class="toc-text">注意事项：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HandlerThread"><span class="toc-number">2.2.</span> <span class="toc-text">HandlerThread</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IntentService"><span class="toc-number">2.3.</span> <span class="toc-text">IntentService</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android中的线程池"><span class="toc-number">3.</span> <span class="toc-text">Android中的线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#线程池的优点："><span class="toc-number">3.0.1.</span> <span class="toc-text">线程池的优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程运行机制"><span class="toc-number">3.0.2.</span> <span class="toc-text">线程运行机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程池的作用"><span class="toc-number">3.0.3.</span> <span class="toc-text">线程池的作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程池涉及的类"><span class="toc-number">3.0.4.</span> <span class="toc-text">线程池涉及的类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Executors介绍（把握使用，把握常见线程池）"><span class="toc-number">3.1.</span> <span class="toc-text">Executors介绍（把握使用，把握常见线程池）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ThreadPoolExecutor介绍"><span class="toc-number">3.1.1.</span> <span class="toc-text">ThreadPoolExecutor介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#构造相关参数解释"><span class="toc-number">3.1.2.</span> <span class="toc-text">构造相关参数解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基础API的介绍"><span class="toc-number">3.1.3.</span> <span class="toc-text">基础API的介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#任务提交给线程池之后的处理策略"><span class="toc-number">3.1.4.</span> <span class="toc-text">任务提交给线程池之后的处理策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#任务提交给线程池之后的处理策略-比喻"><span class="toc-number">3.1.5.</span> <span class="toc-text">任务提交给线程池之后的处理策略_比喻</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#阻塞队列的介绍（BlockingQueue）"><span class="toc-number">3.2.</span> <span class="toc-text">阻塞队列的介绍（BlockingQueue）</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<blockquote>
+<p>在操作系统中，线程是操作系统调度的最小单元，当系统中存在大量线程时，系统会通过时间片轮转的方式调度每个线程，当进程中频繁的创建和销毁线程的时候应该采用线程池，线程池会缓存一定数量的线程，避免频繁创建和销毁线程带来的系统开销。</p>
+</blockquote>
+<h2 id="主线程和子线程"><a href="#主线程和子线程" class="headerlink" title="主线程和子线程"></a>主线程和子线程</h2><p>(1) 在Java中默认情况下一个进程只有一个线程，也就是主线程，其他线程都是子线程，也叫工作线程。Android中的主线程主要处理和界面相关的事情，而子线程则往往用于执行耗时操作。线程的创建和销毁的开销较大，所以如果一个进程要频繁地创建和销毁线程的话，都会采用线程池的方式。</p>
+<p>(2) 在Android中除了Thread，还有HandlerThread、AsyncTask以及IntentService等也都扮演着线程的角色，只是它们具有不同的特性和使用场景。AsyncTask封装了线程池和Handler，它主要是为了方便开发者在子线程中更新UI。HandlerThread是一种具有消息循环的线程，在它的内部可以使用Handler。IntentService是一个服务，它内部采用HandlerThread来执行任务，当任务执行完毕后就会自动退出。因为它是服务的缘故，所以和后台线程相比，它比较不容易被系统杀死。</p>
+<p>(3). 从Android 3.0开始，系统要求网络访问必须在子线程中进行，否则网络访问将会失败并抛出NetworkOnMainThreadException这个异常，这样做是为了避免主线程由于被耗时操作所阻塞从而出现ANR现象。</p>
+<h2 id="Android中的线程形态"><a href="#Android中的线程形态" class="headerlink" title="Android中的线程形态"></a>Android中的线程形态</h2><h3 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h3><p>AsyncTask是一个抽象泛型类，它提供了Params、Progress、Result三个泛型参数，如果task确实不需要传递具体的参数，那么都可以设置为Void。下面是它的四个核心方法，其中doInBackground不是在主线程执行的。<br>onPreExecute、doInBackground、onProgressUpdate、onPostResult</p>
+<h4 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h4><ul>
+<li>AsyncTask必须在主线程中加载</li>
+<li>必须在诛仙城中创建</li>
+<li>execute必须在UI线程调用</li>
+<li>一个AsyncTask对象只能执行一次，即只能调用一次execute方法</li>
+<li>在Android1.6的时候线程池是并行任务，在Android3.0为了避免并发错误采用串行执行任务。但是我们仍然可以用过executeOnExecutor方法并行执行任务。</li>
+</ul>
+<h3 id="HandlerThread"><a href="#HandlerThread" class="headerlink" title="HandlerThread"></a>HandlerThread</h3><p>它继承了Thread，是一种可以使用Handler的Thread.他的实现也很简单，就是在run方法中通过Looper。prepare来创建消息队列，并通过Looper.loop来开启消息循环，这样在使用的时候就可以在HandlerThread中创建Handler了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public void run() &#123;</div><div class="line">    mTid = Process.myTid();</div><div class="line">    Looper.prepare();</div><div class="line">    synchronized (this) &#123;</div><div class="line">        mLooper = Looper.myLooper();</div><div class="line">        notifyAll();</div><div class="line">    &#125;</div><div class="line">    Process.setThreadPriority(mPriority);</div><div class="line">    onLooperPrepared();</div><div class="line">    Looper.loop();</div><div class="line">    mTid = -1;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>HandlerThread在内部创建了消息队列，外界需要通过Handler的消息方式开通知它执行一个具体的任务，它的一个具体实现是IntentService。当我们不需要使用Handler的时候可以通过quit获取quitSafelt方法终结线程的执行。</p>
+<h3 id="IntentService"><a href="#IntentService" class="headerlink" title="IntentService"></a>IntentService</h3><p>继承了Service是一个抽象类，必须创建它的子类才可以使用它，IntentService可以执行后台耗时任务，当任务执行完毕之后会自动停止，因为他是服务，所以他的优先级比普通的线程高，比较适合执行一些高优先级的后台任务。</p>
+<h2 id="Android中的线程池"><a href="#Android中的线程池" class="headerlink" title="Android中的线程池"></a>Android中的线程池</h2><blockquote>
+<p>Android里面，耗时的网络操作，都会开子线程，在程序里面直接开过多的线程会消耗过多的资源，在众多的开源框架中也总能看到线程池的踪影，所以线程池是必须要会把握的一个知识点;</p>
+</blockquote>
+<h4 id="线程池的优点："><a href="#线程池的优点：" class="headerlink" title="线程池的优点："></a>线程池的优点：</h4><ul>
+<li>重用线程池中的线程，避免频繁创建和销毁带来的性能开销</li>
+<li>可以有效控制线程池中的最大并发数，避免大量线程之间互相抢占系统资源导致阻塞</li>
+<li>可以对线程进行简单管理。</li>
+</ul>
+<h4 id="线程运行机制"><a href="#线程运行机制" class="headerlink" title="线程运行机制"></a>线程运行机制</h4><ul>
+<li>开启线程过多，会消耗<code>cpu资源</code></li>
+<li>单核cpu，同一时刻只能处理一个线程，多核cpu同一时刻可以处理多个线程</li>
+<li>操作系统为每个运行线程安排一定的CPU时间—-<code>时间片</code>，系统通过一种循环的方式为线程提供时间片，线程在自己的时间内运行，因为时间相当短，多个线程频繁地发生切换，因此给用户的感觉就是好像多个线程同时运行一样，但是如果计算机有多个CPU，线程就能真正意义上的同时运行了.</li>
+</ul>
+<h4 id="线程池的作用"><a href="#线程池的作用" class="headerlink" title="线程池的作用"></a>线程池的作用</h4><ul>
+<li>线程池是预先创建线程的一种技术。线程池在还没有任务到来之前，创建一定数量的线程，放入空闲队列中，然后对这些资源进行复用。<code>减少频繁的创建和销毁对象。</code></li>
+<li>频繁创建和销毁线程耗资源，耗时间</li>
+<li>因为有的线程执行时间比创建和销毁一个线程的时间还短</li>
+</ul>
+<h4 id="线程池涉及的类"><a href="#线程池涉及的类" class="headerlink" title="线程池涉及的类"></a>线程池涉及的类</h4><ul>
+<li>Executor:Java里面线程池的顶级接口。</li>
+<li>ExecutorService:真正的线程池接口。</li>
+<li>ScheduledExecutorService:能和Timer/TimerTask类似，解决那些需要任务重复执行的问题。</li>
+<li>ThreadPoolExecutor(重点):ExecutorService的默认实现。</li>
+<li>ScheduledThreadPoolExecutor:继承ThreadPoolExecutor的ScheduledExecutorService接口实现，周期性任务调度的类实现。</li>
+<li>Executors:可以一行代码创建一些常见的线程池。</li>
+</ul>
+<h3 id="Executors介绍（把握使用，把握常见线程池）"><a href="#Executors介绍（把握使用，把握常见线程池）" class="headerlink" title="Executors介绍（把握使用，把握常见线程池）"></a>Executors介绍（把握使用，把握常见线程池）</h3><blockquote>
+<p>Executors:jdk1.5之后的一个新类，<code>提供了一些静态方法，帮助我们方便的生成一些常用的线程池</code>，ThreadPoolExecutor是Executors类的底层实现</p>
+</blockquote>
+<p>1.newSingleThreadExecutor</p>
+<blockquote>
+<p>创建一个单线程的线程池。这个线程池只有一个线程在工作，也就是相当于单线程串行执行&gt;所有任务。如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它。此线程池&gt;保证所有任务的执行顺序按照任务的提交顺序执行。</p>
+</blockquote>
+<p>2.newFixedThreadPool</p>
+<blockquote>
+<p>创建固定大小的线程池。每次提交一个任务就创建一个线程，直到线程达到线程池的最大大小。线程池的大小一旦达到最大值就会保持不变，如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。</p>
+</blockquote>
+<p>3.newCachedThreadPool</p>
+<blockquote>
+<p>创建一个可缓存的线程池。如果线程池的大小超过了处理任务所需要的线程，<br>那么就会回收部分空闲（60秒不执行任务）的线程，当任务数增加时，此线程池又可以智能的添加新线程来处理任务。此线程池不会对线程池大小做限制，线程池大小完全依赖于操作系统（或者说JVM）能够创建的最大线程大小。</p>
+</blockquote>
+<p>4.newScheduledThreadPool</p>
+<blockquote>
+<p>创建一个大小无限的线程池。此线程池支持定时以及周期性执行任务的需求。</p>
+</blockquote>
+<h4 id="ThreadPoolExecutor介绍"><a href="#ThreadPoolExecutor介绍" class="headerlink" title="ThreadPoolExecutor介绍"></a>ThreadPoolExecutor介绍</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//构造方法</div><div class="line">public ThreadPoolExecutor(int corePoolSize，//核心池的大小</div><div class="line">                              int maximumPoolSize，//线程池最大线程数</div><div class="line">                              long keepAliveTime，//保持时间</div><div class="line">                              TimeUnit unit，//时间单位</div><div class="line">                              BlockingQueue&lt;Runnable&gt; workQueue，//任务队列</div><div class="line">                              ThreadFactory threadFactory，//线程工厂</div><div class="line">                              RejectedExecutionHandler handler) //异常的捕捉器</div></pre></td></tr></table></figure>
+<h4 id="构造相关参数解释"><a href="#构造相关参数解释" class="headerlink" title="构造相关参数解释"></a>构造相关参数解释</h4><ul>
+<li><p>corePoolSize：<code>核心池的大小</code>，这个参数跟后面讲述的线程池的实现原理有非常大的关系。在创建了线程池后，默认情况下，线程池中并没有任何线程，而是等待有任务到来才创建线程去执行任务，除非调用了prestartAllCoreThreads()或者prestartCoreThread()方法，从这2个方法的名字就可以看出，是预创建线程的意思，即在没有任务到来之前就创建corePoolSize个线程或者一个线程。默认情况下，在创建了线程池后，线程池中的线程数为0，当有任务来之后，就会创建一个线程去执行任务，当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列当中；</p>
+</li>
+<li><p>maximumPoolSize：<code>’线程池最大线程数</code>，<br>这个参数也是一个非常重要的参数，它表示在线程池中最多能创建多少个线程；</p>
+</li>
+<li><p>keepAliveTime：<code>表示线程没有任务执行时最多保持多久时间会终止</code>。默认情况下，只有当线程池中的线程数大于corePoolSize时，keepAliveTime才会起作用，直到线程池中的线程数不大于corePoolSize，即当线程池中的线程数大于corePoolSize时，如果一个线程空闲的时间达到keepAliveTime，则会终止，直到线程池中的线程数不超过corePoolSize。但是如果调用了allowCoreThreadTimeOut(boolean)方法，在线程池中的线程数不大于corePoolSize时，keepAliveTime参数也会起作用，直到线程池中的线程数为0；</p>
+</li>
+<li><p>unit：参数keepAliveTime的<code>时间单位</code>，有7种取值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">TimeUnit.DAYS;               //天</div><div class="line">TimeUnit.HOURS;             //小时</div><div class="line">TimeUnit.MINUTES;           //分钟</div><div class="line">TimeUnit.SECONDS;           //秒</div><div class="line">TimeUnit.MILLISECONDS;      //毫秒</div><div class="line">TimeUnit.MICROSECONDS;      //微妙</div><div class="line">TimeUnit.NANOSECONDS;       //纳秒</div></pre></td></tr></table></figure>
+</li>
+<li><p>workQueue ： <code>任务队列</code>，是一个阻塞队列，用来存储等待执行的任务，这个参数的选择也很重要，会对线程池的运行过程产生重大影响，参考BlockingQueue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ArrayBlockingQueue</div><div class="line">LinkedBlockingQueue</div><div class="line">SynchronousQueue</div></pre></td></tr></table></figure>
+</li>
+<li><p>threadFactory : <code>线程工厂</code>，如何去创建线程的</p>
+</li>
+<li><p>handler ： 任务队列添加<code>异常的捕捉器</code>，参考 RejectedExecutionHandler</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。 </div><div class="line">ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。 </div><div class="line">ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）</div><div class="line">ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="基础API的介绍"><a href="#基础API的介绍" class="headerlink" title="基础API的介绍"></a>基础API的介绍</h4><ul>
+<li>isShutdown() ： 判断线程池是否关闭</li>
+<li>isTerminated() : 判断线程池中任务是否执行完成</li>
+<li>shutdown() : 调用后不再接收新任务，如果里面有任务，就执行完</li>
+<li>shutdownNow() : 调用后不再接受新任务，如果有等待任务，移出队列；有正在执行的，尝试停止之</li>
+<li>submit() : 提交执行任务</li>
+<li>execute() : 执行任务</li>
+</ul>
+<h4 id="任务提交给线程池之后的处理策略"><a href="#任务提交给线程池之后的处理策略" class="headerlink" title="任务提交给线程池之后的处理策略"></a>任务提交给线程池之后的处理策略</h4><ol>
+<li>如果当前线程池中的线程数目小于corePoolSize，则每来一个任务，就会创建执行这个任务；</li>
+<li>如果当前线程池中的线程数目&gt;=corePoolSize，则每来一个任务，会尝试将其添加到任务缓存队列当中<ol>
+<li>若添加成功，则该任务会等待空闲线程将其取出去执行；</li>
+<li>若添加失败（一般来说是任务缓存队列已满，针对的是有界队列），则会尝试创建新的线程去执行这个任务；</li>
+</ol>
+</li>
+<li>如果当前线程池中的线程数目达到maximumPoolSize，则会采取任务拒绝策略进行处理；</li>
+<li>如果线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止，直至线程池中的线程数目不大于corePoolSize；如果允许为核心池中的线程设置存活时间，那么核心池中的线程空闲时间超过keepAliveTime，线程也会被终止。</li>
+</ol>
+<h4 id="任务提交给线程池之后的处理策略-比喻"><a href="#任务提交给线程池之后的处理策略-比喻" class="headerlink" title="任务提交给线程池之后的处理策略_比喻"></a>任务提交给线程池之后的处理策略_比喻</h4><blockquote>
+<p>假如有一个工厂，工厂里面有10(<code>corePoolSize</code>)个工人，每个工人同时只能做一件任务。</p>
+<p>因此只要当10个工人中有工人是空闲的，<code>来了任务就分配</code>给空闲的工人做；</p>
+<p>当10个工人都有任务在做时，如果还来了任务，就把任务进行排队等待(<code>任务队列</code>)；</p>
+<p>如果说新任务数目增长的速度远远大于工人做任务的速度，那么此时工厂主管可能会想补救措施，比如重新招4个临时工人(<code>创建新线程</code>)进来；然后就将任务也分配给这4个临时工人做；</p>
+<p>如果说着14个工人做任务的速度还是不够，此时工厂主管可能就要考虑不再接收新的任务或者抛弃前面的一些任务了(<code>拒绝执行</code>)。</p>
+<p>当这14个工人当中有人空闲时，而且空闲超过一定时间(<code>空闲时间</code>)，新任务增长的速度又比较缓慢，工厂主管可能就考虑辞掉4个临时工了，只保持原来的10个工人，毕竟请额外的工人是要花钱的</p>
+</blockquote>
+<h3 id="阻塞队列的介绍（BlockingQueue）"><a href="#阻塞队列的介绍（BlockingQueue）" class="headerlink" title="阻塞队列的介绍（BlockingQueue）"></a>阻塞队列的介绍（BlockingQueue）</h3><p>阻塞队列，如果BlockingQueue是空的，从BlockingQueue取东西的操作将会被阻断进入等待状态，直到BlockingQueue进了东西才会被唤醒，同样，如果BlockingQueue是满的，任何试图往里存东西的操作也会被阻断进入等待状态，直到BlockingQueue里有空间时才会被唤醒继续操作。</p>
+<ol>
+<li>基础API介绍<ul>
+<li>往队列中加元素的方法<ul>
+<li>add(E) : 非阻塞方法， 把元素加到BlockingQueue里，如果BlockingQueue可以容纳，则返回true，否则抛出异常。</li>
+<li>offer(E) : 非阻塞， 表示如果可能的话，将元素加到BlockingQueue里，即如果BlockingQueue可以容纳，则返回true，否则返回false。</li>
+<li>put(E)：阻塞方法， 把元素加到BlockingQueue里，如果BlockingQueue没有空间，则调用此方法的线程被阻断直到BlockingQueue里有空间再继续。</li>
+</ul>
+</li>
+<li>从队列中取元素的方法<ul>
+<li>poll(time)： 阻塞方法，取走BlockingQueue里排在首位的元素，若不能立即取出，则可以等time参数规定的时间，取不到时返回null。</li>
+<li>take()：取走BlockingQueue里排在首位的对象，若BlockingQueue为空，阻断进入等待状态直到BlockingQueue有新的对象被加入为止。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>子类介绍<ul>
+<li><code>ArrayBlockingQueue(有界队列)</code>： FIFO 队列，规定大小的BlockingQueue，其构造函数必须带一个int参数来指明其大小</li>
+<li><code>LinkedBlockingQueue(无界队列)</code>：FIFO 队列，大小不定的BlockingQueue，若其构造函数带一个规定大小的参数，生成的BlockingQueue有大小限制，若不带大小参数，所生成的BlockingQueue的大小由Integer.MAX_VALUE来决定。</li>
+<li><code>PriorityBlockingQueue</code>：优先级队列， 类似于LinkedBlockingQueue，但队列中元素非 FIFO， 依据对象的自然排序顺序或者是构造函数所带的Comparator决定的顺序</li>
+<li><code>SynchronousQueue(直接提交策略)</code>: 交替队列，<code>队列中操作时必须是先放进去，接着取出来</code>，交替着去处理元素的添加和移除，这是一个很有意思的阻塞队列，其中每个插入操作必须等待另一个线程的移除操作，同样任何一个移除操作都等待另一个线程的插入操作。因此此队列内部其 实没有任何一个元素，或者说容量是0，严格说并不是一种容器。由于队列没有容量，因此不能调用peek操作，因为只有移除元素时才有元素。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+  
+	</div>
+	
+  <!-- css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+
+      <!-- http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif
+           因为本 hexo 生成的博客所用的 theme 的 a:hover 带动画效果，
+         为了在让打赏按钮显示效果正常 而 添加了以下几行 css，
+         嵌入其它博客时不一定要它们。 -->
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+      <!-- /让打赏按钮的效果显示正常 而 添加的几行 css 到此结束 -->
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+    <!-- Donate Module -->
+    <div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      打赏我的人，运气都不会太差~
+    </span>
+      
+    
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+    
+  <div id="donate_guide" class="donate_bar center hidden">
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      
+      <div width="100%" align="center"><div name="dashmain" id="dash-main-id-87895f" class="dash-main-3 87895f-0.99"></div></div>
+    <script type="text/javascript" charset="utf-8" src="http://www.dashangcloud.com/static/ds.js"></script>
+    
+
+    <a href="http://i.imgur.com/EhvkeWS.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+      <img src="http://i.imgur.com/EhvkeWS.png" title="微信打赏 Donate" height="190px" width="auto"/>
+    </a>
+        
+          
+
+    <a href="http://i.imgur.com/FhK6Sph.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+      <img src="http://i.imgur.com/FhK6Sph.png" title="支付宝打赏 Donate" height="190px" width="auto"/>
+    </a>
+
+    <span class="donate_txt">
+      打赏我的人，运气都不会太差~
+    </span>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className = 'hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+   
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/线程池/">线程池</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zilianliuxue.github.io/2016/08/26/Android的线程和线程池/" data-title="Android的线程和线程池 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/08/26/Window与WindowManager/"  title="window和windowManager">
+ <strong>下一篇：</strong><br/> 
+ <span>window和windowManager
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/08/26/Android的线程和线程池/" data-title="Android的线程和线程池" data-url="http://zilianliuxue.github.io/2016/08/26/Android的线程和线程池/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#主线程和子线程"><span class="toc-number">1.</span> <span class="toc-text">主线程和子线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android中的线程形态"><span class="toc-number">2.</span> <span class="toc-text">Android中的线程形态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AsyncTask"><span class="toc-number">2.1.</span> <span class="toc-text">AsyncTask</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意事项："><span class="toc-number">2.1.1.</span> <span class="toc-text">注意事项：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HandlerThread"><span class="toc-number">2.2.</span> <span class="toc-text">HandlerThread</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IntentService"><span class="toc-number">2.3.</span> <span class="toc-text">IntentService</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android中的线程池"><span class="toc-number">3.</span> <span class="toc-text">Android中的线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#线程池的优点："><span class="toc-number">3.0.1.</span> <span class="toc-text">线程池的优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程运行机制"><span class="toc-number">3.0.2.</span> <span class="toc-text">线程运行机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程池的作用"><span class="toc-number">3.0.3.</span> <span class="toc-text">线程池的作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程池涉及的类"><span class="toc-number">3.0.4.</span> <span class="toc-text">线程池涉及的类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Executors介绍（把握使用，把握常见线程池）"><span class="toc-number">3.1.</span> <span class="toc-text">Executors介绍（把握使用，把握常见线程池）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ThreadPoolExecutor介绍"><span class="toc-number">3.1.1.</span> <span class="toc-text">ThreadPoolExecutor介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#构造相关参数解释"><span class="toc-number">3.1.2.</span> <span class="toc-text">构造相关参数解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基础API的介绍"><span class="toc-number">3.1.3.</span> <span class="toc-text">基础API的介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#任务提交给线程池之后的处理策略"><span class="toc-number">3.1.4.</span> <span class="toc-text">任务提交给线程池之后的处理策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#任务提交给线程池之后的处理策略-比喻"><span class="toc-number">3.1.5.</span> <span class="toc-text">任务提交给线程池之后的处理策略_比喻</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#阻塞队列的介绍（BlockingQueue）"><span class="toc-number">3.2.</span> <span class="toc-text">阻塞队列的介绍（BlockingQueue）</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="zilianliuxue" data-width="220" data-height="88" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="android">android<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/线程池/" title="线程池">线程池<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BroadcastReceiver/" title="BroadcastReceiver">BroadcastReceiver<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/window/" title="window">window<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/快速开发/" title="快速开发">快速开发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jni-ndk/" title="jni ndk">jni ndk<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/" target="_blank" title="一个面向程序员交流分享的新一代社区">jianshu</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/u013278099" target="_blank" title="Losileeya CSDN">Losileeya CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.trinea.cn/" target="_blank" title="trinea">trinea</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.daimajia.com/" target="_blank" title="daimajia">daimajia</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.lcode.org/" target="_blank" title="江清清的技术专栏">江清清的技术专栏</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://www.aswifter.com/" target="_blank" title="阳春面的博客">阳春面的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/BroadcastReceiver/" style="font-size: 10px;">BroadcastReceiver</a> <a href="/tags/ContentProvider/" style="font-size: 10px;">ContentProvider</a> <a href="/tags/EventBus3/" style="font-size: 10px;">EventBus3</a> <a href="/tags/Service/" style="font-size: 10px;">Service</a> <a href="/tags/activity/" style="font-size: 10px;">activity</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jacman/" style="font-size: 10px;">jacman</a> <a href="/tags/jni-ndk/" style="font-size: 10px;">jni ndk</a> <a href="/tags/view事件机制/" style="font-size: 10px;">view事件机制</a> <a href="/tags/window/" style="font-size: 10px;">window</a> <a href="/tags/快速开发/" style="font-size: 10px;">快速开发</a> <a href="/tags/线程池/" style="font-size: 20px;">线程池</a>
+    </div>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3290293743&verifier=20a2ffb1&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Losileeya . <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3290293743" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zilianliuxue" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:847457332@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Losileeya">Losileeya</a>
+		
+		
+		</p>
+		<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','R4yoD_akDbrgyYA8-p3S','2.0.0');
+</script>
+	<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>	
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zilianliuxue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260017595'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1260017595%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

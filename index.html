@@ -87,6 +87,123 @@
   
 <section class="post" itemscope itemprop="blogitem">
   
+    <a href="/2016/08/26/Android的线程和线程池/" title="Android的线程和线程池" itemprop="url">
+  
+    <h1 itemprop="name">Android的线程和线程池</h1>
+    
+     
+           <p itemprop="description" >在操作系统中，线程是操作系统调度的最小单元，当系统中存在大量线程时，系统会通过时间片轮转的方式调度每个线程，当进程中频繁的创建和销毁线程的时候应该采用线程池，线程池会缓存一定数量的线程，避免频繁创建和销毁线程带来的系统开销。
+
+主线程和子线程(1) 在Java中默认情况下一个进程</p>
+        
+    
+    <time datetime="2016-08-26T06:35:26.963Z" itemprop="datePublished">2016-08-26</time>
+  </a>
+</section>
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/08/26/Window与WindowManager/" title="window和windowManager" itemprop="url">
+  
+    <h1 itemprop="name">window和windowManager</h1>
+    
+     
+           <p itemprop="description" >Window是一个窗口的概念，是一个抽象类，具体实现是PhoneWindow。通过WindowManager来创建Window。Window的具体实现位于WindowManagerService，WindowsManager和WindowMannagerService的交互是一个</p>
+        
+    
+    <time datetime="2016-08-26T06:33:56.362Z" itemprop="datePublished">2016-08-26</time>
+  </a>
+</section>
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/08/26/ContentProvider的工作过程/" title="ContentProvider的工作过程" itemprop="url">
+  
+    <h1 itemprop="name">ContentProvider的工作过程</h1>
+    
+     
+           <p itemprop="description" >ContentProvider是一种内容共享性组件，它通过Binder向其他组件乃至其他应用提供数据。
+
+首先来看一下流程图：
+
+一个应用的入口方法为ActivityThread的main方法，该方法是一个静态方法，在main方法中会创建ActivityThread的实例并创建主</p>
+        
+    
+    <time datetime="2016-08-26T06:33:12.568Z" itemprop="datePublished">2016-08-26</time>
+  </a>
+</section>
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/08/26/BroadcastReceiver的工作过程/" title="BroadcastReceiver 的工作过程" itemprop="url">
+  
+    <h1 itemprop="name">BroadcastReceiver 的工作过程</h1>
+    
+     
+           <p itemprop="description" >本文将介绍BroadcastReceiver的工作过程,主要包含两个方面的内容，一个是广播的注册过程，一个是广播的发送和接受过程。
+
+广播的注册过程首先看下流程图：
+
+广播注册分为静态和动态注册，静态注册是由PMS（PackageManagerService）来实现的，除了广播其</p>
+        
+    
+    <time datetime="2016-08-26T06:31:57.830Z" itemprop="datePublished">2016-08-26</time>
+  </a>
+</section>
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/08/26/Service的工作过程/" title="Service 的工作过程" itemprop="url">
+  
+    <h1 itemprop="name">Service 的工作过程</h1>
+    
+     
+           <p itemprop="description" >12本文将介绍Service的工作过程,通过本文分析,你将会对Service的一些工作原理有更进一步的认识比如Service的启动过程和绑定过程.
+Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的</p>
+        
+    
+    <time datetime="2016-08-26T06:30:49.319Z" itemprop="datePublished">2016-08-26</time>
+  </a>
+</section>
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/08/26/Activity的工作过程/" title="Activity 的工作过程" itemprop="url">
+  
+    <h1 itemprop="name">Activity 的工作过程</h1>
+    
+     
+           <p itemprop="description" >Activity对于开发者来说最普通不过了,但是你有没有想过当我们看到一个Activity的之后系统内部到底是如何启动一个Activity的呢?比如新Activity对象是何时创建的?Activity的onCreate方法又是在何时被系统回调的呢?
+
+首先来看一下流程图:
+
+从A</p>
+        
+    
+    <time datetime="2016-08-26T06:29:04.100Z" itemprop="datePublished">2016-08-26</time>
+  </a>
+</section>
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
     <a href="/2016/08/25/java线程池/" title="java 线程池" itemprop="url">
   
     <h1 itemprop="name">java 线程池</h1>
@@ -254,7 +371,7 @@ Android View事件机制1.View的坐标参数 主要有哪些？分别有什么�
 		<ul>
 		
 		  
-			<li><a href="/categories/android/" title="android">android<sup>4</sup></a></li>
+			<li><a href="/categories/android/" title="android">android<sup>10</sup></a></li>
 		  
 		
 		  
@@ -281,19 +398,7 @@ Android View事件机制1.View的坐标参数 主要有哪些？分别有什么�
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/线程池/" title="线程池">线程池<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+				<li><a href="/tags/线程池/" title="线程池">线程池<sup>3</sup></a></li>
 			
 		
 			
@@ -301,7 +406,39 @@ Android View事件机制1.View的坐标参数 主要有哪些？分别有什么�
 			
 		
 			
+				<li><a href="/tags/BroadcastReceiver/" title="BroadcastReceiver">BroadcastReceiver<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/window/" title="window">window<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/快速开发/" title="快速开发">快速开发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
 			
 		
 			
@@ -359,7 +496,7 @@ Android View事件机制1.View的坐标参数 主要有哪些？分别有什么�
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/EventBus3/" style="font-size: 10px;">EventBus3</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jacman/" style="font-size: 10px;">jacman</a> <a href="/tags/jni-ndk/" style="font-size: 10px;">jni ndk</a> <a href="/tags/view事件机制/" style="font-size: 10px;">view事件机制</a> <a href="/tags/快速开发/" style="font-size: 10px;">快速开发</a> <a href="/tags/线程池/" style="font-size: 20px;">线程池</a>
+       <a href="/tags/BroadcastReceiver/" style="font-size: 10px;">BroadcastReceiver</a> <a href="/tags/ContentProvider/" style="font-size: 10px;">ContentProvider</a> <a href="/tags/EventBus3/" style="font-size: 10px;">EventBus3</a> <a href="/tags/Service/" style="font-size: 10px;">Service</a> <a href="/tags/activity/" style="font-size: 10px;">activity</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jacman/" style="font-size: 10px;">jacman</a> <a href="/tags/jni-ndk/" style="font-size: 10px;">jni ndk</a> <a href="/tags/view事件机制/" style="font-size: 10px;">view事件机制</a> <a href="/tags/window/" style="font-size: 10px;">window</a> <a href="/tags/快速开发/" style="font-size: 10px;">快速开发</a> <a href="/tags/线程池/" style="font-size: 20px;">线程池</a>
     </div>
   </div>
 

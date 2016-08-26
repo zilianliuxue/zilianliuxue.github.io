@@ -4,50 +4,35 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Java-Android并发编程引气入门篇 | ♀紫☆恋&amp;流★雪♂</title>
+    <title>Service 的工作过程 | ♀紫☆恋&amp;流★雪♂</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Losileeya">
     
 
     
-    <meta name="description" content="转自Abner_泥阿布
-Android的并发编程，即多线程开发，而Android的多线程开发模型也是源于Java中的多线程模型。所以本篇也会先讲一些Java中的多线程理念，再讲解具体涉及的类，最后深入Android中的并发场景和实践。
-并发什么是并发举个很简单的栗子，当你一边在撸撸撸，一边在看小视频，同时在做两件事，这就是并发。
-咳，年轻人节制啊。
-并发的好处
-提高资源利用率
-当一个任务并没有完全">
+    <meta name="description" content="12本文将介绍Service的工作过程,通过本文分析,你将会对Service的一些工作原理有更进一步的认识比如Service的启动过程和绑定过程.
+Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的.Service的启动过程启动过程流程图
+
+Service的启动过程从ContextWrapper的startServi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java-Android并发编程引气入门篇">
-<meta property="og:url" content="http://zilianliuxue.github.io/2016/08/25/Java-Android并发编程引气入门篇/index.html">
+<meta property="og:title" content="Service 的工作过程">
+<meta property="og:url" content="http://zilianliuxue.github.io/2016/08/26/Service的工作过程/index.html">
 <meta property="og:site_name" content="♀紫☆恋&流★雪♂">
-<meta property="og:description" content="转自Abner_泥阿布
-Android的并发编程，即多线程开发，而Android的多线程开发模型也是源于Java中的多线程模型。所以本篇也会先讲一些Java中的多线程理念，再讲解具体涉及的类，最后深入Android中的并发场景和实践。
-并发什么是并发举个很简单的栗子，当你一边在撸撸撸，一边在看小视频，同时在做两件事，这就是并发。
-咳，年轻人节制啊。
-并发的好处
-提高资源利用率
-当一个任务并没有完全">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/%E5%A4%9A%E7%BA%BF%E7%A8%8B.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/runnable.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/Thread.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/threadRun.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/threadStart.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/concurrent.png">
-<meta property="og:image" content="http://abner-nimengbo.cn/images/BlockingQueue.png">
-<meta property="og:image" content="http://i.imgur.com/txrnQN4.png">
-<meta property="og:updated_time" content="2016-08-25T13:34:31.158Z">
+<meta property="og:description" content="12本文将介绍Service的工作过程,通过本文分析,你将会对Service的一些工作原理有更进一步的认识比如Service的启动过程和绑定过程.
+Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的.Service的启动过程启动过程流程图
+
+Service的启动过程从ContextWrapper的startServi">
+<meta property="og:image" content="https://imuhao.github.io/image/androidart_service1.png">
+<meta property="og:image" content="https://imuhao.github.io/image/androidart_service2.png">
+<meta property="og:updated_time" content="2016-08-26T06:41:29.728Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java-Android并发编程引气入门篇">
-<meta name="twitter:description" content="转自Abner_泥阿布
-Android的并发编程，即多线程开发，而Android的多线程开发模型也是源于Java中的多线程模型。所以本篇也会先讲一些Java中的多线程理念，再讲解具体涉及的类，最后深入Android中的并发场景和实践。
-并发什么是并发举个很简单的栗子，当你一边在撸撸撸，一边在看小视频，同时在做两件事，这就是并发。
-咳，年轻人节制啊。
-并发的好处
-提高资源利用率
-当一个任务并没有完全">
-<meta name="twitter:image" content="http://abner-nimengbo.cn/images/%E5%A4%9A%E7%BA%BF%E7%A8%8B.png">
+<meta name="twitter:title" content="Service 的工作过程">
+<meta name="twitter:description" content="12本文将介绍Service的工作过程,通过本文分析,你将会对Service的一些工作原理有更进一步的认识比如Service的启动过程和绑定过程.
+Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的.Service的启动过程启动过程流程图
+
+Service的启动过程从ContextWrapper的startServi">
+<meta name="twitter:image" content="https://imuhao.github.io/image/androidart_service1.png">
 
     
     <link rel="alternative" href="/atom.xml" title="♀紫☆恋&amp;流★雪♂" type="application/atom+xml">
@@ -116,14 +101,14 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/08/25/Java-Android并发编程引气入门篇/" title="Java-Android并发编程引气入门篇" itemprop="url">Java-Android并发编程引气入门篇</a>
+      <a href="/2016/08/26/Service的工作过程/" title="Service 的工作过程" itemprop="url">Service 的工作过程</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-25T08:04:00.000Z" itemprop="datePublished"> 发表于 2016-08-25</time>
+    <time datetime="2016-08-26T06:30:49.319Z" itemprop="datePublished"> 发表于 2016-08-26</time>
    <span id="busuanzi_container_page_pv">
     总阅读<span id="busuanzi_value_page_pv"></span>次
    </span>
@@ -134,107 +119,44 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#并发"><span class="toc-number">1.</span> <span class="toc-text">并发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是并发"><span class="toc-number">2.</span> <span class="toc-text">什么是并发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#并发的风险"><span class="toc-number">3.</span> <span class="toc-text">并发的风险</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程篇"><span class="toc-number">4.</span> <span class="toc-text">线程篇</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程是什么"><span class="toc-number">5.</span> <span class="toc-text">进程是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程与线程的关系"><span class="toc-number">6.</span> <span class="toc-text">进程与线程的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单线程"><span class="toc-number">7.</span> <span class="toc-text">单线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程"><span class="toc-number"></span> <span class="toc-text">多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程并发过程中会遇到的问题"><span class="toc-number"></span> <span class="toc-text">多线程并发过程中会遇到的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程如何去用"><span class="toc-number">1.</span> <span class="toc-text">线程如何去用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的优先级"><span class="toc-number">2.</span> <span class="toc-text">线程的优先级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池"><span class="toc-number"></span> <span class="toc-text">线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#队列"><span class="toc-number">1.</span> <span class="toc-text">队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程安全"><span class="toc-number"></span> <span class="toc-text">线程安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#锁"><span class="toc-number">1.</span> <span class="toc-text">锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#感谢"><span class="toc-number">2.</span> <span class="toc-text">感谢</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Service有两种状态-一种是启动状态-主要用于执行后台计算-另一种是绑定状态-主要用于与其他组件进行交互-这两种状态是可以共存的"><span class="toc-number">1.</span> <span class="toc-text">Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的.</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Service的启动过程"><span class="toc-number"></span> <span class="toc-text">Service的启动过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Service的绑定过程"><span class="toc-number"></span> <span class="toc-text">Service的绑定过程</span></a>
 		
 		</div>
 		
-		<p>转自<a href="http://abner-nimengbo.cn/" target="_blank" rel="external">Abner_泥阿布</a></p>
-<p>Android的并发编程，即多线程开发，而Android的多线程开发模型也是源于Java中的多线程模型。<br>所以本篇也会先讲一些Java中的多线程理念，再讲解具体涉及的类，最后深入Android中的并发场景和实践。</p>
-<h3 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h3><h3 id="什么是并发"><a href="#什么是并发" class="headerlink" title="什么是并发"></a>什么是并发</h3><p>举个很简单的栗子，当你一边在撸撸撸，一边在看小视频，同时在做两件事，这就是并发。</p>
-<p>咳，年轻人节制啊。</p>
-<p>并发的好处</p>
-<p>提高资源利用率</p>
-<p>当一个任务并没有完全占用系统资源，就可以利用并发来提高资源利用率，同时也能更快地完成任务。</p>
-<p>当你的右手在干些什么的时候，左手是不是在没事做呢？那就也用起来呗。<br>(某次聚会，一名骑马的汉子说自己左右互搏(lu)特厉害）。</p>
-<p>在程序任务上更加精简</p>
-<p>就拿上一个栗子来说，左手做什么，右手做什么，任务明确分配好，又能同时进行，既提高了效率，逻辑又清晰。</p>
-<p>更好的响应程序</p>
-<p>这个拿Android客户端举个栗子，上传图片时，当前界面还是正常运转没有卡死，图片也正常上传，既保证了界面被响应，又保证图片可以上传。</p>
-<h3 id="并发的风险"><a href="#并发的风险" class="headerlink" title="并发的风险"></a>并发的风险</h3><p>###　并发的代价</p>
-<p>需要占用更多的资源。<br>设计好一个并发程序并不容易。<br>并发的资源交互问题复杂。<br>并发的隐患</p>
-<p>滥用资源导致系统不稳定<br>结果与预期不符<br>出现BUG难以排查</p>
-<h3 id="线程篇"><a href="#线程篇" class="headerlink" title="线程篇"></a>线程篇</h3><h3 id="进程是什么"><a href="#进程是什么" class="headerlink" title="进程是什么"></a>进程是什么</h3><p>就拿Android中的App来说，一般来说一个app就是一个进程，（除了特殊的手段开启了多个进程，这里不深入这个话题，就是一个一对多的关系）。</p>
-<p>线程是什么</p>
-<p>进程只是一个程序、任务的统称，但是却不能执行任务，真正执行任务的是线程，所以线程是由进程创建的，一个进程可以创建多个线程。</p>
-<p>线程可以调度资源等等，在这里只需要了解大致的概念就好，如果要深入可以学习一下操作系统。</p>
-<h3 id="进程与线程的关系"><a href="#进程与线程的关系" class="headerlink" title="进程与线程的关系"></a>进程与线程的关系</h3><p>人脑就相当于是CPU，想做一件事的时候，这个任务就是一个进程了，需要运用手脚等器官去完成这个任务，而手脚器官就可以理解成一个个线程，去做了不同的事，从而完成任务。</p>
-<h3 id="单线程"><a href="#单线程" class="headerlink" title="单线程"></a>单线程</h3><p>还是用Android举栗子，当你在手机上操作的时候，这个被称之为UI线程（之后会详解）。而一个最基本的app，不需要复杂的功能时，就只有一个UI线程和我们交互，那么这个app就是个单线程的。一般的程序面向用户的线程就是UI线程，也称之为主线程，单线程程序，其实就是只有一个主线程的程序。</p>
-<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><p>多个进程可以算是并发，但是我们所说的并发场景，大部分是在一个进程中的，而并发就是由线程完成的，多个线程同时执行任务，就称之为并发。</p>
-<p>以下为多线程工作示意图：</p>
-<p><img src="http://abner-nimengbo.cn/images/%E5%A4%9A%E7%BA%BF%E7%A8%8B.png" alt=""></p>
-<h2 id="多线程并发过程中会遇到的问题"><a href="#多线程并发过程中会遇到的问题" class="headerlink" title="多线程并发过程中会遇到的问题"></a>多线程并发过程中会遇到的问题</h2><ol>
-<li>资源共享</li>
-</ol>
-<p>A线程要写文件C，B线程也要写文件C，这个时候就好像你拿着两只笔同时往纸上写东西，写出来的是什么自己也不知道。</p>
-<p>这个时候我们需要一个类似于锁的东西，当C被A在写的时候，B不能写，B要等A写完了才能继续写。</p>
-<p>至于这个锁到底是什么会在后面继续讲到。</p>
+		<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">本文将介绍Service的工作过程,通过本文分析,你将会对Service的一些工作原理有更进一步的认识</div><div class="line">比如Service的启动过程和绑定过程.</div></pre></td></tr></table></figure>
+<h3 id="Service有两种状态-一种是启动状态-主要用于执行后台计算-另一种是绑定状态-主要用于与其他组件进行交互-这两种状态是可以共存的"><a href="#Service有两种状态-一种是启动状态-主要用于执行后台计算-另一种是绑定状态-主要用于与其他组件进行交互-这两种状态是可以共存的" class="headerlink" title="Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的."></a>Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的.</h3><h2 id="Service的启动过程"><a href="#Service的启动过程" class="headerlink" title="Service的启动过程"></a>Service的启动过程</h2><p>启动过程流程图</p>
+<p><img src="https://imuhao.github.io/image/androidart_service1.png" alt="img"></p>
+<p>Service的启动过程从ContextWrapper的startService方法开始,如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public ComponentName startService(Intent service) &#123;</div><div class="line">       return mBase.startService(service);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>上面代码中的mBase的类型是ContextImpl,在Activity创建时会通过attach方法将ContextImpl对象关联起来,ContextWrapper的大部分操作都是mBase来实现的,这种模式叫桥接模式.<br>在ContextImpl中,startService方法会调用startServiceCommon方法,而该方法会用过ActivityManagerNative.getDefault()对象来启动一个服务,也就是AMS,在AMS来启动服务的行为是一个远程过程调用,在AMS中会通过mServices这个对象完成后续的启动过程,mService对象 的类型是ActivityService,他是辅助AMS进行Service管理的类.包括启动、绑定、停止等.在它的startServiceLocked方法最后会调用startServiceInnerLocked方法,在该方法中并没有完成具体的启动工作,而是把后续的工作交给了bringUpServiceLocked来处理,在该方法中又调用了realStartServiceLocked方法,通过方法名来看这个方法应该是真正启动一个Service.</p>
+<p>在realStartServiceLocked方法中首先是通过app.thread的scheduleCreateService方法来调用Service的其他方法,比如onStartCommand,这两个过程均是进程通信.</p>
+<p>app.thread是IApplicationThread类型,它实际上是一个Bunder,他的具体实现是ApplicationThread和ApplicationThreadNative,而前者是继承与后者的,所以我们直接看ApplicationThread对Service启动过程的处理即可.这对应着它的scheduleCreateService方法,这个过程和Activity的启动过程是类似的,都是通过发送消息给Handler H来完成Service的最终完成.</p>
+<p>handlerCreateService方法主要做了这几件事</p>
 <ol>
-<li>死锁问题</li>
+<li>首先通过类加载器创建Service的实例</li>
+<li>创建Application对象并调用其onCreate方法.创建过程只会有一次</li>
+<li>创建ConTextImpl对象并通过Service的attach方法建立二者的关系.</li>
+<li>最后调用Service的onCreate方法并将Service对象存储到ActivityThread中的一个列表中.</li>
 </ol>
-<p>死锁的四个条件是：</p>
-<ul>
-<li>禁止抢占：no preemption</li>
-</ul>
-<ul>
-<li>持有和等待：hold and wait</li>
-</ul>
-<ul>
-<li>互斥：mutual exclusion</li>
-</ul>
-<ul>
-<li>循环等待：circular waiting</li>
-</ul>
-<p>预防死锁就是至少破坏这四个条件其中一项，即破坏“禁止抢占”、破坏“持有等待”、破坏“资源互斥”和破坏“循环等待”。</p>
-<p>举个例子：</p>
-<p>A在B那边割包皮，B把A割坏了，A占着B的床位，要B赔钱，B要A让出床位才给钱。双方僵持不下。</p>
-<h3 id="线程如何去用"><a href="#线程如何去用" class="headerlink" title="线程如何去用"></a>线程如何去用</h3><p>在Java中，线程通常就是指Thread这个类，或者实现了Runnable的类，其实Thread这个类也是实现了Runnable接口的，可以看一下Runnable接口的代码：</p>
-<p><img src="http://abner-nimengbo.cn/images/runnable.png" alt=""></p>
-<p>里面就是一个run方法需要被实现。</p>
-<p>再看一下Thread类的声明：</p>
-<p><img src="http://abner-nimengbo.cn/images/Thread.png" alt=""></p>
-<p>确实是一个实现了Runnable的类。</p>
-<p>那么Thread类中拥有start()方法，和run()方法，下面用run()方法直接调用<br>得到信息：</p>
-<p><img src="http://abner-nimengbo.cn/images/threadRun.png" alt=""></p>
-<p>发现其实和外面的线程是在同一个线程上。</p>
-<p>而调用start()方法得到的信息是：</p>
-<p><img src="http://abner-nimengbo.cn/images/threadStart.png" alt=""></p>
-<p>发现线程名不一样了，用start会开启一个新的线程，而run还是在当前线程执行。</p>
-<p>另外在Java1.5之后，还有Callable、Future和FutureTask，在这里就不详细介绍，还有线程的wait、<br>yield、sleep等在下一章会一起详细介绍。</p>
-<h3 id="线程的优先级"><a href="#线程的优先级" class="headerlink" title="线程的优先级"></a>线程的优先级</h3><p>在Java中，线程的优先级有1~10，而默认的是5。1最低，10最高。在Thread类中有三个常量：</p>
-<ul>
-<li>MIN_PRIORITY = 1</li>
-</ul>
-<ul>
-<li>NORM_PRIORITY = 5</li>
-</ul>
-<ul>
-<li>MAX_PRIORITY = 10</li>
-</ul>
-<p>在同一个线程池中的线程优先级是相同的。</p>
-<p>JVM会根据线程的优先级去抢先调度，然而线程的优先级只能保证抢占资源的概率较大，并不能保障线程的执行顺序，所以不能过于依赖设置线程的优先级。</p>
-<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>频繁地创建和销毁线程会导致性能大幅度降低，这肯定不是你希望的。</p>
-<p>线程池的出现，就是为了解决这个问题，根据java中提供不同的线程池机制，有效地提高资源利用率。</p>
-<p>直接在代码中创建Thread、Runnable去start或者run容易出现不可预测的问题，在java1.5开始，引入了java.util.concurrent包，其中有个并发的框架：Executor，使用ExecutorService替代直接操作线程类，而Executors是用来创建线程池的，内部提供了很多静态方法去创建你想要的线程池，不需要你再手动去创建实现。<br>看一下关于Executor中的类和接口的大致的成员与关系：</p>
-<p><img src="http://abner-nimengbo.cn/images/concurrent.png" alt=""></p>
-<p>关于这些类如何使用，以及有什么特性，下一章会作介绍。</p>
-<h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>在java中提到队列肯定会想起Queue,而线程队列用的是BlockingQueue,这是个接口，在concurrent包中有好几个类实现了这个接口。</p>
-<p><img src="http://abner-nimengbo.cn/images/BlockingQueue.png" alt=""></p>
-<p>介绍一下BlockingQueue常用的方法</p>
-<p><img src="http://i.imgur.com/txrnQN4.png" alt=""></p>
-<h2 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h2><h3 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h3><p>在前面讲过死锁，死锁是由于使用不当引起的一种现象，而这里的锁是人工干预的，让并发按照你的意思走。</p>
-<p>在java中的锁有synchonrized、Lock。锁的出现主要是为了解决线程安全问题。</p>
-<p>关于线程的状态会在下一章讲锁的机制时候再讲，因为线程的状态会影响到锁。</p>
-<p>线程安全的集合</p>
-<p>因为多线程访问资源可能会造成数据不一致或者数据污染，而某些集合会用一些锁或者同步机制做了处理。</p>
-<p>线程安全的集合有：HashTable、SynchronizedCollection、ConcurrentHashMap、Vector等。</p>
-<p>线程安不安全的首要前提是在多线程访问同一个对象的情况下。</p>
-<h3 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h3><blockquote>
-<p>《Java并发编程实践》</p>
-<p>《Thinking in Java》</p>
-<p>baoyongzhang(鲍老师)</p>
+<p>到这里Service的启动过程已经分析完了,下面分析Service的绑定过程.</p>
+<h2 id="Service的绑定过程"><a href="#Service的绑定过程" class="headerlink" title="Service的绑定过程"></a>Service的绑定过程</h2><p>绑定流程图<br><img src="https://imuhao.github.io/image/androidart_service2.png" alt="img"><br>和Service启动过程一样,它的绑定过程也是从ContextWrapper开始的,如下所示.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public boolean bindService(Intent service, ServiceConnection conn,</div><div class="line">           int flags) &#123;</div><div class="line">       return mBase.bindService(service, conn, flags);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>mBase同样是ContextImpl类型的对象,mBase的bindService方法最终会调用自己的bindServiceCommon方法</p>
+<p>bindServiceCommon方法主要完成如下两件事:</p>
+<p>首先将客户端的ServiceConnection对象转化为ServiceDispatcher.IServiceConnection对象.之所以不能使用ServiceConnection对象是因为服务的绑定可能是跨进成的,因此ServiceConnection对象必须借助与Binder才能让远程服务端回调自己的方法,而ServiceDispatcher的内部类IServiceConnection刚好充当了Binder这个角色.ServiceConnection起着连接SercviceConnection和InnerConnection的作用,这个过程由LoadedApk的getServiceDispatcher方法来完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public final IServiceConnection getServiceDispatcher(ServiceConnection c,</div><div class="line">        Context context, Handler handler, int flags) &#123;</div><div class="line">    synchronized (mServices) &#123;</div><div class="line">        LoadedApk.ServiceDispatcher sd = null;</div><div class="line">        ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt; map = mServices.get(context);</div><div class="line">        if (map != null) &#123;</div><div class="line">            sd = map.get(c);</div><div class="line">        &#125;</div><div class="line">        if (sd == null) &#123;</div><div class="line">            sd = new ServiceDispatcher(c, context, handler, flags);</div><div class="line">            if (map == null) &#123;</div><div class="line">                map = new ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt;();</div><div class="line">                mServices.put(context, map);</div><div class="line">            &#125;</div><div class="line">            map.put(c, sd);</div><div class="line">        &#125; else &#123;</div><div class="line">            sd.validate(context, handler);</div><div class="line">        &#125;</div><div class="line">        return sd.getIServiceConnection();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在上面的代码中mServices是一个ArrayMap,它存储了一个应用当前活动的ServiceConnection和ServiceDispatcher的映射关系,它的定义如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private final ArrayMap&lt;Context, ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt;&gt; mServices</div></pre></td></tr></table></figure>
+<p>接着bindServiceCommon方法会通过AMS完成Service的具体绑定过程.对应着AMS的binService方法,而该方法在调用bindServiceLocked方法,bindServiceLocked方法又会调用bringUpServiceLocked方法,bringUpServiceLocked又会调用realStartServiceLocked方法,realStartServiceLocked的执行逻辑和启动的逻辑类似,都是通过ApplicationThread来完成Service的创建并执行onCreate方法</p>
+<p>和启动Service不同的是,Service的绑定过程会调用app.thread的scheduleBindService方法,这个过程的实现在ActivityService的requestServiceBindingLocked方法,在该方法中调用了app.thread的scheduleBindService方法,他的内部都是通过Handler H中转的.</p>
+<p>在H内部接收到BIND_SERVICE这类消息时,会交给ActivityThread’的handleBind-Service方法来处理.在该方法中会根据Service的token取出Service对象,然后调用onBind方法.onBind方法会返回一个Binder对象给客户端使用.原则上此时已经属于绑定状态了,但是onBind方法是Service的方法,这个时候客户端并不知道已经成功连接了,所以还必须调用客户端的ServiceConnection中的onServiceConected,这个过程由ActivityManagerNative.getDefault()的publishService方法来完成的.他其实就是AMS.</p>
+<p>而AMS的publishService方法将具体的工作交给了ActivityServices类型的mServices对象来处理.在ActiveServices的publishServiceLocked方法核心代码只有一句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">c.conn.connected(r.name, service);</div></pre></td></tr></table></figure>
+<p>其中c的类型是ConnectionRecore.c.conn的类型是ServiceDispatcherInnerConnection.service就是Service的onBind方法返回的Binder对象. 从InnerConection的定义可以看出他的connected方法又调用了ServiceDispatcher的connected方法.</p>
+<p>对于Service的绑定过程来说,ServiceDisptcher的mActivityThread是一个Handler,他就是ActivityThread中的H,这样一来RunConnection就可以经过H的post方法从而运行在主线程中,因此客户端ServiceConnection中的方法是在主线程中回调的.</p>
+<p>客户端的onServiceConnected方法执行完毕之后,Service的绑定过程也就分析完成了.</p>
 <hr>
 <p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
-</blockquote>
   
 	</div>
 	
@@ -348,13 +270,13 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/java/">java</a>
+  <a class="article-category-link" href="/categories/android/">android</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/线程池/">线程池</a>
+  <span></span> <a href="/tags/Service/">Service</a>
   </div>
 
 </div>
@@ -363,7 +285,7 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zilianliuxue.github.io/2016/08/25/Java-Android并发编程引气入门篇/" data-title="Java-Android并发编程引气入门篇 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  <div data-url="http://zilianliuxue.github.io/2016/08/26/Service的工作过程/" data-title="Service 的工作过程 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -377,18 +299,18 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/08/25/java线程池/" title="java 线程池">
+ <a href="/2016/08/26/BroadcastReceiver的工作过程/" title="BroadcastReceiver 的工作过程">
   <strong>上一篇：</strong><br/>
   <span>
-  java 线程池</span>
+  BroadcastReceiver 的工作过程</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/08/23/View事件机制21问21答/"  title="view事件机制21问21答">
+<a href="/2016/08/26/Activity的工作过程/"  title="Activity 的工作过程">
  <strong>下一篇：</strong><br/> 
- <span>view事件机制21问21答
+ <span>Activity 的工作过程
 </span>
 </a>
 </div>
@@ -397,7 +319,7 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/08/25/Java-Android并发编程引气入门篇/" data-title="Java-Android并发编程引气入门篇" data-url="http://zilianliuxue.github.io/2016/08/25/Java-Android并发编程引气入门篇/"></div>
+	<div class="ds-thread" data-thread-key="2016/08/26/Service的工作过程/" data-title="Service 的工作过程" data-url="http://zilianliuxue.github.io/2016/08/26/Service的工作过程/"></div>
 </section>
 
 
@@ -407,7 +329,7 @@ Android的并发编程，即多线程开发，而Android的多线程开发模型
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#并发"><span class="toc-number">1.</span> <span class="toc-text">并发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是并发"><span class="toc-number">2.</span> <span class="toc-text">什么是并发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#并发的风险"><span class="toc-number">3.</span> <span class="toc-text">并发的风险</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程篇"><span class="toc-number">4.</span> <span class="toc-text">线程篇</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程是什么"><span class="toc-number">5.</span> <span class="toc-text">进程是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程与线程的关系"><span class="toc-number">6.</span> <span class="toc-text">进程与线程的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单线程"><span class="toc-number">7.</span> <span class="toc-text">单线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程"><span class="toc-number"></span> <span class="toc-text">多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程并发过程中会遇到的问题"><span class="toc-number"></span> <span class="toc-text">多线程并发过程中会遇到的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程如何去用"><span class="toc-number">1.</span> <span class="toc-text">线程如何去用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的优先级"><span class="toc-number">2.</span> <span class="toc-text">线程的优先级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池"><span class="toc-number"></span> <span class="toc-text">线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#队列"><span class="toc-number">1.</span> <span class="toc-text">队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程安全"><span class="toc-number"></span> <span class="toc-text">线程安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#锁"><span class="toc-number">1.</span> <span class="toc-text">锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#感谢"><span class="toc-number">2.</span> <span class="toc-text">感谢</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Service有两种状态-一种是启动状态-主要用于执行后台计算-另一种是绑定状态-主要用于与其他组件进行交互-这两种状态是可以共存的"><span class="toc-number">1.</span> <span class="toc-text">Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的.</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Service的启动过程"><span class="toc-number"></span> <span class="toc-text">Service的启动过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Service的绑定过程"><span class="toc-number"></span> <span class="toc-text">Service的绑定过程</span></a>
  
   </div>
 
