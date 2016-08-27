@@ -18,7 +18,7 @@
 一个应用的入口方法为ActivityThread的main方法，该方法是一个静态方法，在main方法中会创建ActivityThread的实例并创建主线程的消息队列，然后在ActivityThread的attach方法中会远程调用AMS的attachApplicati">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ContentProvider的工作过程">
-<meta property="og:url" content="http://zilianliuxue.github.io/2016/08/26/ContentProvider的工作过程/index.html">
+<meta property="og:url" content="http://zilianliuxue.github.io/2016/05/28/ContentProvider的工作过程/index.html">
 <meta property="og:site_name" content="♀紫☆恋&流★雪♂">
 <meta property="og:description" content="ContentProvider是一种内容共享性组件，它通过Binder向其他组件乃至其他应用提供数据。
 
@@ -26,7 +26,7 @@
 
 一个应用的入口方法为ActivityThread的main方法，该方法是一个静态方法，在main方法中会创建ActivityThread的实例并创建主线程的消息队列，然后在ActivityThread的attach方法中会远程调用AMS的attachApplicati">
 <meta property="og:image" content="https://imuhao.github.io/image/androidart_contentprovider.png">
-<meta property="og:updated_time" content="2016-08-26T06:38:38.456Z">
+<meta property="og:updated_time" content="2016-08-27T03:30:51.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ContentProvider的工作过程">
 <meta name="twitter:description" content="ContentProvider是一种内容共享性组件，它通过Binder向其他组件乃至其他应用提供数据。
@@ -103,14 +103,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/08/26/ContentProvider的工作过程/" title="ContentProvider的工作过程" itemprop="url">ContentProvider的工作过程</a>
+      <a href="/2016/05/28/ContentProvider的工作过程/" title="ContentProvider的工作过程" itemprop="url">ContentProvider的工作过程</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-26T06:33:12.568Z" itemprop="datePublished"> 发表于 2016-08-26</time>
+    <time datetime="2016-05-28T13:12:00.000Z" itemprop="datePublished"> 发表于 2016-05-28</time>
    <span id="busuanzi_container_page_pv">
     总阅读<span id="busuanzi_value_page_pv"></span>次
    </span>
@@ -288,7 +288,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zilianliuxue.github.io/2016/08/26/ContentProvider的工作过程/" data-title="ContentProvider的工作过程 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  <div data-url="http://zilianliuxue.github.io/2016/05/28/ContentProvider的工作过程/" data-title="ContentProvider的工作过程 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -302,18 +302,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/08/26/Window与WindowManager/" title="window和windowManager">
+ <a href="/2016/08/06/安卓实战开发之JNI再深入了解/" title="安卓实战开发之JNI再深入了解">
   <strong>上一篇：</strong><br/>
   <span>
-  window和windowManager</span>
+  安卓实战开发之JNI再深入了解</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/08/26/BroadcastReceiver的工作过程/"  title="BroadcastReceiver 的工作过程">
+<a href="/2016/05/23/安卓实战之如何快速搭建app架构/"  title="安卓实战之如何快速搭建app架构">
  <strong>下一篇：</strong><br/> 
- <span>BroadcastReceiver 的工作过程
+ <span>安卓实战之如何快速搭建app架构
 </span>
 </a>
 </div>
@@ -322,7 +322,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/08/26/ContentProvider的工作过程/" data-title="ContentProvider的工作过程" data-url="http://zilianliuxue.github.io/2016/08/26/ContentProvider的工作过程/"></div>
+	<div class="ds-thread" data-thread-key="2016/05/28/ContentProvider的工作过程/" data-title="ContentProvider的工作过程" data-url="http://zilianliuxue.github.io/2016/05/28/ContentProvider的工作过程/"></div>
 </section>
 
 
@@ -387,23 +387,7 @@
 			
 		
 			
-				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
+				<li><a href="/tags/window/" title="window">window<sup>1</sup></a></li>
 			
 		
 			
@@ -411,15 +395,31 @@
 			
 		
 			
-				<li><a href="/tags/window/" title="window">window<sup>1</sup></a></li>
+				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
 			
 		
 			

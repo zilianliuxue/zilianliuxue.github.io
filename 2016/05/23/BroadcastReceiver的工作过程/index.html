@@ -18,7 +18,7 @@
 广播注册分为静态和动态注册，静态注册是由PMS（PackageManagerService）来实现的，除了广播其他三大组建都是应用安装时由PMS解析并注册的。这里只分析广播的动态注册，动态注册过程是从ContextWrapper的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BroadcastReceiver 的工作过程">
-<meta property="og:url" content="http://zilianliuxue.github.io/2016/08/26/BroadcastReceiver的工作过程/index.html">
+<meta property="og:url" content="http://zilianliuxue.github.io/2016/05/23/BroadcastReceiver的工作过程/index.html">
 <meta property="og:site_name" content="♀紫☆恋&流★雪♂">
 <meta property="og:description" content="本文将介绍BroadcastReceiver的工作过程,主要包含两个方面的内容，一个是广播的注册过程，一个是广播的发送和接受过程。
 
@@ -27,7 +27,7 @@
 广播注册分为静态和动态注册，静态注册是由PMS（PackageManagerService）来实现的，除了广播其他三大组建都是应用安装时由PMS解析并注册的。这里只分析广播的动态注册，动态注册过程是从ContextWrapper的">
 <meta property="og:image" content="https://imuhao.github.io/image/androidart_broadcastreceiver1.png">
 <meta property="og:image" content="https://imuhao.github.io/image/androidart_broadcastreceiver2.png">
-<meta property="og:updated_time" content="2016-08-26T06:42:16.251Z">
+<meta property="og:updated_time" content="2016-08-27T03:30:13.958Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BroadcastReceiver 的工作过程">
 <meta name="twitter:description" content="本文将介绍BroadcastReceiver的工作过程,主要包含两个方面的内容，一个是广播的注册过程，一个是广播的发送和接受过程。
@@ -104,14 +104,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/08/26/BroadcastReceiver的工作过程/" title="BroadcastReceiver 的工作过程" itemprop="url">BroadcastReceiver 的工作过程</a>
+      <a href="/2016/05/23/BroadcastReceiver的工作过程/" title="BroadcastReceiver 的工作过程" itemprop="url">BroadcastReceiver 的工作过程</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-26T06:31:57.830Z" itemprop="datePublished"> 发表于 2016-08-26</time>
+    <time datetime="2016-05-23T01:56:00.000Z" itemprop="datePublished"> 发表于 2016-05-23</time>
    <span id="busuanzi_container_page_pv">
     总阅读<span id="busuanzi_value_page_pv"></span>次
    </span>
@@ -308,7 +308,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zilianliuxue.github.io/2016/08/26/BroadcastReceiver的工作过程/" data-title="BroadcastReceiver 的工作过程 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  <div data-url="http://zilianliuxue.github.io/2016/05/23/BroadcastReceiver的工作过程/" data-title="BroadcastReceiver 的工作过程 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -322,16 +322,16 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/08/26/ContentProvider的工作过程/" title="ContentProvider的工作过程">
+ <a href="/2016/05/23/安卓实战之如何快速搭建app架构/" title="安卓实战之如何快速搭建app架构">
   <strong>上一篇：</strong><br/>
   <span>
-  ContentProvider的工作过程</span>
+  安卓实战之如何快速搭建app架构</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/08/26/Service的工作过程/"  title="Service 的工作过程">
+<a href="/2016/05/20/Service的工作过程/"  title="Service 的工作过程">
  <strong>下一篇：</strong><br/> 
  <span>Service 的工作过程
 </span>
@@ -342,7 +342,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/08/26/BroadcastReceiver的工作过程/" data-title="BroadcastReceiver 的工作过程" data-url="http://zilianliuxue.github.io/2016/08/26/BroadcastReceiver的工作过程/"></div>
+	<div class="ds-thread" data-thread-key="2016/05/23/BroadcastReceiver的工作过程/" data-title="BroadcastReceiver 的工作过程" data-url="http://zilianliuxue.github.io/2016/05/23/BroadcastReceiver的工作过程/"></div>
 </section>
 
 
@@ -407,23 +407,7 @@
 			
 		
 			
-				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
+				<li><a href="/tags/window/" title="window">window<sup>1</sup></a></li>
 			
 		
 			
@@ -431,15 +415,31 @@
 			
 		
 			
-				<li><a href="/tags/window/" title="window">window<sup>1</sup></a></li>
+				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
 			
 		
 			
