@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zilianliuxue.github.io/"/>
-  <updated>2016-08-27T03:09:50.211Z</updated>
+  <updated>2016-08-27T03:17:59.175Z</updated>
   <id>http://zilianliuxue.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://zilianliuxue.github.io/2016/08/26/Android%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
     <id>http://zilianliuxue.github.io/2016/08/26/Android的线程和线程池/</id>
     <published>2016-08-26T06:35:26.963Z</published>
-    <updated>2016-08-27T03:09:50.211Z</updated>
+    <updated>2016-08-27T03:17:59.175Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>在操作系统中，线程是操作系统调度的最小单元，当系统中存在大量线程时，系统会通过时间片轮转的方式调度每个线程，当进程中频繁的创建和销毁线程的时候应该采用线程池，线程池会缓存一定数量的线程，避免频繁创建和销毁线程带来的系统开销。</p>
@@ -123,14 +123,6 @@
 <li>如果当前线程池中的线程数目达到maximumPoolSize，则会采取任务拒绝策略进行处理；</li>
 <li>如果线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止，直至线程池中的线程数目不大于corePoolSize；如果允许为核心池中的线程设置存活时间，那么核心池中的线程空闲时间超过keepAliveTime，线程也会被终止。</li>
 </ol>
-<h4 id="任务提交给线程池之后的处理策略-比喻"><a href="#任务提交给线程池之后的处理策略-比喻" class="headerlink" title="任务提交给线程池之后的处理策略_比喻"></a>任务提交给线程池之后的处理策略_比喻</h4><blockquote>
-<p>假如有一个工厂，工厂里面有10(<code>corePoolSize</code>)个工人，每个工人同时只能做一件任务。</p>
-<p>因此只要当10个工人中有工人是空闲的，<code>来了任务就分配</code>给空闲的工人做；</p>
-<p>当10个工人都有任务在做时，如果还来了任务，就把任务进行排队等待(<code>任务队列</code>)；</p>
-<p>如果说新任务数目增长的速度远远大于工人做任务的速度，那么此时工厂主管可能会想补救措施，比如重新招4个临时工人(<code>创建新线程</code>)进来；然后就将任务也分配给这4个临时工人做；</p>
-<p>如果说着14个工人做任务的速度还是不够，此时工厂主管可能就要考虑不再接收新的任务或者抛弃前面的一些任务了(<code>拒绝执行</code>)。</p>
-<p>当这14个工人当中有人空闲时，而且空闲超过一定时间(<code>空闲时间</code>)，新任务增长的速度又比较缓慢，工厂主管可能就考虑辞掉4个临时工了，只保持原来的10个工人，毕竟请额外的工人是要花钱的</p>
-</blockquote>
 <h3 id="阻塞队列的介绍（BlockingQueue）"><a href="#阻塞队列的介绍（BlockingQueue）" class="headerlink" title="阻塞队列的介绍（BlockingQueue）"></a>阻塞队列的介绍（BlockingQueue）</h3><p>阻塞队列，如果BlockingQueue是空的，从BlockingQueue取东西的操作将会被阻断进入等待状态，直到BlockingQueue进了东西才会被唤醒，同样，如果BlockingQueue是满的，任何试图往里存东西的操作也会被阻断进入等待状态，直到BlockingQueue里有空间时才会被唤醒继续操作。</p>
 <ol>
 <li>基础API介绍<ul>
