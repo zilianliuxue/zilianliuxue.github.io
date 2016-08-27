@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zilianliuxue.github.io/"/>
-  <updated>2016-08-26T06:39:46.084Z</updated>
+  <updated>2016-08-27T03:09:50.211Z</updated>
   <id>http://zilianliuxue.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://zilianliuxue.github.io/2016/08/26/Android%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
     <id>http://zilianliuxue.github.io/2016/08/26/Android的线程和线程池/</id>
     <published>2016-08-26T06:35:26.963Z</published>
-    <updated>2016-08-26T06:39:46.084Z</updated>
+    <updated>2016-08-27T03:09:50.211Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>在操作系统中，线程是操作系统调度的最小单元，当系统中存在大量线程时，系统会通过时间片轮转的方式调度每个线程，当进程中频繁的创建和销毁线程的时候应该采用线程池，线程池会缓存一定数量的线程，避免频繁创建和销毁线程带来的系统开销。</p>
@@ -31,7 +31,7 @@
 <h2 id="Android中的线程形态"><a href="#Android中的线程形态" class="headerlink" title="Android中的线程形态"></a>Android中的线程形态</h2><h3 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h3><p>AsyncTask是一个抽象泛型类，它提供了Params、Progress、Result三个泛型参数，如果task确实不需要传递具体的参数，那么都可以设置为Void。下面是它的四个核心方法，其中doInBackground不是在主线程执行的。<br>onPreExecute、doInBackground、onProgressUpdate、onPostResult</p>
 <h4 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h4><ul>
 <li>AsyncTask必须在主线程中加载</li>
-<li>必须在诛仙城中创建</li>
+<li>必须在主线程中创建</li>
 <li>execute必须在UI线程调用</li>
 <li>一个AsyncTask对象只能执行一次，即只能调用一次execute方法</li>
 <li>在Android1.6的时候线程池是并行任务，在Android3.0为了避免并发错误采用串行执行任务。但是我们仍然可以用过executeOnExecutor方法并行执行任务。</li>
