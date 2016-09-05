@@ -1153,6 +1153,236 @@
   </entry>
   
   <entry>
+    <title>Android 面试</title>
+    <link href="http://zilianliuxue.github.io/2016/07/31/Android%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://zilianliuxue.github.io/2016/07/31/Android面试题（一）/</id>
+    <published>2016-07-31T14:10:00.000Z</published>
+    <updated>2016-09-05T04:37:34.460Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="面试所遇到的问题："><a href="#面试所遇到的问题：" class="headerlink" title="面试所遇到的问题："></a>面试所遇到的问题：</h4><p>1.显示Intent与隐式Intent的区别</p>
+<blockquote>
+<p>对明确指出了目标组件名称的Intent，我们称之为“<strong>显式Intent</strong>”。</p>
+<p>对于没有明确指出目标组件名称的Intent，则称之为“<strong>隐式 Intent</strong>”。</p>
+<p>对于隐式意图，在定义Activity时，指定一个intent-filter，当一个隐式意图对象被一个意图过滤器进行匹配时，将有三个方面会被参考到：</p>
+<p>动作(Action)</p>
+<p>类别(Category <em>[‘kætɪg(ə)rɪ]</em> )</p>
+<p>数据(Data )</p>
+<activity android:name=".MainActivity" android:label="@string/app_name"><br>            <intent-filter><br>                <action android:name="com.wpc.test"><br>                <category android:name="android.intent.category.DEFAULT"><br>                <data android:mimetype="image/gif"><br>            </data></category></action></intent-filter><br></activity>
+
+</blockquote>
+<p>2.什么是线程池，线程池的作用是什么</p>
+<blockquote>
+<p>答：线程池的基本思想还是一种对象池的思想，开辟一块内存空间，里面存放了众多(未死亡)的线程，池中线程执行调度由池管理器来处理。当有线程任务时，从池中取一个，执行完成后线程对象归池，这样可以避免反复创建线程对象所带来的性能开销，节省了系统的资源。就好比原来去食堂打饭是每个人看谁抢的赢，谁先抢到谁先吃，有了线程池之后，就是排好队形，今天我跟你关系好，你先来吃饭。比如：一个应用要和网络打交道，有很多步骤需要访问网络，为了不阻塞主线程，每个步骤都创建个线程，在线程中和网络交互，用线程池就变的简单，线程池是对线程的一种封装，让线程用起来更加简便，只需要创一个线程池，把这些步骤像任务一样放进线程池，在程序销毁时只要调用线程池的销毁函数即可。</p>
+<p>单个线程的弊端：a. 每次new Thread新建对象性能差b. 线程缺乏统一管理，可能无限制新建线程，相互之间竞争，及可能占用过多系统资源导致死机或者OOM,c. 缺乏更多功能，如定时执行、定期执行、线程中断。</p>
+<p>java提供的四种线程池的好处在于：a. 重用存在的线程，减少对象创建、消亡的开销，性能佳。b. 可有效控制最大并发线程数，提高系统资源的使用率，同时避免过多资源竞争，避免堵塞。c. 提供定时执行、定期执行、单线程、并发数控制等功能。</p>
+<p><strong>2、Java 线程池</strong></p>
+<p>Java通过Executors提供四种线程池，分别为：</p>
+<p>newCachedThreadPool创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。</p>
+<p>newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。</p>
+<p>newScheduledThreadPool 创建一个定长线程池，支持定时及周期性任务执行。</p>
+<p>newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
+<p><strong>(1). newCachedThreadPool</strong></p>
+<p><strong>创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。线程池为无限大，当执行第二个任务时第一个任务已经完成，会复用执行第一个任务的线程，而不用每次新建线程。</strong></p>
+<p><strong>(2). newFixedThreadPool</strong></p>
+<p><strong>创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。</strong></p>
+<p><strong>(3) newScheduledThreadPool</strong></p>
+<p><strong>创建一个定长线程池，支持定时及周期性任务执行。ScheduledExecutorService比Timer更安全，功能更强大</strong></p>
+<p><strong>(4)、newSingleThreadExecutor</strong></p>
+<p><strong>创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行</strong></p>
+</blockquote>
+<p>3.多任务多线程下载用到那些Android的技术</p>
+<blockquote>
+<p>答：</p>
+<p>这道面试题，主要是考察对多线程的理解和使用，还涉及到网络请求和文件操作，使用的技术多种多样，一般可以回答： 使用Handler（可以看No.8Handler的原理），AsyncTask的处理原理，没写过去百度一下，网上一堆教你怎么做的，不必死扣代码，只需要明白逻辑流程，能够完整流畅的说清楚为什么，这个题目也就回答到点子上了。</p>
+</blockquote>
+<p>4.IntentService的用法</p>
+<blockquote>
+<p>答：</p>
+<p>一、IntentService简介 </p>
+<p>IntentService是Service的子类，比普通的Service增加了额外的功能。先看Service本身存在两个问题：  </p>
+<ul>
+<li>Service不会专门启动一条单独的进程，Service与它所在应用位于同一个进程中；  </li>
+<li>Service也不是专门一条新线程，因此不应该在Service中直接处理耗时的任务；  </li>
+</ul>
+<p>二、IntentService特征 </p>
+<ul>
+<li>会创建独立的worker线程来处理所有的Intent请求；  </li>
+<li>会创建独立的worker线程来处理onHandleIntent()方法实现的代码，无需处理多线程问题；  </li>
+<li>所有请求处理完成后，IntentService会自动停止，无需调用stopSelf()方法停止Service；  </li>
+<li>为Service的onBind()提供默认实现，返回null；  </li>
+<li>为Service的onStartCommand提供默认实现，将请求Intent添加到队列中； </li>
+</ul>
+<ul>
+<li>IntentService不会阻塞UI线程，而普通Serveice会导致ANR异常</li>
+</ul>
+<ul>
+<li>Intentservice若未执行完成上一次的任务，将不会新开一个线程，是等待之前的任务完成后，再执行新的任务，等任务完成后再次调用stopSelf</li>
+</ul>
+</blockquote>
+<p>5.监听系统联系人列表状态变化</p>
+<blockquote>
+<p>答：通过ContentObserver的方式进行数据变化监听，要说清楚ContentObserver怎么用的，面试官有可能会问你观察者模式。最好是写一编观察者模式。理解后就好说明用法或者原理</p>
+</blockquote>
+<p>6.serveice中如何通知Activity改变视图</p>
+<blockquote>
+<p>答：</p>
+<p>通过<strong>Binder</strong>对象</p>
+<p>  当Activity通过调用bindService(Intent service, ServiceConnection conn,int flags),我们可以得到一个Service的一个对象实例，然后我们就可以访问Service中的方法，从而根据数据不同来更新</p>
+<p>通过<strong>BroadCast</strong>(广播)的形式</p>
+<p>   当我们的进度发生变化的时候我们发送一条广播，然后在Activity的注册广播接收器，接收到广播之后更新视图</p>
+<p>参考博客：<a href="http://blog.csdn.net/xiaanming/article/details/9750689" target="_blank" rel="external">http://blog.csdn.net/xiaanming/article/details/9750689</a> </p>
+</blockquote>
+<p>7.Acitivity后台闲置退出或异常退出，如何保存数据</p>
+<blockquote>
+<p>答：</p>
+<p>通过 onSaveInstanceState() 和 onRestoreInstanceState() 保存和重启非持久化数据。</p>
+</blockquote>
+<p>8.Handler的实现原理</p>
+<blockquote>
+<p>答：</p>
+<p><strong>handler**</strong>干了些什么：**</p>
+<p><strong>运行在某个线程上，共享线程的消息队列；</strong></p>
+<p><strong>接收消息、调度消息，派发消息和处理消息；</strong></p>
+<p><strong>实现消息的异步处理；</strong></p>
+<p><strong>建立消息处理模型/系统</strong></p>
+<p><strong>参考博客</strong></p>
+</blockquote>
+<p>9.Android Holo主题与MD主题的理念，以及你的看法</p>
+<blockquote>
+<p>答：</p>
+<p>Holo Theme</p>
+<p>Holo Theme 是 Android Design 的最基础的呈现方式。因为是最为基础的 Android Design 呈现形式，每一台 Android 4.X 的手机系统内部都有集成 Holo Theme 需要的控件，即开发者不需要自己设计控件，而是直接从系统里调用相应的控件。在 UI 方面没有任何的亮点，和 Android4.X 的设置/电话的视觉效果极度统一。由此带来的好处显而易见，这个应用作为 Android 应用的辨识度极高，且完全不可能与系统风格产生冲突。</p>
+<p>Material Design</p>
+<p>Material design其实是单纯一种设计语言，它包含了系统界面风格、交互、UI,更加专注拟真,更加大胆丰富的用色,更加丰富的交互形式,更加灵活的布局形式</p>
+<p>1.鲜明、形象的界面风格，</p>
+<p>2.色彩搭配使得应用看起来非常的大胆、充满色彩感，凸显内容</p>
+<p>3.Material design对于界面的排版非常的重视</p>
+<p>4.Material design的交互设计上采用的是响应式交互，这样的交互设计能把一个应用从简单展现用户所请求的信息，提升至能与用户产生更强烈、更具体化交互的工具。</p>
+</blockquote>
+<p>10.String，StringBuffer，StringBuilder有哪些不同</p>
+<blockquote>
+<p>答：</p>
+<p>三者在执行速度方面的比较：<strong>StringBuilder &gt;  StringBuffer  &gt;  String</strong></p>
+<p><strong>String</strong>每次变化一个值就会开辟一个新的内存空间</p>
+<p><strong>StringBuilder：</strong>线程非安全的</p>
+<p><strong>StringBuffer：</strong>线程安全的</p>
+<p><strong>对于三者使用的总结： </strong></p>
+<p><strong>1.如果要操作少量的数据用 = String</strong></p>
+<p><strong>2.单线程操作字符串缓冲区 下操作大量数据 = StringBuilder</strong></p>
+<p><strong>3.多线程操作字符串缓冲区 下操作大量数据 = StringBuffer</strong></p>
+</blockquote>
+<p>11.浮点数的精准计算</p>
+<blockquote>
+<p>答：BigDecimal类进行商业计算，Float和Double只能用来做科学计算或者是工程计算</p>
+</blockquote>
+<p>12.如何通过JNI传递String对象</p>
+<blockquote>
+<p>答：</p>
+<p>Java的String和C++的string是不能对等起来的，所以当我们拿到.h文件下面的jstring对象，会做一次转换我们把jstring转换为C下面的char*类型，</p>
+<p>constchar* str;</p>
+<p>str = env-&gt;GetStringUTFChars(prompt,false); 获取值</p>
+<p>char* tmpstr =”return string succeeded”;</p>
+<p>jstring rtstr = env-&gt;NewStringUTF(tmpstr);赋予值</p>
+</blockquote>
+<p>13.Context与ApplicationContext的区别，分别用在什么情况下</p>
+<blockquote>
+<p>答：</p>
+<p>Application的Context是一个全局静态变量，SDK的说明是只有当你引用这个context的生命周期超过了当前activity的生命周期，而和整个应用的生命周期挂钩时，才去使用这个application的context。</p>
+<p>在android中context可以作很多操作，但是最主要的功能是加载和访问资源。在android中有两种context，一种是 application context，一种是activity context，通常我们在各种类和方法间传递的是activity context。</p>
+</blockquote>
+<p>14.View的绘制流程</p>
+<blockquote>
+<p>答：</p>
+<p>1.onmesarue() 为整个View树计算实际的大小</p>
+<p>2.onlayout() 为将整个根据子视图的大小以及布局参数将View树放到合适的位置上</p>
+<p>3.ondraw() </p>
+<p>1 、绘制该View的背景</p>
+<p>2 、为显示渐变框做一些准备操作(见5，大多数情况下，不需要改渐变框)</p>
+<p>3、调用onDraw()方法绘制视图本身   (每个View都需要重载该方法，ViewGroup不需要实现该方法)</p>
+<p>4、调用dispatchDraw ()方法绘制子视图(如果该View类型不为ViewGroup，即不包含子视图，不需要重载该方法)</p>
+</blockquote>
+<p>15.触摸屏幕的分发机制</p>
+<blockquote>
+<p>答：</p>
+<p><strong>1、基础知识</strong></p>
+<p>(1) 所有Touch事件都被封装成了MotionEvent对象，包括Touch的位置、时间、历史记录以及第几个手指(多指触摸)等。</p>
+<p>(2) 事件类型分为ACTION_DOWN, ACTION_UP, ACTION_MOVE, ACTION_POINTER_DOWN, ACTION_POINTER_UP, ACTION_CANCEL，每个事件都是以ACTION_DOWN开始ACTION_UP结束。</p>
+<p>(3) 对事件的处理包括三类，分别为</p>
+<p>传递——dispatchTouchEvent()函数、</p>
+<p>拦截——onInterceptTouchEvent()函数、</p>
+<p>消费——onTouchEvent()函数和OnTouchListener</p>
+<p><strong>2、传递流程</strong></p>
+<p>(1) 事件从Activity.dispatchTouchEvent()开始传递，只要没有被停止或拦截，从最上层的View(ViewGroup)开始一直往下(子View)传递。子View可以通过onTouchEvent()对事件进行处理。</p>
+<p>(2) 事件由父View(ViewGroup)传递给子View，ViewGroup可以通过onInterceptTouchEvent()对事件做拦截，停止其往下传递。</p>
+<p>(3) 如果事件从上往下传递过程中一直没有被停止，且最底层子View没有消费事件，事件会反向往上传递，这时父View(ViewGroup)可以进行消费，如果还是没有被消费的话，最后会到Activity的onTouchEvent()函数。</p>
+<p>(4) 如果View没有对ACTION_DOWN进行消费，之后的其他事件不会传递过来。</p>
+<p>(5) OnTouchListener优先于onTouchEvent()对事件进行消费。</p>
+<p>上面的消费即表示相应函数返回值为true。</p>
+<p>(1) View不处理事件流程图</p>
+<p>(2) View处理事件流程图</p>
+</blockquote>
+<p>16.Android系统提供了那些动画机制</p>
+<blockquote>
+<p>答：</p>
+<p>1.逐帧动画</p>
+<p>  逐帧动画的工作原理很简单，其实就是将一个完整的动画拆分成一张张单独的图片，然后再将它们连贯起来进行播放，类似于动画片的工作原理</p>
+<p>2.补间动画</p>
+<p>  补间动画则是可以对View进行一系列的动画操作，包括淡入淡出、缩放、平移、旋转四种</p>
+<p>  缺陷：补间动画是只能够作用在View上，它只能够实现移动、缩放、旋转和淡入淡出这四种动画操作，补间动画还有一个致命的缺陷，就是它只是改变了View的显示效果而已，而不会真正去改变View的属性</p>
+<p>  逐帧动画和补间动画它们的技术已经比较老了，而且网上资料也非常多</p>
+<p>3.属性动画</p>
+<p>  ValueAnimator</p>
+<p>  ValueAnimator是整个属性动画机制当中最核心的一个类</p>
+<p>  ObjectAnimator</p>
+<p>  相比于ValueAnimator，ObjectAnimator可能才是我们最常接触到的类，因为ValueAnimator只不过是对值进行了一个平滑的动画过渡，但我们实际使用到这种功能的场景好像并不多。而ObjectAnimator则就不同了，它是可以直接对任意对象的任意属性进行动画操作的，比如说View的alpha属性</p>
+</blockquote>
+<p>17.java为什么跨平台</p>
+<blockquote>
+<p>答：<br>因为Java程序编译之后的代码不是能被硬件系统直接运行的代码，而是一种“中间码”——字节码。然后不同的硬件平台上安装有不同的Java虚拟机(JVM)，由JVM来把字节码再“翻译”成所对应的硬件平台能够执行的代码。因此对于Java编程者来说，不需要考虑硬件平台是什么。所以Java可以跨平台。</p>
+</blockquote>
+<p>18.Https与http</p>
+<blockquote>
+<p>HTPPS和HTTP的概念</p>
+<p>HTTPS（全称：Hypertext Transfer Protocol over Secure Socket Layer），是以安全为目标的HTTP通道，简单讲是HTTP的安全版。即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。 它是一个URI scheme（抽象标识符体系），句法类同http:体系。用于安全的HTTP数据传输。https:URL表明它使用了HTTP，但HTTPS存在不同于HTTP的默认端口及一个加密/身份验证层（在HTTP与TCP之间）。这个系统的最初研发由网景公司进行，提供了身份验证与加密通讯方法，现在它被广泛用于万维网上安全敏感的通讯，例如交易支付方面。</p>
+<p>超文本传输协议 (HTTP-Hypertext transfer protocol) 是一种详细规定了浏览器和万维网服务器之间互相通信的规则，通过因特网传送万维网文档的数据传送协议。</p>
+<p>https协议需要到ca申请证书，一般免费证书很少，需要交费。http是超文本传输协议，信息是明文传输，https 则是具有安全性的ssl加密传输协议http和https使用的是完全不同的连接方式用的端口也不一样,前者是80,后者是443。http的连接很简单,是无状态的HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议 要比http协议安全HTTPS解决的问题：1 . 信任主机的问题. 采用https 的server 必须从CA 申请一个用于证明服务器用途类型的证书. 改证书只有用于对应的server 的时候,客户度才信任次主机2 . 防止通讯过程中的数据的泄密和被窜改</p>
+</blockquote>
+<p>19.Post与Get请求的区别</p>
+<blockquote>
+<p><em>GET</em>- 从指定的资源请求数据。</p>
+<p><em>POST</em>- 向指定的资源提交要被处理的数据</p>
+</blockquote>
+<p>20.Java GC 原理</p>
+<blockquote>
+<p>JVM的堆是Java对象的活动空间，程序中的类的对象从中分配空间，其存储着正在运行着的应用程序用到的所有对象。这些对象的建立方式就是那些new一类的操作，当对象无用后，是GC来负责这个无用的对象</p>
+<p>GC的工作目的很明确：在堆中，找到已经无用的对象，并把这些对象占用的空间收回使其可以重新利用.大多数垃圾回收的 算法思路都是一致的：把所有对象组成一个集合，或可以理解为树状结构，从树根开始找，只要可以找到的都是活动对象，如果找不到，应该被回收了。</p>
+</blockquote>
+<p>21.移动端跨平台开发</p>
+<blockquote>
+<p>Web 流：也被称为 Hybrid 技术，它基于 Web 相关技术来实现界面及功能：PhoneGap</p>
+<p>虚拟机流：通过将某个语言的虚拟机移植到不同平台上来运行 Android</p>
+<p>代码转换流：将某个语言转成 Objective-C、Java 或 C#，然后使用不同平台下的官方工具来开发</p>
+</blockquote>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;面试所遇到的问题：&quot;&gt;&lt;a href=&quot;#面试所遇到的问题：&quot; class=&quot;headerlink&quot; title=&quot;面试所遇到的问题：&quot;&gt;&lt;/a&gt;面试所遇到的问题：&lt;/h4&gt;&lt;p&gt;1.显示Intent与隐式Intent的区别&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p
+    
+    </summary>
+    
+      <category term="android" scheme="http://zilianliuxue.github.io/categories/android/"/>
+    
+    
+      <category term="面试" scheme="http://zilianliuxue.github.io/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
     <title>window和windowManager</title>
     <link href="http://zilianliuxue.github.io/2016/06/20/Window%E4%B8%8EWindowManager/"/>
     <id>http://zilianliuxue.github.io/2016/06/20/Window与WindowManager/</id>

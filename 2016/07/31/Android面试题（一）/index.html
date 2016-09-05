@@ -1,0 +1,950 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Android 面试 | ♀紫☆恋&amp;流★雪♂</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Losileeya">
+    
+
+    
+    <meta name="description" content="面试所遇到的问题：1.显示Intent与隐式Intent的区别
+
+对明确指出了目标组件名称的Intent，我们称之为“显式Intent”。
+对于没有明确指出目标组件名称的Intent，则称之为“隐式 Intent”。
+对于隐式意图，在定义Activity时，指定一个intent-filter，当一个隐式意图对象被一个意图过滤器进行匹配时，将有三个方面会被参考到：
+动作(Action)
+类别(Cat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 面试">
+<meta property="og:url" content="http://zilianliuxue.github.io/2016/07/31/Android面试题（一）/index.html">
+<meta property="og:site_name" content="♀紫☆恋&流★雪♂">
+<meta property="og:description" content="面试所遇到的问题：1.显示Intent与隐式Intent的区别
+
+对明确指出了目标组件名称的Intent，我们称之为“显式Intent”。
+对于没有明确指出目标组件名称的Intent，则称之为“隐式 Intent”。
+对于隐式意图，在定义Activity时，指定一个intent-filter，当一个隐式意图对象被一个意图过滤器进行匹配时，将有三个方面会被参考到：
+动作(Action)
+类别(Cat">
+<meta property="og:updated_time" content="2016-09-05T04:37:34.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 面试">
+<meta name="twitter:description" content="面试所遇到的问题：1.显示Intent与隐式Intent的区别
+
+对明确指出了目标组件名称的Intent，我们称之为“显式Intent”。
+对于没有明确指出目标组件名称的Intent，则称之为“隐式 Intent”。
+对于隐式意图，在定义Activity时，指定一个intent-filter，当一个隐式意图对象被一个意图过滤器进行匹配时，将有三个方面会被参考到：
+动作(Action)
+类别(Cat">
+
+    
+    <link rel="alternative" href="/atom.xml" title="♀紫☆恋&amp;流★雪♂" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+	
+    <form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+	<label>Search</label>
+	<input type="text" id="search" class="st-default-search-input" maxlength="20" placeholder="Search" />
+	</form>
+    
+    <link rel="stylesheet" href="/css/style.css">
+	
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.gif" alt="♀紫☆恋&amp;流★雪♂" title="♀紫☆恋&amp;流★雪♂"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="♀紫☆恋&amp;流★雪♂">♀紫☆恋&amp;流★雪♂</a></h1>
+				<h2 class="blog-motto">编程中我们会遇到多少挫折？不放弃，沙漠尽头必是绿洲，不是天方夜谭</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="search" />
+						<input type="hidden" name="q" value="site:zilianliuxue.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/31/Android面试题（一）/" title="Android 面试" itemprop="url">Android 面试</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-31T14:10:00.000Z" itemprop="datePublished"> 发表于 2016-07-31</time>
+   <span id="busuanzi_container_page_pv">
+    总阅读<span id="busuanzi_value_page_pv"></span>次
+   </span>
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#面试所遇到的问题："><span class="toc-number">1.</span> <span class="toc-text">面试所遇到的问题：</span></a></li></ol>
+		
+		</div>
+		
+		<h4 id="面试所遇到的问题："><a href="#面试所遇到的问题：" class="headerlink" title="面试所遇到的问题："></a>面试所遇到的问题：</h4><p>1.显示Intent与隐式Intent的区别</p>
+<blockquote>
+<p>对明确指出了目标组件名称的Intent，我们称之为“<strong>显式Intent</strong>”。</p>
+<p>对于没有明确指出目标组件名称的Intent，则称之为“<strong>隐式 Intent</strong>”。</p>
+<p>对于隐式意图，在定义Activity时，指定一个intent-filter，当一个隐式意图对象被一个意图过滤器进行匹配时，将有三个方面会被参考到：</p>
+<p>动作(Action)</p>
+<p>类别(Category <em>[‘kætɪg(ə)rɪ]</em> )</p>
+<p>数据(Data )</p>
+<activity android:name=".MainActivity" android:label="@string/app_name"><br>            <intent-filter><br>                <action android:name="com.wpc.test"><br>                <category android:name="android.intent.category.DEFAULT"><br>                <data android:mimetype="image/gif"><br>            </data></category></action></intent-filter><br></activity>
+
+</blockquote>
+<p>2.什么是线程池，线程池的作用是什么</p>
+<blockquote>
+<p>答：线程池的基本思想还是一种对象池的思想，开辟一块内存空间，里面存放了众多(未死亡)的线程，池中线程执行调度由池管理器来处理。当有线程任务时，从池中取一个，执行完成后线程对象归池，这样可以避免反复创建线程对象所带来的性能开销，节省了系统的资源。就好比原来去食堂打饭是每个人看谁抢的赢，谁先抢到谁先吃，有了线程池之后，就是排好队形，今天我跟你关系好，你先来吃饭。比如：一个应用要和网络打交道，有很多步骤需要访问网络，为了不阻塞主线程，每个步骤都创建个线程，在线程中和网络交互，用线程池就变的简单，线程池是对线程的一种封装，让线程用起来更加简便，只需要创一个线程池，把这些步骤像任务一样放进线程池，在程序销毁时只要调用线程池的销毁函数即可。</p>
+<p>单个线程的弊端：a. 每次new Thread新建对象性能差b. 线程缺乏统一管理，可能无限制新建线程，相互之间竞争，及可能占用过多系统资源导致死机或者OOM,c. 缺乏更多功能，如定时执行、定期执行、线程中断。</p>
+<p>java提供的四种线程池的好处在于：a. 重用存在的线程，减少对象创建、消亡的开销，性能佳。b. 可有效控制最大并发线程数，提高系统资源的使用率，同时避免过多资源竞争，避免堵塞。c. 提供定时执行、定期执行、单线程、并发数控制等功能。</p>
+<p><strong>2、Java 线程池</strong></p>
+<p>Java通过Executors提供四种线程池，分别为：</p>
+<p>newCachedThreadPool创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。</p>
+<p>newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。</p>
+<p>newScheduledThreadPool 创建一个定长线程池，支持定时及周期性任务执行。</p>
+<p>newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
+<p><strong>(1). newCachedThreadPool</strong></p>
+<p><strong>创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。线程池为无限大，当执行第二个任务时第一个任务已经完成，会复用执行第一个任务的线程，而不用每次新建线程。</strong></p>
+<p><strong>(2). newFixedThreadPool</strong></p>
+<p><strong>创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。</strong></p>
+<p><strong>(3) newScheduledThreadPool</strong></p>
+<p><strong>创建一个定长线程池，支持定时及周期性任务执行。ScheduledExecutorService比Timer更安全，功能更强大</strong></p>
+<p><strong>(4)、newSingleThreadExecutor</strong></p>
+<p><strong>创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行</strong></p>
+</blockquote>
+<p>3.多任务多线程下载用到那些Android的技术</p>
+<blockquote>
+<p>答：</p>
+<p>这道面试题，主要是考察对多线程的理解和使用，还涉及到网络请求和文件操作，使用的技术多种多样，一般可以回答： 使用Handler（可以看No.8Handler的原理），AsyncTask的处理原理，没写过去百度一下，网上一堆教你怎么做的，不必死扣代码，只需要明白逻辑流程，能够完整流畅的说清楚为什么，这个题目也就回答到点子上了。</p>
+</blockquote>
+<p>4.IntentService的用法</p>
+<blockquote>
+<p>答：</p>
+<p>一、IntentService简介 </p>
+<p>IntentService是Service的子类，比普通的Service增加了额外的功能。先看Service本身存在两个问题：  </p>
+<ul>
+<li>Service不会专门启动一条单独的进程，Service与它所在应用位于同一个进程中；  </li>
+<li>Service也不是专门一条新线程，因此不应该在Service中直接处理耗时的任务；  </li>
+</ul>
+<p>二、IntentService特征 </p>
+<ul>
+<li>会创建独立的worker线程来处理所有的Intent请求；  </li>
+<li>会创建独立的worker线程来处理onHandleIntent()方法实现的代码，无需处理多线程问题；  </li>
+<li>所有请求处理完成后，IntentService会自动停止，无需调用stopSelf()方法停止Service；  </li>
+<li>为Service的onBind()提供默认实现，返回null；  </li>
+<li>为Service的onStartCommand提供默认实现，将请求Intent添加到队列中； </li>
+</ul>
+<ul>
+<li>IntentService不会阻塞UI线程，而普通Serveice会导致ANR异常</li>
+</ul>
+<ul>
+<li>Intentservice若未执行完成上一次的任务，将不会新开一个线程，是等待之前的任务完成后，再执行新的任务，等任务完成后再次调用stopSelf</li>
+</ul>
+</blockquote>
+<p>5.监听系统联系人列表状态变化</p>
+<blockquote>
+<p>答：通过ContentObserver的方式进行数据变化监听，要说清楚ContentObserver怎么用的，面试官有可能会问你观察者模式。最好是写一编观察者模式。理解后就好说明用法或者原理</p>
+</blockquote>
+<p>6.serveice中如何通知Activity改变视图</p>
+<blockquote>
+<p>答：</p>
+<p>通过<strong>Binder</strong>对象</p>
+<p>  当Activity通过调用bindService(Intent service, ServiceConnection conn,int flags),我们可以得到一个Service的一个对象实例，然后我们就可以访问Service中的方法，从而根据数据不同来更新</p>
+<p>通过<strong>BroadCast</strong>(广播)的形式</p>
+<p>   当我们的进度发生变化的时候我们发送一条广播，然后在Activity的注册广播接收器，接收到广播之后更新视图</p>
+<p>参考博客：<a href="http://blog.csdn.net/xiaanming/article/details/9750689" target="_blank" rel="external">http://blog.csdn.net/xiaanming/article/details/9750689</a> </p>
+</blockquote>
+<p>7.Acitivity后台闲置退出或异常退出，如何保存数据</p>
+<blockquote>
+<p>答：</p>
+<p>通过 onSaveInstanceState() 和 onRestoreInstanceState() 保存和重启非持久化数据。</p>
+</blockquote>
+<p>8.Handler的实现原理</p>
+<blockquote>
+<p>答：</p>
+<p><strong>handler**</strong>干了些什么：**</p>
+<p><strong>运行在某个线程上，共享线程的消息队列；</strong></p>
+<p><strong>接收消息、调度消息，派发消息和处理消息；</strong></p>
+<p><strong>实现消息的异步处理；</strong></p>
+<p><strong>建立消息处理模型/系统</strong></p>
+<p><strong>参考博客</strong></p>
+</blockquote>
+<p>9.Android Holo主题与MD主题的理念，以及你的看法</p>
+<blockquote>
+<p>答：</p>
+<p>Holo Theme</p>
+<p>Holo Theme 是 Android Design 的最基础的呈现方式。因为是最为基础的 Android Design 呈现形式，每一台 Android 4.X 的手机系统内部都有集成 Holo Theme 需要的控件，即开发者不需要自己设计控件，而是直接从系统里调用相应的控件。在 UI 方面没有任何的亮点，和 Android4.X 的设置/电话的视觉效果极度统一。由此带来的好处显而易见，这个应用作为 Android 应用的辨识度极高，且完全不可能与系统风格产生冲突。</p>
+<p>Material Design</p>
+<p>Material design其实是单纯一种设计语言，它包含了系统界面风格、交互、UI,更加专注拟真,更加大胆丰富的用色,更加丰富的交互形式,更加灵活的布局形式</p>
+<p>1.鲜明、形象的界面风格，</p>
+<p>2.色彩搭配使得应用看起来非常的大胆、充满色彩感，凸显内容</p>
+<p>3.Material design对于界面的排版非常的重视</p>
+<p>4.Material design的交互设计上采用的是响应式交互，这样的交互设计能把一个应用从简单展现用户所请求的信息，提升至能与用户产生更强烈、更具体化交互的工具。</p>
+</blockquote>
+<p>10.String，StringBuffer，StringBuilder有哪些不同</p>
+<blockquote>
+<p>答：</p>
+<p>三者在执行速度方面的比较：<strong>StringBuilder &gt;  StringBuffer  &gt;  String</strong></p>
+<p><strong>String</strong>每次变化一个值就会开辟一个新的内存空间</p>
+<p><strong>StringBuilder：</strong>线程非安全的</p>
+<p><strong>StringBuffer：</strong>线程安全的</p>
+<p><strong>对于三者使用的总结： </strong></p>
+<p><strong>1.如果要操作少量的数据用 = String</strong></p>
+<p><strong>2.单线程操作字符串缓冲区 下操作大量数据 = StringBuilder</strong></p>
+<p><strong>3.多线程操作字符串缓冲区 下操作大量数据 = StringBuffer</strong></p>
+</blockquote>
+<p>11.浮点数的精准计算</p>
+<blockquote>
+<p>答：BigDecimal类进行商业计算，Float和Double只能用来做科学计算或者是工程计算</p>
+</blockquote>
+<p>12.如何通过JNI传递String对象</p>
+<blockquote>
+<p>答：</p>
+<p>Java的String和C++的string是不能对等起来的，所以当我们拿到.h文件下面的jstring对象，会做一次转换我们把jstring转换为C下面的char*类型，</p>
+<p>constchar* str;</p>
+<p>str = env-&gt;GetStringUTFChars(prompt,false); 获取值</p>
+<p>char* tmpstr =”return string succeeded”;</p>
+<p>jstring rtstr = env-&gt;NewStringUTF(tmpstr);赋予值</p>
+</blockquote>
+<p>13.Context与ApplicationContext的区别，分别用在什么情况下</p>
+<blockquote>
+<p>答：</p>
+<p>Application的Context是一个全局静态变量，SDK的说明是只有当你引用这个context的生命周期超过了当前activity的生命周期，而和整个应用的生命周期挂钩时，才去使用这个application的context。</p>
+<p>在android中context可以作很多操作，但是最主要的功能是加载和访问资源。在android中有两种context，一种是 application context，一种是activity context，通常我们在各种类和方法间传递的是activity context。</p>
+</blockquote>
+<p>14.View的绘制流程</p>
+<blockquote>
+<p>答：</p>
+<p>1.onmesarue() 为整个View树计算实际的大小</p>
+<p>2.onlayout() 为将整个根据子视图的大小以及布局参数将View树放到合适的位置上</p>
+<p>3.ondraw() </p>
+<p>1 、绘制该View的背景</p>
+<p>2 、为显示渐变框做一些准备操作(见5，大多数情况下，不需要改渐变框)</p>
+<p>3、调用onDraw()方法绘制视图本身   (每个View都需要重载该方法，ViewGroup不需要实现该方法)</p>
+<p>4、调用dispatchDraw ()方法绘制子视图(如果该View类型不为ViewGroup，即不包含子视图，不需要重载该方法)</p>
+</blockquote>
+<p>15.触摸屏幕的分发机制</p>
+<blockquote>
+<p>答：</p>
+<p><strong>1、基础知识</strong></p>
+<p>(1) 所有Touch事件都被封装成了MotionEvent对象，包括Touch的位置、时间、历史记录以及第几个手指(多指触摸)等。</p>
+<p>(2) 事件类型分为ACTION_DOWN, ACTION_UP, ACTION_MOVE, ACTION_POINTER_DOWN, ACTION_POINTER_UP, ACTION_CANCEL，每个事件都是以ACTION_DOWN开始ACTION_UP结束。</p>
+<p>(3) 对事件的处理包括三类，分别为</p>
+<p>传递——dispatchTouchEvent()函数、</p>
+<p>拦截——onInterceptTouchEvent()函数、</p>
+<p>消费——onTouchEvent()函数和OnTouchListener</p>
+<p><strong>2、传递流程</strong></p>
+<p>(1) 事件从Activity.dispatchTouchEvent()开始传递，只要没有被停止或拦截，从最上层的View(ViewGroup)开始一直往下(子View)传递。子View可以通过onTouchEvent()对事件进行处理。</p>
+<p>(2) 事件由父View(ViewGroup)传递给子View，ViewGroup可以通过onInterceptTouchEvent()对事件做拦截，停止其往下传递。</p>
+<p>(3) 如果事件从上往下传递过程中一直没有被停止，且最底层子View没有消费事件，事件会反向往上传递，这时父View(ViewGroup)可以进行消费，如果还是没有被消费的话，最后会到Activity的onTouchEvent()函数。</p>
+<p>(4) 如果View没有对ACTION_DOWN进行消费，之后的其他事件不会传递过来。</p>
+<p>(5) OnTouchListener优先于onTouchEvent()对事件进行消费。</p>
+<p>上面的消费即表示相应函数返回值为true。</p>
+<p>(1) View不处理事件流程图</p>
+<p>(2) View处理事件流程图</p>
+</blockquote>
+<p>16.Android系统提供了那些动画机制</p>
+<blockquote>
+<p>答：</p>
+<p>1.逐帧动画</p>
+<p>  逐帧动画的工作原理很简单，其实就是将一个完整的动画拆分成一张张单独的图片，然后再将它们连贯起来进行播放，类似于动画片的工作原理</p>
+<p>2.补间动画</p>
+<p>  补间动画则是可以对View进行一系列的动画操作，包括淡入淡出、缩放、平移、旋转四种</p>
+<p>  缺陷：补间动画是只能够作用在View上，它只能够实现移动、缩放、旋转和淡入淡出这四种动画操作，补间动画还有一个致命的缺陷，就是它只是改变了View的显示效果而已，而不会真正去改变View的属性</p>
+<p>  逐帧动画和补间动画它们的技术已经比较老了，而且网上资料也非常多</p>
+<p>3.属性动画</p>
+<p>  ValueAnimator</p>
+<p>  ValueAnimator是整个属性动画机制当中最核心的一个类</p>
+<p>  ObjectAnimator</p>
+<p>  相比于ValueAnimator，ObjectAnimator可能才是我们最常接触到的类，因为ValueAnimator只不过是对值进行了一个平滑的动画过渡，但我们实际使用到这种功能的场景好像并不多。而ObjectAnimator则就不同了，它是可以直接对任意对象的任意属性进行动画操作的，比如说View的alpha属性</p>
+</blockquote>
+<p>17.java为什么跨平台</p>
+<blockquote>
+<p>答：<br>因为Java程序编译之后的代码不是能被硬件系统直接运行的代码，而是一种“中间码”——字节码。然后不同的硬件平台上安装有不同的Java虚拟机(JVM)，由JVM来把字节码再“翻译”成所对应的硬件平台能够执行的代码。因此对于Java编程者来说，不需要考虑硬件平台是什么。所以Java可以跨平台。</p>
+</blockquote>
+<p>18.Https与http</p>
+<blockquote>
+<p>HTPPS和HTTP的概念</p>
+<p>HTTPS（全称：Hypertext Transfer Protocol over Secure Socket Layer），是以安全为目标的HTTP通道，简单讲是HTTP的安全版。即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。 它是一个URI scheme（抽象标识符体系），句法类同http:体系。用于安全的HTTP数据传输。https:URL表明它使用了HTTP，但HTTPS存在不同于HTTP的默认端口及一个加密/身份验证层（在HTTP与TCP之间）。这个系统的最初研发由网景公司进行，提供了身份验证与加密通讯方法，现在它被广泛用于万维网上安全敏感的通讯，例如交易支付方面。</p>
+<p>超文本传输协议 (HTTP-Hypertext transfer protocol) 是一种详细规定了浏览器和万维网服务器之间互相通信的规则，通过因特网传送万维网文档的数据传送协议。</p>
+<p>https协议需要到ca申请证书，一般免费证书很少，需要交费。http是超文本传输协议，信息是明文传输，https 则是具有安全性的ssl加密传输协议http和https使用的是完全不同的连接方式用的端口也不一样,前者是80,后者是443。http的连接很简单,是无状态的HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议 要比http协议安全HTTPS解决的问题：1 . 信任主机的问题. 采用https 的server 必须从CA 申请一个用于证明服务器用途类型的证书. 改证书只有用于对应的server 的时候,客户度才信任次主机2 . 防止通讯过程中的数据的泄密和被窜改</p>
+</blockquote>
+<p>19.Post与Get请求的区别</p>
+<blockquote>
+<p><em>GET</em>- 从指定的资源请求数据。</p>
+<p><em>POST</em>- 向指定的资源提交要被处理的数据</p>
+</blockquote>
+<p>20.Java GC 原理</p>
+<blockquote>
+<p>JVM的堆是Java对象的活动空间，程序中的类的对象从中分配空间，其存储着正在运行着的应用程序用到的所有对象。这些对象的建立方式就是那些new一类的操作，当对象无用后，是GC来负责这个无用的对象</p>
+<p>GC的工作目的很明确：在堆中，找到已经无用的对象，并把这些对象占用的空间收回使其可以重新利用.大多数垃圾回收的 算法思路都是一致的：把所有对象组成一个集合，或可以理解为树状结构，从树根开始找，只要可以找到的都是活动对象，如果找不到，应该被回收了。</p>
+</blockquote>
+<p>21.移动端跨平台开发</p>
+<blockquote>
+<p>Web 流：也被称为 Hybrid 技术，它基于 Web 相关技术来实现界面及功能：PhoneGap</p>
+<p>虚拟机流：通过将某个语言的虚拟机移植到不同平台上来运行 Android</p>
+<p>代码转换流：将某个语言转成 Objective-C、Java 或 C#，然后使用不同平台下的官方工具来开发</p>
+</blockquote>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+  
+	</div>
+	
+  <!-- css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+
+      <!-- http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif
+           因为本 hexo 生成的博客所用的 theme 的 a:hover 带动画效果，
+         为了在让打赏按钮显示效果正常 而 添加了以下几行 css，
+         嵌入其它博客时不一定要它们。 -->
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+      <!-- /让打赏按钮的效果显示正常 而 添加的几行 css 到此结束 -->
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+    <!-- Donate Module -->
+    <div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      打赏我一根冰棒钱，打赏我的人，运气都不会太差~
+    </span>
+      
+    
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+    
+  <div id="donate_guide" class="donate_bar center hidden">
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      
+      <div width="100%" align="center"><div name="dashmain" id="dash-main-id-87895f" class="dash-main-3 87895f-0.99"></div></div>
+    <script type="text/javascript" charset="utf-8" src="http://www.dashangcloud.com/static/ds.js"></script>
+    
+
+    <a href="http://i.imgur.com/EhvkeWS.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+      <img src="http://i.imgur.com/EhvkeWS.png" title="微信打赏 Donate" height="190px" width="auto"/>
+    </a>
+        
+          
+
+    <a href="http://i.imgur.com/FhK6Sph.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+      <img src="http://i.imgur.com/FhK6Sph.png" title="支付宝打赏 Donate" height="190px" width="auto"/>
+    </a>
+
+    <span class="donate_txt">
+      打赏我一根冰棒钱，打赏我的人，运气都不会太差~
+    </span>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className = 'hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+   
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/面试/">面试</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zilianliuxue.github.io/2016/07/31/Android面试题（一）/" data-title="Android 面试 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/08/06/安卓实战开发之JNI再深入了解/" title="安卓实战开发之JNI再深入了解">
+  <strong>上一篇：</strong><br/>
+  <span>
+  安卓实战开发之JNI再深入了解</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/06/20/Window与WindowManager/"  title="window和windowManager">
+ <strong>下一篇：</strong><br/> 
+ <span>window和windowManager
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/07/31/Android面试题（一）/" data-title="Android 面试" data-url="http://zilianliuxue.github.io/2016/07/31/Android面试题（一）/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#面试所遇到的问题："><span class="toc-number">1.</span> <span class="toc-text">面试所遇到的问题：</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="zilianliuxue" data-width="220" data-height="88" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="android">android<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/线程池/" title="线程池">线程池<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BroadcastReceiver/" title="BroadcastReceiver">BroadcastReceiver<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/window/" title="window">window<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/快速开发/" title="快速开发">快速开发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jni-ndk/" title="jni ndk">jni ndk<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/" target="_blank" title="一个面向程序员交流分享的新一代社区">jianshu</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/u013278099" target="_blank" title="Losileeya CSDN">Losileeya CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.trinea.cn/" target="_blank" title="trinea">trinea</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.daimajia.com/" target="_blank" title="daimajia">daimajia</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.lcode.org/" target="_blank" title="江清清的技术专栏">江清清的技术专栏</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://www.aswifter.com/" target="_blank" title="阳春面的博客">阳春面的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/BroadcastReceiver/" style="font-size: 10px;">BroadcastReceiver</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/ContentProvider/" style="font-size: 10px;">ContentProvider</a> <a href="/tags/EventBus3/" style="font-size: 10px;">EventBus3</a> <a href="/tags/Service/" style="font-size: 10px;">Service</a> <a href="/tags/activity/" style="font-size: 10px;">activity</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jacman/" style="font-size: 10px;">jacman</a> <a href="/tags/jni-ndk/" style="font-size: 10px;">jni ndk</a> <a href="/tags/view事件机制/" style="font-size: 10px;">view事件机制</a> <a href="/tags/window/" style="font-size: 10px;">window</a> <a href="/tags/快速开发/" style="font-size: 10px;">快速开发</a> <a href="/tags/线程池/" style="font-size: 20px;">线程池</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3290293743&verifier=20a2ffb1&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Losileeya . <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3290293743" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zilianliuxue" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:847457332@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Losileeya">Losileeya</a>
+		
+		
+		</p>
+		<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','R4yoD_akDbrgyYA8-p3S','2.0.0');
+</script>
+	<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>	
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zilianliuxue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260017595'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1260017595%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
