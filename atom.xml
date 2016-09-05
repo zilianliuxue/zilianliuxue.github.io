@@ -1153,11 +1153,11 @@
   </entry>
   
   <entry>
-    <title>Android 面试</title>
+    <title>Android 面试题（一）</title>
     <link href="http://zilianliuxue.github.io/2016/07/31/Android%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%88%E4%B8%80%EF%BC%89/"/>
     <id>http://zilianliuxue.github.io/2016/07/31/Android面试题（一）/</id>
     <published>2016-07-31T14:10:00.000Z</published>
-    <updated>2016-09-05T04:37:34.460Z</updated>
+    <updated>2016-09-05T04:43:40.908Z</updated>
     
     <content type="html"><![CDATA[<h4 id="面试所遇到的问题："><a href="#面试所遇到的问题：" class="headerlink" title="面试所遇到的问题："></a>面试所遇到的问题：</h4><p>1.显示Intent与隐式Intent的区别</p>
 <blockquote>
@@ -1167,6 +1167,7 @@
 <p>动作(Action)</p>
 <p>类别(Category <em>[‘kætɪg(ə)rɪ]</em> )</p>
 <p>数据(Data )</p>
+<p>```java</p>
 <activity android:name=".MainActivity" android:label="@string/app_name"><br>            <intent-filter><br>                <action android:name="com.wpc.test"><br>                <category android:name="android.intent.category.DEFAULT"><br>                <data android:mimetype="image/gif"><br>            </data></category></action></intent-filter><br></activity>
 
 </blockquote>
