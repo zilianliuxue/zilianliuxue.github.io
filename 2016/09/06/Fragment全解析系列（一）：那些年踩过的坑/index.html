@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Fragment防手抖 最佳实践 | ♀紫☆恋&amp;流★雪♂</title>
+    <title>Fragment全解析系列（一）：那些年踩过的坑 | ♀紫☆恋&amp;流★雪♂</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Losileeya">
@@ -14,15 +14,15 @@
     <meta name="description" content="原文链接：http://www.jianshu.com/p/d9143a92ad94Fragment系列文章：1、Fragment全解析系列（一）：那些年踩过的坑2、Fragment全解析系列（二）：正确的使用姿势3、Fragment之我的解决方案：Fragmentation
 本篇主要介绍一些最常见的Fragment的坑以及官方Fragment库的那些自身的BUG，这些BUG在你深度使用时会遇到，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Fragment防手抖 最佳实践">
+<meta property="og:title" content="Fragment全解析系列（一）：那些年踩过的坑">
 <meta property="og:url" content="http://zilianliuxue.github.io/2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/index.html">
 <meta property="og:site_name" content="♀紫☆恋&流★雪♂">
 <meta property="og:description" content="原文链接：http://www.jianshu.com/p/d9143a92ad94Fragment系列文章：1、Fragment全解析系列（一）：那些年踩过的坑2、Fragment全解析系列（二）：正确的使用姿势3、Fragment之我的解决方案：Fragmentation
 本篇主要介绍一些最常见的Fragment的坑以及官方Fragment库的那些自身的BUG，这些BUG在你深度使用时会遇到，">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/937851-8f0337f08a9d380b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2016-09-06T04:41:15.642Z">
+<meta property="og:updated_time" content="2016-09-06T04:55:16.824Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Fragment防手抖 最佳实践">
+<meta name="twitter:title" content="Fragment全解析系列（一）：那些年踩过的坑">
 <meta name="twitter:description" content="原文链接：http://www.jianshu.com/p/d9143a92ad94Fragment系列文章：1、Fragment全解析系列（一）：那些年踩过的坑2、Fragment全解析系列（二）：正确的使用姿势3、Fragment之我的解决方案：Fragmentation
 本篇主要介绍一些最常见的Fragment的坑以及官方Fragment库的那些自身的BUG，这些BUG在你深度使用时会遇到，">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/937851-8f0337f08a9d380b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -94,7 +94,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/" title="Fragment防手抖 最佳实践" itemprop="url">Fragment防手抖 最佳实践</a>
+      <a href="/2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/" title="Fragment全解析系列（一）：那些年踩过的坑" itemprop="url">Fragment全解析系列（一）：那些年踩过的坑</a>
   </h1>
   <p class="article-author">By
        
@@ -116,8 +116,8 @@
 		
 		</div>
 		
-		<p>原文链接：<a href="http://www.jianshu.com/p/d9143a92ad94" target="_blank" rel="external">http://www.jianshu.com/p/d9143a92ad94</a><br>Fragment系列文章：<br>1、Fragment全解析系列（一）：那些年踩过的坑<br>2、<a href="http://www.jianshu.com/p/fd71d65f0ec6" target="_blank" rel="external">Fragment全解析系列（二）：正确的使用姿势</a><br>3、<a href="http://www.jianshu.com/p/38f7994faa6b" target="_blank" rel="external">Fragment之我的解决方案：Fragmentation</a></p>
-<p>本篇主要介绍一些最常见的Fragment的坑以及官方Fragment库的那些自身的BUG，这些BUG在你深度使用时会遇到，比如Fragment嵌套时或者单Activity＋多Fragment架构时遇到的坑。<br>如果想看较为实用的技巧，请直接看<a href="http://www.jianshu.com/p/fd71d65f0ec6" target="_blank" rel="external">第二篇</a></p>
+		<p>原文链接：<a href="http://www.jianshu.com/p/d9143a92ad94" target="_blank" rel="external">http://www.jianshu.com/p/d9143a92ad94</a><br>Fragment系列文章：<br>1、Fragment全解析系列（一）：那些年踩过的坑<br>2、<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E5%85%A8%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%AD%A3%E7%A1%AE%E7%9A%84%E4%BD%BF%E7%94%A8%E5%A7%BF%E5%8A%BF%20/">Fragment全解析系列（二）：正确的使用姿势</a><br>3、<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E4%B9%8B%E6%88%91%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9AFragmentation/">Fragment之我的解决方案：Fragmentation</a></p>
+<p>本篇主要介绍一些最常见的Fragment的坑以及官方Fragment库的那些自身的BUG，这些BUG在你深度使用时会遇到，比如Fragment嵌套时或者单Activity＋多Fragment架构时遇到的坑。<br>如果想看较为实用的技巧，请直接看<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E5%85%A8%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%AD%A3%E7%A1%AE%E7%9A%84%E4%BD%BF%E7%94%A8%E5%A7%BF%E5%8A%BF%20/">第二篇</a></p>
 <hr>
 <p>Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在基础上<strong>性能大幅度提高</strong>，并且<strong>占用内存降低</strong>，同样的界面Activity占用内存比Fragment要多，响应速度Fragment比Activty在中低端手机上快了很多，甚至能达到好几倍！如果你的app当前或以后有<strong>移植</strong>平板等平台时，可以让你节省大量时间和精力。</p>
 <hr>
@@ -135,7 +135,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">protected Activity mActivity;</div><div class="line">@Override</div><div class="line">public void onAttach(Activity activity) &#123;</div><div class="line">    super.onAttach(activity);</div><div class="line">    this.mActivity = activity;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line">*  如果你用了support 23的库，上面的方法会提示过时，有强迫症的小伙伴，可以用下面的方法代替</div><div class="line">*/</div><div class="line">@Override</div><div class="line">public void onAttach(Context context) &#123;</div><div class="line">    super.onAttach(context);</div><div class="line">    this.mActivity = (Activity)context;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h1 id="Fragment重叠异常—–正确使用hide、show的姿势"><a href="#Fragment重叠异常—–正确使用hide、show的姿势" class="headerlink" title="Fragment重叠异常—–正确使用hide、show的姿势"></a>Fragment重叠异常—–正确使用hide、show的姿势</h1><p>如果你<code>add()</code>了几个Fragment，使用<code>show()、hide()</code>方法控制，比如微信、QQ的底部tab等情景，如果你什么都不做的话，在“内存重启”后回到前台，app的这几个Fragment界面会重叠。</p>
 <p>原因是FragmentManager帮我们管理Fragment，当发生“内存重启”，他会从栈底向栈顶的顺序一次性恢复Fragment；<br>但是因为没有保存Fragment的mHidden属性，默认为false，即show状态，所以所有Fragment都是以show的形式恢复，我们看到了界面重叠。<br>（如果是<code>replace</code>，恢复形式和Activity一致，只有当你pop之后上一个Fragment才开始重新恢复，所有使用<code>replace</code>不会造成重叠现象）</p>
-<p>详细原因：<a href="http://www.jianshu.com/p/78ec81b42f92" target="_blank" rel="external">从源码角度分析，为什么会发生Fragment重叠？</a></p>
+<p>详细原因：<a href="https://zilianliuxue.github.io/2016/09/06/%E4%BB%8E%E6%BA%90%E7%A0%81%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%8F%91%E7%94%9FFragment%E9%87%8D%E5%8F%A0%EF%BC%9F/">从源码角度分析，为什么会发生Fragment重叠？</a></p>
 <p>这里给出3个解决方案：<br><strong>1、是大家比较熟悉的 findFragmentByTag：</strong></p>
 <p>即在<code>add()</code>或者<code>replace()</code>时绑定一个tag，一般我们是用fragment的类名作为tag，然后在发生“内存重启”时，通过<code>findFragmentByTag</code>找到对应的Fragment，并<code>hide()</code>需要隐藏的fragment。</p>
 <p>下面是个标准恢复写法：</p>
@@ -145,13 +145,13 @@
 <p>通过<code>getFragments()</code>可以获取到当前FragmentManager管理的栈内所有Fragment。</p>
 <p>标准写法如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">    super.onCreate(savedInstanceState);</div><div class="line">    setContentView(R.layout.activity);</div><div class="line"></div><div class="line">    TargetFragment targetFragment;</div><div class="line">    HideFragment hideFragment;</div><div class="line"></div><div class="line">    if (savedInstanceState != null) &#123;  // “内存重启”时调用</div><div class="line">        List&lt;Fragment&gt; fragmentList = getSupportFragmentManager().getFragments();</div><div class="line">        for (Fragment fragment : fragmentList) &#123;</div><div class="line">            if(fragment instanceof TartgetFragment)&#123;</div><div class="line">               targetFragment = (TargetFragment)fragment; </div><div class="line">            &#125;else if(fragment instanceof HideFragment)&#123;</div><div class="line">               hideFragment = (HideFragment)fragment;</div><div class="line">            &#125;</div><div class="line">        ｝</div><div class="line">        // 解决重叠问题</div><div class="line">        getFragmentManager().beginTransaction()</div><div class="line">                .show(targetFragment)</div><div class="line">                .hide(hideFragment)</div><div class="line">                .commit();</div><div class="line">    &#125;else&#123;  // 正常时</div><div class="line">        targetFragment = TargetFragment.newInstance();</div><div class="line">        hideFragment = HideFragment.newInstance();</div><div class="line"></div><div class="line">        // 这里add时，tag可传可不传</div><div class="line">        getFragmentManager().beginTransaction()</div><div class="line">                .add(R.id.container)</div><div class="line">                .add(R.id,container,hideFragment)</div><div class="line">                .hide(hideFragment)</div><div class="line">                .commit();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>从代码看起来，这种方式比较复杂，但是这种方式在一些场景下比第一种方式更加简便有效。<br>我会在<a href="http://www.jianshu.com/p/fd71d65f0ec6" target="_blank" rel="external">下一篇</a>中介绍在不同场景下如果选择，何时用<code>findFragmentByTag()</code>，何时用<code>getFragments()</code>恢复。</p>
+<p>从代码看起来，这种方式比较复杂，但是这种方式在一些场景下比第一种方式更加简便有效。<br>我会在<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E5%85%A8%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%AD%A3%E7%A1%AE%E7%9A%84%E4%BD%BF%E7%94%A8%E5%A7%BF%E5%8A%BF%20/">下一篇</a>中介绍在不同场景下如果选择，何时用<code>findFragmentByTag()</code>，何时用<code>getFragments()</code>恢复。</p>
 <p>顺便一提，有些小伙伴会用一种并<strong>不合适</strong>的方法恢复Fragment，虽然效果也能达到，但并<strong>不恰当</strong>。即：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">// 保存</div><div class="line">@Override</div><div class="line">protected void onSaveInstanceState(Bundle outState) &#123;</div><div class="line">    super.onSaveInstanceState(outState);</div><div class="line"></div><div class="line">    getSupportFragmentManager().putFragment(outState, KEY, targetFragment);</div><div class="line">&#125;</div><div class="line">// 恢复</div><div class="line">@Override</div><div class="line">protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">    super.onCreate(savedInstanceState);</div><div class="line">    setContentView(R.layout.activity_scrolling);</div><div class="line"></div><div class="line">    if (savedInstanceState != null) &#123;</div><div class="line">        Fragment targetFragment = getSupportFragmentManager().getFragment(savedInstanceState, KEY);</div><div class="line">    &#125;</div><div class="line">｝</div></pre></td></tr></table></figure>
 <p>如果仅仅为了找回栈内的Fragment，使用<code>putFragment(bundle, key, fragment)</code>保存fragment，是完全没有必要的；因为FragmentManager在任何情况都会帮你存储Fragment，你要做的仅仅是在“内存重启”后，找回这些Fragment即可。<br>。</p>
 <p><strong> 3、我的解决方案，9行代码解决所有情况的Fragment重叠：传送门</strong></p>
 <h1 id="Fragment嵌套的那些坑"><a href="#Fragment嵌套的那些坑" class="headerlink" title="Fragment嵌套的那些坑"></a>Fragment嵌套的那些坑</h1><p>其实一些小伙伴遇到的很多嵌套的坑，大部分都是由于对嵌套的栈视图产生混乱，只要理清栈视图关系，做好恢复相关工作以及正确选择是使用<code>getFragmentManager()</code>还是<code>getChildFragmentManager()</code>就可以避免这些问题。</p>
-<p>这部分内容是我们感觉Fragment非常难用的一个点，我会在<a href="http://www.jianshu.com/p/fd71d65f0ec6" target="_blank" rel="external">下一篇</a>中，详细介绍使用Fragment嵌套的一些技巧，以及如何清晰分析各个层级的栈视图。</p>
+<p>这部分内容是我们感觉Fragment非常难用的一个点，我会在<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E5%85%A8%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%AD%A3%E7%A1%AE%E7%9A%84%E4%BD%BF%E7%94%A8%E5%A7%BF%E5%8A%BF%20/">下一篇</a>中，详细介绍使用Fragment嵌套的一些技巧，以及如何清晰分析各个层级的栈视图。</p>
 <p>附：startActivityForResult接收返回问题<br>在support 23.2.0以下的支持库中，对于在嵌套子Fragment的<code>startActivityForResult ()</code>，会发现无论如何都不能在<code>onActivityResult()</code>中接收到返回值，只有最顶层的父Fragment才能接收到，这是一个support v4库的一个BUG，不过在前两天发布的support 23.2.0库中，已经修复了该问题，嵌套的子Fragment也能正常接收到返回数据了! </p>
 <h1 id="未必靠谱的出栈方法remove"><a href="#未必靠谱的出栈方法remove" class="headerlink" title="未必靠谱的出栈方法remove()"></a>未必靠谱的出栈方法remove()</h1><p>如果你想让某一个Fragment出栈，使用<code>remove()</code>在加入回退栈时并不靠谱。</p>
 <p>如果你在add的同时将Fragment加入回退栈：addToBackStack(name)的情况下，它并不能真正将Fragment从栈内移除，如果你在2秒后（确保Fragment事务已经完成）打印<code>getSupportFragmentManager().getFragments()</code>，会发现该Fragment依然存在，并且依然可以返回到被remove的Fragment，而且是空白页面。</p>
@@ -186,8 +186,8 @@
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>看了上面的介绍，你可能会觉得Fragment有点可怕。</p>
 <p>但是我想说，如果你只是浅度使用，比如一个Activity容器包含列表Fragment＋详情Fragment这种简单情景下，不涉及到<code>popBackStack/Immediate(tag/id)</code>这些的方法，还是比较轻松使用的，出现的问题，网上都可以找到解决方案。</p>
 <p>但是如果你的Fragment逻辑比较复杂，有特殊需求，或者你的app架构是仅有一个Activity + 多个Fragment，上面说的这些坑，你都应该全部解决。</p>
-<p>在<a href="http://www.jianshu.com/p/fd71d65f0ec6" target="_blank" rel="external">下一篇</a>中，介绍了一些非常实用的使用技巧，包括如何解决Fragment嵌套、各种环境、组件下Fragment的使用等技巧，推荐阅读！</p>
-<p>还有一些比较隐蔽的问题，不影响app的正常运行，仅仅是一些显示的BUG，并没有在上面介绍，在本系列的<a href="http://www.jianshu.com/p/38f7994faa6b" target="_blank" rel="external">最后一篇</a>，我给出了我的解决方案，一个我封装的<a href="https://github.com/YoKeyword/Fragmentation" target="_blank" rel="external">Fragmentation库</a>，解决了所有动画问题，非常适合<strong>单Activity+多Fragment</strong> 或者 <strong>多模块Activity＋多Fragment</strong>的架构。有兴趣的可以看看 :)</p>
+<p>在<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E5%85%A8%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%AD%A3%E7%A1%AE%E7%9A%84%E4%BD%BF%E7%94%A8%E5%A7%BF%E5%8A%BF%20/">下一篇</a>中，介绍了一些非常实用的使用技巧，包括如何解决Fragment嵌套、各种环境、组件下Fragment的使用等技巧，推荐阅读！</p>
+<p>还有一些比较隐蔽的问题，不影响app的正常运行，仅仅是一些显示的BUG，并没有在上面介绍，在本系列的<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E4%B9%8B%E6%88%91%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9AFragmentation/">最后一篇</a>，我给出了我的解决方案，一个我封装的<a href="https://github.com/YoKeyword/Fragmentation" target="_blank" rel="external">Fragmentation库</a>，解决了所有动画问题，非常适合<strong>单Activity+多Fragment</strong> 或者 <strong>多模块Activity＋多Fragment</strong>的架构。有兴趣的可以看看 :)</p>
 <hr>
 <p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
   
@@ -318,7 +318,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zilianliuxue.github.io/2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/" data-title="Fragment防手抖 最佳实践 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  <div data-url="http://zilianliuxue.github.io/2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/" data-title="Fragment全解析系列（一）：那些年踩过的坑 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -352,7 +352,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/" data-title="Fragment防手抖 最佳实践" data-url="http://zilianliuxue.github.io/2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/"></div>
+	<div class="ds-thread" data-thread-key="2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/" data-title="Fragment全解析系列（一）：那些年踩过的坑" data-url="http://zilianliuxue.github.io/2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/"></div>
 </section>
 
 
@@ -421,7 +421,15 @@
 			
 		
 			
-				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
 			
 		
 			
@@ -433,19 +441,11 @@
 			
 		
 			
+				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
@@ -453,11 +453,11 @@
 			
 		
 			
-				<li><a href="/tags/Cache/" title="Cache">Cache<sup>1</sup></a></li>
+				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
@@ -469,7 +469,7 @@
 			
 		
 			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>1</sup></a></li>
 			
 		
 		</ul>

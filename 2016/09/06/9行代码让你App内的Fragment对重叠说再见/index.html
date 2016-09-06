@@ -21,7 +21,7 @@
 <meta property="og:description" content="原文链接：http://www.jianshu.com/p/c12a98a36b2b
 在上一篇从源码角度分析，为什么会发生Fragment重叠？里，我们分析了造成Fragment重叠的原因，这一篇我会介绍几个解决方案，同时给出一个我的方案：9行代码让你app内的Fragment对重叠说再见！
 通过findFragmentByTag() &amp;amp; getFragments()的解决方案这两种方案在">
-<meta property="og:updated_time" content="2016-09-06T04:35:59.752Z">
+<meta property="og:updated_time" content="2016-09-06T04:52:28.689Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="9行代码让你app内的Fragment对重叠说再见">
 <meta name="twitter:description" content="原文链接：http://www.jianshu.com/p/c12a98a36b2b
@@ -118,8 +118,8 @@
 		</div>
 		
 		<p>原文链接：<a href="http://www.jianshu.com/p/c12a98a36b2b" target="_blank" rel="external">http://www.jianshu.com/p/c12a98a36b2b</a></p>
-<p>在上一篇<a href="http://www.jianshu.com/p/78ec81b42f92" target="_blank" rel="external">从源码角度分析，为什么会发生Fragment重叠？</a>里，我们分析了造成Fragment重叠的原因，这一篇我会介绍几个解决方案，同时给出一个<strong>我的方案：9行代码让你app内的Fragment对重叠说再见！</strong></p>
-<h2 id="通过findFragmentByTag-amp-getFragments-的解决方案"><a href="#通过findFragmentByTag-amp-getFragments-的解决方案" class="headerlink" title="通过findFragmentByTag() &amp; getFragments()的解决方案"></a>通过findFragmentByTag() &amp; getFragments()的解决方案</h2><p>这两种方案在我这篇简书<a href="http://www.jianshu.com/p/d9143a92ad94" target="_blank" rel="external">Fragment全解析系列（一）：那些年踩过的坑</a>里有比较详细的介绍，可以自行查看，这里不多做介绍，这两种方案也是最常见的解决方案。</p>
+<p>在上一篇<a href="https://zilianliuxue.github.io/2016/09/06/%E4%BB%8E%E6%BA%90%E7%A0%81%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%8F%91%E7%94%9FFragment%E9%87%8D%E5%8F%A0%EF%BC%9F/">从源码角度分析，为什么会发生Fragment重叠？</a>里，我们分析了造成Fragment重叠的原因，这一篇我会介绍几个解决方案，同时给出一个<strong>我的方案：9行代码让你app内的Fragment对重叠说再见！</strong></p>
+<h2 id="通过findFragmentByTag-amp-getFragments-的解决方案"><a href="#通过findFragmentByTag-amp-getFragments-的解决方案" class="headerlink" title="通过findFragmentByTag() &amp; getFragments()的解决方案"></a>通过findFragmentByTag() &amp; getFragments()的解决方案</h2><p>这两种方案在我这篇简书<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E5%85%A8%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E9%82%A3%E4%BA%9B%E5%B9%B4%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/">Fragment全解析系列（一）：那些年踩过的坑</a>里有比较详细的介绍，可以自行查看，这里不多做介绍，这两种方案也是最常见的解决方案。</p>
 <p><strong>缺点：</strong></p>
 <ul>
 <li><strong>使用比较麻烦，代码量较多；</strong></li>
@@ -129,7 +129,7 @@
 <blockquote>
 <p>Fragmentation库前几天push了改变重大的0.7版本，应该算是比较成熟了，如果你重度使用Fragment或者想使用单Activity+多Fragment的组件架构的话，强烈推荐看看；对于各种复杂嵌套、同级Fragment的使用场景，你不必担心Fragment的重叠，同时大大简化Fragment的嵌套逻辑。</p>
 </blockquote>
-<p>在<a href="http://www.jianshu.com/p/78ec81b42f92" target="_blank" rel="external">上一篇简书</a>分析中，我们知道了发生Fragment重叠的根本原因在于FragmentState没有保存Fragment的显示状态，即<code>mHidden</code>，导致页面重启后，该值为默认的false，即show状态，所以导致了Fragment的重叠。</p>
+<p>在<a href="https://zilianliuxue.github.io/2016/09/06/%E4%BB%8E%E6%BA%90%E7%A0%81%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%8F%91%E7%94%9FFragment%E9%87%8D%E5%8F%A0%EF%BC%9F/">上一篇</a>分析中，我们知道了发生Fragment重叠的根本原因在于FragmentState没有保存Fragment的显示状态，即<code>mHidden</code>，导致页面重启后，该值为默认的false，即show状态，所以导致了Fragment的重叠。</p>
 <p>根据这个原因，我想到我们手动维护一个<code>mSupportHidden</code>不就行了吗？<br>看下面的基类Fragment代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">public class BaseFragment extends Fragment &#123;</div><div class="line">    private static final String STATE_SAVE_IS_HIDDEN = &quot;STATE_SAVE_IS_HIDDEN&quot;;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onCreate(@Nullable Bundle savedInstanceState) &#123;</div><div class="line">    ...</div><div class="line">    if (savedInstanceState != null) &#123;</div><div class="line">        boolean isSupportHidden = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);</div><div class="line"></div><div class="line">        FragmentTransaction ft = getFragmentManager().beginTransaction();</div><div class="line">        if (isSupportHidden) &#123;</div><div class="line">            ft.hide(this);</div><div class="line">        &#125; else &#123;</div><div class="line">            ft.show(this);</div><div class="line">        &#125;</div><div class="line">        ft.commit();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onSaveInstanceState(Bundle outState) &#123;</div><div class="line">        ...</div><div class="line">        outState.putBoolean(STATE_SAVE_IS_HIDDEN, isHidden());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>是的你没看错，只要上面的9行代码！ FragmentState没帮我们保存Hidden状态，那就我们自己来保存，在页面重启后，我们自己来决定Fragment是否显示！<br>解决思路转变了，由Activity/父Fragment来管理子Fragment的Hidden状态转变为 <strong>由Fragment自己来管理自己的Hidden状态</strong>！</p>
@@ -372,7 +372,15 @@
 			
 		
 			
-				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
 			
 		
 			
@@ -384,19 +392,11 @@
 			
 		
 			
+				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
@@ -404,11 +404,11 @@
 			
 		
 			
-				<li><a href="/tags/Cache/" title="Cache">Cache<sup>1</sup></a></li>
+				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
@@ -420,7 +420,7 @@
 			
 		
 			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>1</sup></a></li>
 			
 		
 		</ul>

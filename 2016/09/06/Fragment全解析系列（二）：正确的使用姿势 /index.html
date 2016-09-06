@@ -26,7 +26,7 @@ Fragment系列文章：1、Fragment全解析系列（一）：那些年踩过的
 
 Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在基">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/937851-6e0b034db7df7199.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2016-09-06T04:40:10.936Z">
+<meta property="og:updated_time" content="2016-09-06T04:59:52.691Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fragment全解析系列（二）：正确的使用姿势">
 <meta name="twitter:description" content="原文链接：http://www.jianshu.com/p/fd71d65f0ec6
@@ -126,7 +126,7 @@ Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在
 		</div>
 		
 		<p>原文链接：<a href="http://www.jianshu.com/p/fd71d65f0ec6" target="_blank" rel="external">http://www.jianshu.com/p/fd71d65f0ec6</a></p>
-<p>Fragment系列文章：<br>1、<a href="http://www.jianshu.com/p/d9143a92ad94" target="_blank" rel="external">Fragment全解析系列（一）：那些年踩过的坑</a><br>2、Fragment全解析系列（二）：正确的使用姿势<br>3、<a href="http://www.jianshu.com/p/38f7994faa6b" target="_blank" rel="external">Fragment之我的解决方案：Fragmentation</a></p>
+<p>Fragment系列文章：<br>1、<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E5%85%A8%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E9%82%A3%E4%BA%9B%E5%B9%B4%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/">Fragment全解析系列（一）：那些年踩过的坑</a><br>2、Fragment全解析系列（二）：正确的使用姿势<br>3、<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E4%B9%8B%E6%88%91%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9AFragmentation/">Fragment之我的解决方案：Fragmentation</a></p>
 <p>本篇主要介绍一些Fragment使用技巧。</p>
 <hr>
 <p>Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在基础上<strong>性能大幅度提高</strong>，并且<strong>占用内存降低</strong>，同样的界面Activity占用内存比Fragment要多，响应速度Fragment比Activty在中低端手机上快了很多，甚至能达到好几倍！如果你的app当前或以后有<strong>移植</strong>平板等平台时，可以让你节省大量时间和精力。</p>
@@ -137,7 +137,7 @@ Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在
 <p>如果你没看过本系列的<a href="undefined">第一篇</a>，为了方便后面文章的介绍，先规定一个“术语”，安卓app有一种特殊情况，就是 app运行在后台的时候，系统资源紧张的时候导致把app的资源全部回收（杀死app的进程），这时把app再从后台返回到前台时，app会重启。这种情况下文简称为：“内存重启”。（屏幕旋转等配置变化也会造成当前Activity重启，本质与“内存重启”类似）</p>
 <h1 id="1、一些使用建议"><a href="#1、一些使用建议" class="headerlink" title="1、一些使用建议"></a>1、一些使用建议</h1><p>1、对Fragment传递数据，建议使用<code>setArguments(Bundle args)</code>，而后在<code>onCreate</code>中使用<code>getArguments()</code>取出，在 “内存重启”前，系统会帮你保存数据，不会造成数据的丢失。和Activity的Intent原理一致。</p>
 <p>2、使用<code>newInstance(参数)</code> 创建Fragment对象，优点是调用者只需要关系传递的哪些数据，而无需关心传递数据的Key是什么。</p>
-<p>3、如果你需要在Fragment中用到宿主Activity对象，建议在你的基类Fragment定义一个Activity的全局变量，在<code>onAttach</code>中初始化，这不是最好的解决办法，但这可以有效避免一些意外Crash。详细原因参考<a href="http://www.jianshu.com/p/d9143a92ad94" target="_blank" rel="external">第一篇</a>的“getActivity()空指针”部分。</p>
+<p>3、如果你需要在Fragment中用到宿主Activity对象，建议在你的基类Fragment定义一个Activity的全局变量，在<code>onAttach</code>中初始化，这不是最好的解决办法，但这可以有效避免一些意外Crash。详细原因参考<a href="https://zilianliuxue.github.io/2016/09/06/%E4%BB%8E%E6%BA%90%E7%A0%81%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%8F%91%E7%94%9FFragment%E9%87%8D%E5%8F%A0%EF%BC%9F/">第一篇</a>的“getActivity()空指针”部分。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> Activity mActivity;</div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAttach</span><span class="params">(Activity activity)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onAttach(activity);</div><div class="line">    <span class="keyword">this</span>.mActivity = activity;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h1 id="2、add-show-hide-replace-的那点事"><a href="#2、add-show-hide-replace-的那点事" class="headerlink" title="2、add(), show(), hide(), replace()的那点事"></a>2、add(), show(), hide(), replace()的那点事</h1><p><strong>1、区别</strong> </p>
 <p><code>show()</code>，<code>hide()</code>最终是让Fragment的View <code>setVisibility</code>(true还是false)，不会调用生命周期；<br><code>replace()</code>的话会销毁视图，即调用onDestoryView、onCreateView等一系列生命周期；<br> <code>add()</code>和 <code>replace()</code>不要在同一个阶级的FragmentManager里混搭使用。</p>
@@ -146,7 +146,7 @@ Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在
 <p>注意：如果你的app有大量图片，这时更好的方式可能是replace，配合你的图片框架在Fragment视图销毁时，回收其图片所占的内存。</p>
 <p><strong>3、onHiddenChanged的回调时机</strong><br> 当使用<code>add()</code>+<code>show()，hide()</code>跳转新的Fragment时，旧的Fragment回调<code>onHiddenChanged()</code>，不会回调<code>onStop()</code>等生命周期方法，而新的Fragment在创建时是不会回调<code>onHiddenChanged()</code>，这点要切记。</p>
 <p><strong>4、Fragment重叠问题</strong><br>使用<code>show()</code>，<code>hide()</code>带来的一个问题就是，如果你不做任何处理，在“内存重启”后，Fragment会重叠；</p>
-<p>有些小伙伴可能就是为了避免Fragment重叠问题，而选择使用<code>replace()</code>，但是使用<code>show()</code>，<code>hide()</code>时，重叠问题是完全可以解决的，有两种方式解决，详情参考<a href="http://www.jianshu.com/p/d9143a92ad94" target="_blank" rel="external">上一篇</a>。</p>
+<p>有些小伙伴可能就是为了避免Fragment重叠问题，而选择使用<code>replace()</code>，但是使用<code>show()</code>，<code>hide()</code>时，重叠问题是完全可以解决的，有两种方式解决，详情参考<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E5%85%A8%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E9%82%A3%E4%BA%9B%E5%B9%B4%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/">上一篇</a>。</p>
 <h1 id="3、关于FragmentManager你需要知道的"><a href="#3、关于FragmentManager你需要知道的" class="headerlink" title="3、关于FragmentManager你需要知道的"></a>3、关于FragmentManager你需要知道的</h1><p>1、FragmentManager栈视图</p>
 <p>（1）每个Fragment以及宿主Activity(继承自FragmentActivity)都会在创建时，初始化一个FragmentManager对象，处理好Fragment嵌套问题的关键，就是理清这些不同阶级的栈视图。</p>
 <p>下面给出一个简要的<strong>关系图</strong>：</p>
@@ -173,7 +173,7 @@ Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">getSupportFragmentManager().popBackStackImmdiate();</div><div class="line">new Handler().postDelay(new Runnable()&#123;</div><div class="line">          @Override</div><div class="line">           public void run() &#123;</div><div class="line">                // 在这里执行Fragment事务</div><div class="line">           &#125;</div><div class="line">&#125;, 你的出栈动画时间);</div></pre></td></tr></table></figure>
 <p>2、给Fragment设定Fragment转场动画时，如果你的app有使用popStackBackxx(tag/id,flags)出栈多个Fragment时，应避免直接使用<code>.setCustomAnimations(enter, exit, popEnter, popExit)</code>，需要配合<code>onCreateAnimtation方法</code>将出栈动画临时取消，本系列最后一篇给出了我的解决方案，解决了该问题，有兴趣可以自行查看 :)</p>
 <p><strong>(注意：如果你想给下一个Fragment设置进栈动画和出栈动画，.setCustomAnimations(enter, exit)只能设置进栈动画，第二个参数并不是设置出栈动画；请使用.setCustomAnimations(enter, exit, popEnter, popExit)，这个方法的第1个参数对应进栈动画，第4个参数对应出栈动画，所以是.setCustomAnimations(进栈动画, exit, popEnter, 出栈动画))</strong></p>
-<p><strong>另外一提</strong>：谨慎使用<code>popStackBack(String tag/int id,int flasg)</code>系列的方法，原因在<a href="http://www.jianshu.com/p/d9143a92ad94" target="_blank" rel="external">上一篇</a>中已经描述。</p>
+<p><strong>另外一提</strong>：谨慎使用<code>popStackBack(String tag/int id,int flasg)</code>系列的方法，原因在<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E5%85%A8%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E9%82%A3%E4%BA%9B%E5%B9%B4%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/">上一篇</a>中已经描述。</p>
 <p><strong>Tip：</strong><br><strong>如果你遇到Fragment的mNextAnim空指针的异常（通常是在你的Fragment被重启的情况下），那么你首先需要检查是否操作的Fragment是否为null；其次在你的Fragment转场动画还没结束时，你是否就执行了其他事务等方法；解决思路就是延迟一个动画时间再执行事务，或者临时将该Fragment设为无动画</strong></p>
 <h1 id="6、是使用单Activity＋多Fragment的架构，还是多模块Activity＋多Fragment的架构？"><a href="#6、是使用单Activity＋多Fragment的架构，还是多模块Activity＋多Fragment的架构？" class="headerlink" title="6、是使用单Activity＋多Fragment的架构，还是多模块Activity＋多Fragment的架构？"></a>6、是使用单Activity＋多Fragment的架构，还是多模块Activity＋多Fragment的架构？</h1><p>单Activity＋多Fragment：</p>
 <p>一个app仅有一个Activity，界面皆是Frament，Activity作为app容器使用。</p>
@@ -183,8 +183,8 @@ Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在
 <p>优点：速度快，相比较单Activity+多Fragment，更易维护。</p>
 <p><strong>我的观点：</strong><br>权衡利弊，我认为多模块Activity＋多Fragment是最合适的架构，开发起来不是很复杂，app的性能又很高效。</p>
 <p>当然。<strong>Fragment只是官方提供的灵活组件，请优先遵从你的项目设计！</strong>真的特别复杂的界面，或者单个Activity就可以完成一个流程的界面，使用Activity可能是更好的方案。</p>
-<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>如果你读完了<a href="http://www.jianshu.com/p/d9143a92ad94" target="_blank" rel="external">第一篇</a>和这篇文章，那么我相信你使用多模块Activity+多Fragment的架构所遇到的坑，大部分都应该能找到解决办法。</p>
-<p>但是如果流程较为复杂，比如Fragment A需要启动一个新的Fragment B并且关闭当前A,或者A启动B，B在获取数据后，想在返回到A时把数据交给A（类似Activity的<code>startActivityForResult</code>），又或者你保证在Fragment转场动画的情况下，使用<code>pop(tag\id)</code>从栈内退出多个Fragment，或者你甚至想Fragment有一个类似Activity的<code>SingleTask</code>启动模式，那么你可以参考<a href="http://www.jianshu.com/p/38f7994faa6b" target="_blank" rel="external">下一篇</a>，我的解决方案库，<a href="https://github.com/YoKeyword/Fragmentation" target="_blank" rel="external">Fragmentation</a>。它甚至提供了一个让你在开发时，可以随时查看所有阶级的栈视图的UI界面。</p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>如果你读完了<a href="https://zilianliuxue.github.io/2016/09/06/%E4%BB%8E%E6%BA%90%E7%A0%81%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%8F%91%E7%94%9FFragment%E9%87%8D%E5%8F%A0%EF%BC%9F/">第一篇</a>和这篇文章，那么我相信你使用多模块Activity+多Fragment的架构所遇到的坑，大部分都应该能找到解决办法。</p>
+<p>但是如果流程较为复杂，比如Fragment A需要启动一个新的Fragment B并且关闭当前A,或者A启动B，B在获取数据后，想在返回到A时把数据交给A（类似Activity的<code>startActivityForResult</code>），又或者你保证在Fragment转场动画的情况下，使用<code>pop(tag\id)</code>从栈内退出多个Fragment，或者你甚至想Fragment有一个类似Activity的<code>SingleTask</code>启动模式，那么你可以参考<a href="https://zilianliuxue.github.io/2016/09/06/Fragment%E4%B9%8B%E6%88%91%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9AFragmentation/">下一篇</a>，我的解决方案库，<a href="https://github.com/YoKeyword/Fragmentation" target="_blank" rel="external">Fragmentation</a>。它甚至提供了一个让你在开发时，可以随时查看所有阶级的栈视图的UI界面。</p>
 <hr>
 <p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
   
@@ -329,10 +329,10 @@ Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/" title="Fragment防手抖 最佳实践">
+ <a href="/2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/" title="Fragment全解析系列（一）：那些年踩过的坑">
   <strong>上一篇：</strong><br/>
   <span>
-  Fragment防手抖 最佳实践</span>
+  Fragment全解析系列（一）：那些年踩过的坑</span>
 </a>
 </div>
 
@@ -418,7 +418,15 @@ Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在
 			
 		
 			
-				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
 			
 		
 			
@@ -430,19 +438,11 @@ Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在
 			
 		
 			
+				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
@@ -450,11 +450,11 @@ Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在
 			
 		
 			
-				<li><a href="/tags/Cache/" title="Cache">Cache<sup>1</sup></a></li>
+				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
@@ -466,7 +466,7 @@ Fragment是可以让你的app纵享丝滑的设计，如果你的app想在现在
 			
 		
 			
-				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>1</sup></a></li>
 			
 		
 		</ul>
