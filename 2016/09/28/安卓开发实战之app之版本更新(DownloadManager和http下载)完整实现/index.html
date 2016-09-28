@@ -1,0 +1,970 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现 | ♀紫☆恋&amp;流★雪♂</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Losileeya">
+    
+
+    
+    <meta name="description" content="前言本文将讲解app的升级与更新。一般而言用户使用App的时候升级提醒有两种方式获得：
+
+一种是通过应用市场 获取
+一种是打开应用之后提醒用户更新升级
+
+而更新操作一般是在用户点击了升级按钮之后开始执行的，这里的升级操作也分为两种形式：
+
+一般升级
+强制升级
+
+app升级操作：
+
+应用市场的app升级
+
+在App Store中升级需要为App Store上传新版App，我们在新版本完成之后都会上传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现">
+<meta property="og:url" content="http://zilianliuxue.github.io/2016/09/28/安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现/index.html">
+<meta property="og:site_name" content="♀紫☆恋&流★雪♂">
+<meta property="og:description" content="前言本文将讲解app的升级与更新。一般而言用户使用App的时候升级提醒有两种方式获得：
+
+一种是通过应用市场 获取
+一种是打开应用之后提醒用户更新升级
+
+而更新操作一般是在用户点击了升级按钮之后开始执行的，这里的升级操作也分为两种形式：
+
+一般升级
+强制升级
+
+app升级操作：
+
+应用市场的app升级
+
+在App Store中升级需要为App Store上传新版App，我们在新版本完成之后都会上传">
+<meta property="og:image" content="http://img.blog.csdn.net/20160928143355881">
+<meta property="og:image" content="http://img.blog.csdn.net/20160928143341506">
+<meta property="og:image" content="http://img.blog.csdn.net/20160928143454907">
+<meta property="og:image" content="http://img.blog.csdn.net/20160928143411828">
+<meta property="og:image" content="http://img.blog.csdn.net/20160928145131556">
+<meta property="og:image" content="http://img.blog.csdn.net/20160928143440835">
+<meta property="og:image" content="http://img.blog.csdn.net/20160928143428829">
+<meta property="og:updated_time" content="2016-09-28T09:27:01.714Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现">
+<meta name="twitter:description" content="前言本文将讲解app的升级与更新。一般而言用户使用App的时候升级提醒有两种方式获得：
+
+一种是通过应用市场 获取
+一种是打开应用之后提醒用户更新升级
+
+而更新操作一般是在用户点击了升级按钮之后开始执行的，这里的升级操作也分为两种形式：
+
+一般升级
+强制升级
+
+app升级操作：
+
+应用市场的app升级
+
+在App Store中升级需要为App Store上传新版App，我们在新版本完成之后都会上传">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160928143355881">
+
+    
+    <link rel="alternative" href="/atom.xml" title="♀紫☆恋&amp;流★雪♂" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+	
+    <form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+	<label>Search</label>
+	<input type="text" id="search" class="st-default-search-input" maxlength="20" placeholder="Search" />
+	</form>
+    
+    <link rel="stylesheet" href="/css/style.css">
+	
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.gif" alt="♀紫☆恋&amp;流★雪♂" title="♀紫☆恋&amp;流★雪♂"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="♀紫☆恋&amp;流★雪♂">♀紫☆恋&amp;流★雪♂</a></h1>
+				<h2 class="blog-motto">编程中我们会遇到多少挫折？不放弃，沙漠尽头必是绿洲，不是天方夜谭</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="search" />
+						<input type="hidden" name="q" value="site:zilianliuxue.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/09/28/安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现/" title="安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现" itemprop="url">安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
+		
+  <p class="article-time">
+    <time datetime="2016-09-28T09:26:00.000Z" itemprop="datePublished"> 发表于 2016-09-28</time>
+   <span id="busuanzi_container_page_pv">
+    总阅读<span id="busuanzi_value_page_pv"></span>次
+   </span>
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器端："><span class="toc-number">2.</span> <span class="toc-text">服务器端：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端需要实现："><span class="toc-number">3.</span> <span class="toc-text">客户端需要实现：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#准备bean"><span class="toc-number">3.1.</span> <span class="toc-text">准备bean</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网络接口的实现"><span class="toc-number">3.2.</span> <span class="toc-text">网络接口的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用谷歌推荐的DownloadManager实现下载"><span class="toc-number">3.3.</span> <span class="toc-text">使用谷歌推荐的DownloadManager实现下载</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听app是否安装完成"><span class="toc-number">4.</span> <span class="toc-text">监听app是否安装完成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用HttpUrlConnection下载"><span class="toc-number">4.1.</span> <span class="toc-text">使用HttpUrlConnection下载</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h3><p>本文将讲解app的升级与更新。一般而言用户使用App的时候升级提醒有两种方式获得：</p>
+<ul>
+<li>一种是通过应用市场 获取</li>
+<li>一种是打开应用之后提醒用户更新升级</li>
+</ul>
+<p>而更新操作一般是在用户点击了升级按钮之后开始执行的，这里的升级操作也分为两种形式：</p>
+<ul>
+<li>一般升级</li>
+<li>强制升级</li>
+</ul>
+<p><strong>app升级操作：</strong></p>
+<ul>
+<li>应用市场的app升级</li>
+</ul>
+<p>在App Store中升级需要为App Store上传新版App，我们在新版本完成之后都会上传到App Store中，在审核完成之后就相当于完成了这个应用市场的发布了，也就是发布上线了。这时候如果用户安装了这个应用市场，那么就能看到我们的App有新版本的升级提醒了。</p>
+<ul>
+<li>应用内升级</li>
+</ul>
+<p>除了可以在应用市场升级，我们还可以在应用内升级，在应用内升级主要是通过调用服务器端接口获取应用的升级信息，然后通过获取的服务器升级应用信息与本地的App版本比对，若服务器下发的最新的App版本高于本地的版本号，则说明有新版本发布，那么我们就可以执行更新操作了，否则忽略掉即可。</p>
+<blockquote>
+<p>显然应用市场提醒的升级不是我们的重点，本篇主要是对于app升级的场景来进行不同角度的实现，便于以后开发过程中直接拿去用就ok了。</p>
+</blockquote>
+<h3 id="服务器端："><a href="#服务器端：" class="headerlink" title="服务器端："></a><strong>服务器端：</strong></h3><ul>
+<li>服务端提供一个接口，或者网址，这里提供一个网址如下：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http:<span class="comment">//192.168.191.1:8081/update</span></div></pre></td></tr></table></figure>
+<p>一般作为一个安卓程序员要测试还得写一个服务端（醉了），这里我就使用nodejs来搞一个本地的服务器来测试下app的版本更新检验。</p>
+<ul>
+<li>根据请求的结果，我这里就写一个简单的json</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="string">"data"</span>:&#123;</div><div class="line">  <span class="string">"appname"</span>: <span class="string">"hoolay.apk"</span>,</div><div class="line">  <span class="string">"serverVersion"</span>: <span class="string">"1.0.2"</span>,</div><div class="line">  <span class="string">"serverFlag"</span>: <span class="string">"1"</span>,</div><div class="line">  <span class="string">"lastForce"</span> : <span class="string">"1"</span>,</div><div class="line">  <span class="string">"updateurl"</span>: <span class="string">"http://releases.b0.upaiyun.com/hoolay.apk"</span>,</div><div class="line">  <span class="string">"upgradeinfo"</span>: <span class="string">"V1.0.2版本更新，你想不想要试一下哈！！！"</span></div><div class="line">&#125;,</div><div class="line">  <span class="string">"error_code"</span>:<span class="string">"200"</span>,<span class="string">"error_msg"</span> :<span class="string">"蛋疼的认识"</span>&#125;</div></pre></td></tr></table></figure>
+<p>然后我电脑上是装了webstrom的，没有装也没有关系但是必须有nodejs，现在都自带了express，表示并没有学过，所以简单的写个express_demo.js：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var express = require(<span class="string">'express'</span>);</div><div class="line">var app = express();</div><div class="line">var fs = require(<span class="string">"fs"</span>);</div><div class="line"><span class="comment">//此处设置为get请求，app里面直接写 (本机ip:8081/update)</span></div><div class="line">app.get(<span class="string">'/update'</span>, function (req, res) &#123;<span class="comment">//http://127.0.0.1:8081/update</span></div><div class="line">    fs.readFile( __dirname + <span class="string">"/"</span> + <span class="string">"version.json"</span>, <span class="string">'utf8'</span>, function (err, data) &#123;<span class="comment">//读取相同目录下的version.json文件</span></div><div class="line">        console.log( data );<span class="comment">//打印json数据</span></div><div class="line">        res.end( data );<span class="comment">//把json数据response回去</span></div><div class="line">    &#125;);</div><div class="line">&#125;)</div><div class="line">var server = app.listen(<span class="number">8081</span>, function () &#123;<span class="comment">//端口我这里写的是8081</span></div><div class="line">    var host = server.address().address</div><div class="line">    var port = server.address().port</div><div class="line">    console.log(<span class="string">"应用实例，访问地址为 http://%s:%s"</span>, host, port)</div><div class="line"></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>有webstrom的直接选中文件run就ok了，没有直接  node express_demo.js，可以直接浏览器打开：<a href="http://127.0.0.1:8081/update" target="_blank" rel="external">http://127.0.0.1:8081/update</a></p>
+<ul>
+<li>效果如下：</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20160928143355881" alt="这里写图片描述"></p>
+<p>上图为打开浏览器后的显示结果。</p>
+<p><img src="http://img.blog.csdn.net/20160928143341506" alt="这里写图片描述"></p>
+<p>上图为webstrom的终端显示结果。</p>
+<h3 id="客户端需要实现："><a href="#客户端需要实现：" class="headerlink" title="客户端需要实现："></a><strong>客户端需要实现：</strong></h3><p>我们知道不同的需求有不同的操作方法和界面显示：</p>
+<ol>
+<li>从是否为app内部下载还是通知栏更新：</li>
+</ol>
+<ul>
+<li><p>app内下载更新</p>
+<p>这时我们必须等下载安装完全后才能进行操作，效果是这样的：</p>
+<p><img src="http://img.blog.csdn.net/20160928143454907" alt="这里写图片描述"></p>
+<p>​</p>
+</li>
+<li><p>通知栏下载更新</p>
+<p>这种情况是不在应用内更新，放在通知栏并不会影响当前app的使用，效果是这样的：</p>
+<p><img src="http://img.blog.csdn.net/20160928143411828" alt=""></p>
+<p>​</p>
+</li>
+</ul>
+<ol>
+<li><p>app更新分3种：强制更新，推荐更新，无需更新</p>
+<ul>
+<li><p>强制更新</p>
+<p><img src="http://img.blog.csdn.net/20160928145131556" alt="这里写图片描述"></p>
+</li>
+<li><p>推荐更新</p>
+<p><img src="http://img.blog.csdn.net/20160928143440835" alt="这里写图片描述"></p>
+</li>
+<li><p>无需更新</p>
+<p><img src="http://img.blog.csdn.net/20160928143428829" alt="这里写图片描述"></p>
+<p>​</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>具体思路：</p>
+<blockquote>
+<ol>
+<li>实现bean用于对接后端接口实现app的更新（不写网络请求模拟本地数据也需要这个模型）</li>
+<li>使用retrofit来请求版本更新接口</li>
+<li>下载apk我们分别使用DownloadManager和普通的httpurlconnection</li>
+<li>通过BroadcastReceiver来监听是否下载完成</li>
+</ol>
+</blockquote>
+<h4 id="准备bean"><a href="#准备bean" class="headerlink" title="准备bean"></a><strong>准备bean</strong></h4><p>首先我们要去解析服务端给的json，那么我们就要来创建一个bean类了,这里是严格根据json文件的格式来的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.losileeya.appupdate.bean;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * User: Losileeya (847457332@qq.com)</div><div class="line"> * Date: 2016-09-27</div><div class="line"> * Time: 11:20</div><div class="line"> * 类描述：版本更新的实体与你服务器的字段相匹配</div><div class="line"> * <span class="doctag">@version</span> :</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UpdateAppInfo</span>  </span>&#123;</div><div class="line">    <span class="keyword">public</span> UpdateInfo data; <span class="comment">// 信息</span></div><div class="line">    <span class="keyword">public</span> Integer error_code; <span class="comment">// 错误代码</span></div><div class="line">    <span class="keyword">public</span> String error_msg; <span class="comment">// 错误信息</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">UpdateInfo</span></span>&#123;</div><div class="line">        <span class="comment">// app名字</span></div><div class="line">        <span class="keyword">public</span> String appname;</div><div class="line">        <span class="comment">//服务器版本</span></div><div class="line">        <span class="keyword">public</span> String serverVersion;</div><div class="line">        <span class="comment">//服务器标志</span></div><div class="line">        <span class="keyword">public</span> String serverFlag;</div><div class="line">        <span class="comment">//强制升级</span></div><div class="line">        <span class="keyword">public</span> String lastForce;</div><div class="line">        <span class="comment">//app最新版本地址</span></div><div class="line">        <span class="keyword">public</span> String updateurl;</div><div class="line">        <span class="comment">//升级信息</span></div><div class="line">        <span class="keyword">public</span> String upgradeinfo;</div><div class="line">        get...</div><div class="line">        set...</div><div class="line">    &#125;</div><div class="line">        get...</div><div class="line">        set...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="网络接口的实现"><a href="#网络接口的实现" class="headerlink" title="网络接口的实现"></a><strong>网络接口的实现</strong></h4><blockquote>
+<p>这里使用retrofit和rxjava来练笔</p>
+</blockquote>
+<p>先加入 依赖</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">compile <span class="string">'io.reactivex:rxandroid:1.1.0'</span> <span class="comment">// RxAndroid</span></div><div class="line">compile <span class="string">'io.reactivex:rxjava:1.1.0'</span> <span class="comment">// 推荐同时加载RxJava</span></div><div class="line"></div><div class="line">compile <span class="string">'com.squareup.retrofit:retrofit:2.0.0-beta2'</span> <span class="comment">// Retrofit网络处理</span></div><div class="line">compile <span class="string">'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'</span> <span class="comment">// Retrofit的rx解析库</span></div><div class="line">compile <span class="string">'com.squareup.retrofit:converter-gson:2.0.0-beta2'</span> <span class="comment">// Retrofit的gson库</span></div></pre></td></tr></table></figure>
+<p>接下来网络接口的定制：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApiService</span> </span>&#123;</div><div class="line">    <span class="comment">//实际开发过程可能的接口方式</span></div><div class="line">     <span class="meta">@GET</span>(<span class="string">"update"</span>)</div><div class="line">    <span class="function">Observable&lt;UpdateAppInfo&gt; <span class="title">getUpdateInfo</span><span class="params">(@Query(<span class="string">"appname"</span>)</span> String   appname, @<span class="title">Query</span><span class="params">(<span class="string">"serverVersion"</span>)</span> String appVersion)</span>;</div><div class="line">    <span class="comment">//以下方便版本更新接口测试</span></div><div class="line">    <span class="meta">@GET</span>(<span class="string">"update"</span>)</div><div class="line">    <span class="function">Observable&lt;UpdateAppInfo&gt; <span class="title">getUpdateInfo</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过工厂模式来创建ApiService ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceFactory</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String BASEURL=<span class="string">"http://192.168.191.1:8081/"</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">createServiceFrom</span><span class="params">(<span class="keyword">final</span> Class&lt;T&gt; serviceClass)</span> </span>&#123;</div><div class="line">        Retrofit adapter = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">                .baseUrl(BASEURL)</div><div class="line">             .addCallAdapterFactory(RxJavaCallAdapterFactory.create()) <span class="comment">// 添加Rx适配器</span></div><div class="line">                .addConverterFactory(GsonConverterFactory.create()) <span class="comment">// 添加Gson转换器</span></div><div class="line">                .build();</div><div class="line">        <span class="keyword">return</span> adapter.create(serviceClass);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>版本检测接口的使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    * 检查更新</div><div class="line">    */</div><div class="line">   <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">checkUpdate</span><span class="params">(String appCode, String curVersion,<span class="keyword">final</span> CheckCallBack updateCallback)</span> </span>&#123;</div><div class="line">    ApiService apiService=   ServiceFactory.createServiceFrom(ApiService.class);</div><div class="line">       apiService.getUpdateInfo()<span class="comment">//测试使用</span></div><div class="line">               <span class="comment">//   .apiService.getUpdateInfo(appCode, curVersion)//开发过程中可能使用的</span></div><div class="line">               .subscribeOn(Schedulers.newThread())</div><div class="line">               .observeOn(AndroidSchedulers.mainThread())</div><div class="line">               .subscribe(<span class="keyword">new</span> Subscriber&lt;UpdateAppInfo&gt;() &#123;</div><div class="line">                   <span class="meta">@Override</span></div><div class="line">                   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123;</div><div class="line">                   &#125;</div><div class="line">                   <span class="meta">@Override</span></div><div class="line">                   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line">                   &#125;</div><div class="line">                   <span class="meta">@Override</span></div><div class="line">                   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(UpdateAppInfo updateAppInfo)</span> </span>&#123;</div><div class="line">                       <span class="keyword">if</span> (updateAppInfo.error_code == <span class="number">0</span> || updateAppInfo.data == <span class="keyword">null</span> ||</div><div class="line">                               updateAppInfo.data.updateurl == <span class="keyword">null</span>) &#123;</div><div class="line">                           updateCallback.onError(); <span class="comment">// 失败</span></div><div class="line">                       &#125; <span class="keyword">else</span> &#123;</div><div class="line">                           updateCallback.onSuccess(updateAppInfo);</div><div class="line">                       &#125;</div><div class="line">                   &#125;</div><div class="line">               &#125;);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>以上就是版本更新接口的调用，具体的rxjava+retrofit请自行学习<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/0518/4270.html" target="_blank" rel="external">你真的会用Retrofit2吗?Retrofit2完全教程</a></p>
+<p>附上结果回调监听：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CheckCallBack</span></span>&#123;<span class="comment">//检测成功或者失败的相关接口</span></div><div class="line">      <span class="function"><span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(UpdateAppInfo updateInfo)</span></span>;</div><div class="line">      <span class="function"><span class="keyword">void</span> <span class="title">onError</span><span class="params">()</span></span>;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>具体使用接口的处理：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//网络检查版本是否需要更新</span></div><div class="line">       CheckUpdateUtils.checkUpdate(<span class="string">"apk"</span>, <span class="string">"1.0.0"</span>, <span class="keyword">new</span> CheckUpdateUtils.CheckCallBack() &#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(UpdateAppInfo updateInfo)</span> </span>&#123;</div><div class="line">              String isForce=updateInfo.data.getLastForce();<span class="comment">//是否需要强制更新</span></div><div class="line">              String downUrl= updateInfo.data.getUpdateurl();<span class="comment">//apk下载地址</span></div><div class="line">              String updateinfo = updateInfo.data.getUpgradeinfo();<span class="comment">//apk更新详情</span></div><div class="line">              String appName = updateInfo.data.getAppname();</div><div class="line">               <span class="keyword">if</span>(isForce.equals(<span class="string">"1"</span>)&amp;&amp; !TextUtils.isEmpty(updateinfo))&#123;<span class="comment">//强制更新</span></div><div class="line">                   forceUpdate(MainActivity.<span class="keyword">this</span>,appName,downUrl,updateinfo);</div><div class="line">               &#125;<span class="keyword">else</span>&#123;<span class="comment">//非强制更新</span></div><div class="line">                   <span class="comment">//正常升级</span></div><div class="line">   normalUpdate(MainActivity.<span class="keyword">this</span>,appName,downUrl,updateinfo);</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">()</span> </span>&#123;</div><div class="line">               noneUpdate(MainActivity.<span class="keyword">this</span>);</div><div class="line">           &#125;</div><div class="line">       &#125;);</div></pre></td></tr></table></figure>
+<p>实在不想写网络也好，直接使用假想数据做相关操作如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">UpdateAppInfo.UpdateInfo  info =<span class="keyword">new</span> UpdateAppInfo.UpdateInfo();</div><div class="line">           info.setLastForce(<span class="string">"1"</span>);</div><div class="line">      info.setAppname(<span class="string">"我日你"</span>);</div><div class="line">      info.setUpgradeinfo(<span class="string">"whejjefjhrherkjreghgrjrgjjhrh"</span>);</div><div class="line">     info.setUpdateurl(<span class="string">"http://releases.b0.upaiyun.com/hoolay.apk"</span>);</div><div class="line">      <span class="keyword">if</span>(info.getLastForce().equals(<span class="string">"1"</span>))&#123;<span class="comment">//强制更新      forceUpdate(MainActivity.this,info.getAppname(),info.getUpdateurl(),info.getUpgradeinfo());</span></div><div class="line">              &#125;<span class="keyword">else</span>&#123;<span class="comment">//非强制更新</span></div><div class="line">                  <span class="comment">//正常升级   normalUpdate(MainActivity.this,info.getAppname(),info.getUpdateurl(),info.getUpgradeinfo());</span></div><div class="line">              &#125;</div></pre></td></tr></table></figure>
+<p>更新dialog的使用注意：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">forceUpdate</span><span class="params">(<span class="keyword">final</span> Context context, <span class="keyword">final</span> String appName, <span class="keyword">final</span> String downUrl, <span class="keyword">final</span> String updateinfo)</span> </span>&#123;</div><div class="line">       mDialog = <span class="keyword">new</span> AlertDialog.Builder(context);</div><div class="line">       mDialog.setTitle(appName+<span class="string">"又更新咯！"</span>);</div><div class="line">       mDialog.setMessage(updateinfo);</div><div class="line">       mDialog.setPositiveButton(<span class="string">"立即更新"</span>, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>&#123;</div><div class="line">               <span class="keyword">if</span> (!canDownloadState()) &#123;</div><div class="line">                   showDownloadSetting();</div><div class="line">                   <span class="keyword">return</span>;</div><div class="line">               &#125;</div><div class="line">               <span class="comment">//      DownLoadApk.download(MainActivity.this,downUrl,updateinfo,appName);</span></div><div class="line">    AppInnerDownLoder.downLoadApk(MainActivity.<span class="keyword">this</span>,downUrl,appName);</div><div class="line">           &#125;</div><div class="line">       &#125;).setCancelable(<span class="keyword">false</span>).create().show();</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>上面以强制更新举个例子，因为AlertDialog在不同的版本下面表现的美观度不一致，所以我们需要</p>
+<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="keyword">import</span> android.support.v7.app.AlertDialog;</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+<p>然后显然是不能按返回键取消的，我们需要</p>
+<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; .setCancelable(<span class="keyword">false</span>)</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="使用谷歌推荐的DownloadManager实现下载"><a href="#使用谷歌推荐的DownloadManager实现下载" class="headerlink" title="使用谷歌推荐的DownloadManager实现下载"></a><strong>使用谷歌推荐的DownloadManager实现下载</strong></h4><p>Android自带的DownloadManager模块来下载,在api level 9之后，我们通过通知栏知道, 该模块属于系统自带, 它已经帮我们处理了下载失败、重新下载等功能。整个下载 过程全部交给系统负责，不需要我们过多的处理。</p>
+<p><strong>DownLoadManager.Query:主要用于查询下载信息。</strong></p>
+<p><strong>DownLoadManager.Request:主要用于发起一个下载请求。</strong></p>
+<p>先看下简单的实现：</p>
+<p>创建Request对象的代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">DownloadManager.Request request = <span class="keyword">new</span> DownloadManager.Request(Uri.parse(apkurl));</div><div class="line">   <span class="comment">//设置在什么网络情况下进行下载</span></div><div class="line">   request.setAllowedNetworkTypes(Request.NETWORK_WIFI);</div><div class="line">   <span class="comment">//设置通知栏标题</span></div><div class="line">   request.setNotificationVisibility(Request.VISIBILITY_VISIBLE);</div><div class="line">   request.setTitle(<span class="string">"下载"</span>);</div><div class="line">   request.setDescription(<span class="string">"apk正在下载"</span>);</div><div class="line">   request.setAllowedOverRoaming(<span class="keyword">false</span>);</div><div class="line">   <span class="comment">//设置文件存放目录</span></div><div class="line">   request.setDestinationInExternalFilesDir(<span class="keyword">this</span>, Environment.DIRECTORY_DOWNLOADS, <span class="string">"mydown"</span>);</div></pre></td></tr></table></figure>
+<p>取得系统服务后，调用downloadmanager对象的enqueue方法进行下载，此方法返回一个编号用于标示此下载任务：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">downManager = (DownloadManager)getSystemService(Context.DOWNLOAD_SERVICE);</div><div class="line">id= downManager.enqueue(request);</div></pre></td></tr></table></figure>
+<p>这里我们可以看下request的一些属性：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">addRequestHeader(String header,String value):添加网络下载请求的http头信息</div><div class="line">allowScanningByMediaScanner():用于设置是否允许本MediaScanner扫描。</div><div class="line">setAllowedNetworkTypes(<span class="keyword">int</span> flags):设置用于下载时的网络类型，默认任何网络都可以下载，提供的网络常量有：NETWORK_BLUETOOTH、NETWORK_MOBILE、NETWORK_WIFI。</div><div class="line">setAllowedOverRoaming(Boolean allowed):用于设置漫游状态下是否可以下载</div><div class="line">setNotificationVisibility(<span class="keyword">int</span> visibility):用于设置下载时时候在状态栏显示通知信息</div><div class="line">setTitle(CharSequence):设置Notification的title信息</div><div class="line">setDescription(CharSequence):设置Notification的message信息</div><div class="line">setDestinationInExternalFilesDir、setDestinationInExternalPublicDir、 setDestinationUri等方法用于设置下载文件的存放路径，注意如果将下载文件存放在默认路径，那么在空间不足的情况下系统会将文件删除，所 以使用上述方法设置文件存放目录是十分必要的。</div></pre></td></tr></table></figure>
+<p>具体实现思路：</p>
+<blockquote>
+<ol>
+<li><p>我们通过downloaderManager来下载apk，并且本地保存downManager.enqueue(request)返回的id值，并且通过这个id获取apk的下载文件路径和下载的状态，并且通过状态来更新通知栏的显示。</p>
+</li>
+<li><p>第一次下载成功，弹出安装界面</p>
+<p>如果用户没有点击安装，而是按了返回键，在某个时候，又再次使用了我们的APP</p>
+<p>如果下载成功，则判断本地的apk的包名是否和当前程序是相同的，并且本地apk的版本号大于当前程序的版本，如果都满足则直接启动安装程序。</p>
+</li>
+</ol>
+</blockquote>
+<p>具体代码实现：</p>
+<p>文件下载管理的实现，包括创建request和加入队列下载，通过返回的id来获取下载路径和下载状态。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileDownloadManager</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> DownloadManager downloadManager;</div><div class="line">    <span class="keyword">private</span> Context context;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> FileDownloadManager instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">FileDownloadManager</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);</div><div class="line">        <span class="keyword">this</span>.context = context.getApplicationContext();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> FileDownloadManager <span class="title">getInstance</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">            instance = <span class="keyword">new</span> FileDownloadManager(context);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * <span class="doctag">@param</span> uri</div><div class="line">     * <span class="doctag">@param</span> title</div><div class="line">     * <span class="doctag">@param</span> description</div><div class="line">     * <span class="doctag">@return</span> download id</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">startDownload</span><span class="params">(String uri, String title, String description,String appName)</span> </span>&#123;</div><div class="line">        DownloadManager.Request req = <span class="keyword">new</span> DownloadManager.Request(Uri.parse(uri));</div><div class="line">        req.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);</div><div class="line">        <span class="comment">//req.setAllowedOverRoaming(false);</span></div><div class="line"> req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);</div><div class="line">        <span class="comment">//设置文件的保存的位置[三种方式]</span></div><div class="line">        <span class="comment">//第一种</span></div><div class="line">        <span class="comment">//file:///storage/emulated/0/Android/data/your-package/files/Download/update.apk</span></div><div class="line">        req.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, appName+<span class="string">".apk"</span>);</div><div class="line">        <span class="comment">//第二种</span></div><div class="line">        <span class="comment">//file:///storage/emulated/0/Download/update.apk</span></div><div class="line">        <span class="comment">//req.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "update.apk");</span></div><div class="line">        <span class="comment">//第三种 自定义文件路径</span></div><div class="line">        <span class="comment">//req.setDestinationUri()</span></div><div class="line"></div><div class="line"></div><div class="line">        <span class="comment">// 设置一些基本显示信息</span></div><div class="line">        req.setTitle(title);</div><div class="line">        req.setDescription(description);</div><div class="line">        <span class="comment">//req.setMimeType("application/vnd.android.package-archive");</span></div><div class="line">        <span class="keyword">return</span> downloadManager.enqueue(req);<span class="comment">//异步</span></div><div class="line">        <span class="comment">//dm.openDownloadedFile()</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取文件保存的路径</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> downloadId an ID for the download, unique across the system.</div><div class="line">     *                   This ID is used to make future calls related to this download.</div><div class="line">     * <span class="doctag">@return</span> file path</div><div class="line">     * <span class="doctag">@see</span> FileDownloadManager#getDownloadUri(long)</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDownloadPath</span><span class="params">(<span class="keyword">long</span> downloadId)</span> </span>&#123;</div><div class="line">        DownloadManager.Query query = <span class="keyword">new</span> DownloadManager.Query().setFilterById(downloadId);</div><div class="line">        Cursor c = downloadManager.query(query);</div><div class="line">        <span class="keyword">if</span> (c != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">if</span> (c.moveToFirst()) &#123;</div><div class="line">                    <span class="keyword">return</span> c.getString(c.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI));</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                c.close();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取保存文件的地址</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> downloadId an ID for the download, unique across the system.</div><div class="line">     *                   This ID is used to make future calls related to this download.</div><div class="line">     * <span class="doctag">@see</span> FileDownloadManager#getDownloadPath(long)</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> Uri <span class="title">getDownloadUri</span><span class="params">(<span class="keyword">long</span> downloadId)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> downloadManager.getUriForDownloadedFile(downloadId);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> DownloadManager <span class="title">getDownloadManager</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> downloadManager;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取下载状态</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> downloadId an ID for the download, unique across the system.</div><div class="line">     *                   This ID is used to make future calls related to this download.</div><div class="line">     * <span class="doctag">@return</span> int</div><div class="line">     * <span class="doctag">@see</span> DownloadManager#STATUS_PENDING</div><div class="line">     * <span class="doctag">@see</span> DownloadManager#STATUS_PAUSED</div><div class="line">     * <span class="doctag">@see</span> DownloadManager#STATUS_RUNNING</div><div class="line">     * <span class="doctag">@see</span> DownloadManager#STATUS_SUCCESSFUL</div><div class="line">     * <span class="doctag">@see</span> DownloadManager#STATUS_FAILED</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getDownloadStatus</span><span class="params">(<span class="keyword">long</span> downloadId)</span> </span>&#123;</div><div class="line">        DownloadManager.Query query = <span class="keyword">new</span> DownloadManager.Query().setFilterById(downloadId);</div><div class="line">        Cursor c = downloadManager.query(query);</div><div class="line">        <span class="keyword">if</span> (c != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">if</span> (c.moveToFirst()) &#123;</div><div class="line">                    <span class="keyword">return</span> c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                c.close();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>app的检测安装的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DownLoadApk</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = DownLoadApk.class.getSimpleName();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">download</span><span class="params">(Context context, String url, String title,<span class="keyword">final</span> String appName)</span> </span>&#123;</div><div class="line">        <span class="comment">// 获取存储ID</span></div><div class="line">        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);</div><div class="line">        <span class="keyword">long</span> downloadId =sp.getLong(DownloadManager.EXTRA_DOWNLOAD_ID,-<span class="number">1L</span>);</div><div class="line">        <span class="keyword">if</span> (downloadId != -<span class="number">1L</span>) &#123;</div><div class="line">            FileDownloadManager fdm = FileDownloadManager.getInstance(context);</div><div class="line">            <span class="keyword">int</span> status = fdm.getDownloadStatus(downloadId);</div><div class="line">            <span class="keyword">if</span> (status == DownloadManager.STATUS_SUCCESSFUL) &#123;</div><div class="line">                <span class="comment">//启动更新界面</span></div><div class="line">                Uri uri = fdm.getDownloadUri(downloadId);</div><div class="line">                <span class="keyword">if</span> (uri != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">if</span> (compare(getApkInfo(context, uri.getPath()), context)) &#123;</div><div class="line">                        startInstall(context, uri);</div><div class="line">                        <span class="keyword">return</span>;</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        fdm.getDownloadManager().remove(downloadId);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                start(context, url, title,appName);</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status == DownloadManager.STATUS_FAILED) &#123;</div><div class="line">                start(context, url, title,appName);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                Log.d(TAG, <span class="string">"apk is already downloading"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            start(context, url, title,appName);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(Context context, String url, String title,String appName)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> id = FileDownloadManager.getInstance(context).startDownload(url,</div><div class="line">                title, <span class="string">"下载完成后点击打开"</span>,appName);</div><div class="line">        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);</div><div class="line">        sp.edit().putLong(DownloadManager.EXTRA_DOWNLOAD_ID,id).commit();</div><div class="line">        Log.d(TAG, <span class="string">"apk start download "</span> + id);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">startInstall</span><span class="params">(Context context, Uri uri)</span> </span>&#123;</div><div class="line">        Intent install = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">        install.setDataAndType(uri, <span class="string">"application/vnd.android.package-archive"</span>);</div><div class="line">        install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</div><div class="line">        context.startActivity(install);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取apk程序信息[packageName,versionName...]</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> context Context</div><div class="line">     * <span class="doctag">@param</span> path    apk path</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> PackageInfo <span class="title">getApkInfo</span><span class="params">(Context context, String path)</span> </span>&#123;</div><div class="line">        PackageManager pm = context.getPackageManager();</div><div class="line">        PackageInfo info = pm.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);</div><div class="line">        <span class="keyword">if</span> (info != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> info;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 下载的apk和当前程序版本比较</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> apkInfo apk file's packageInfo</div><div class="line">     * <span class="doctag">@param</span> context Context</div><div class="line">     * <span class="doctag">@return</span> 如果当前应用版本小于apk的版本则返回true</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">compare</span><span class="params">(PackageInfo apkInfo, Context context)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (apkInfo == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        String localPackage = context.getPackageName();</div><div class="line">        <span class="keyword">if</span> (apkInfo.packageName.equals(localPackage)) &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                PackageInfo packageInfo = context.getPackageManager().getPackageInfo(localPackage, <span class="number">0</span>);</div><div class="line">                <span class="keyword">if</span> (apkInfo.versionCode &gt; packageInfo.versionCode) &#123;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (PackageManager.NameNotFoundException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的代码可知：我们通过获取当前app的信息来比较是否需要下载和是否立即安装。第一次下载把downloadId保存到本地，用户下次进来的时候，取出保存的downloadId，然后通过downloadId来获取下载的状态信息。如果下载失败，则重新下载并且把downloadId存起来。如果下载成功，则<code>判断本地的apk的包名是否和当前程序是相同的，并且本地apk的版本号大于当前程序的版本</code>，如果都满足则直接启动安装程序。</p>
+<h3 id="监听app是否安装完成"><a href="#监听app是否安装完成" class="headerlink" title="监听app是否安装完成"></a><strong>监听app是否安装完成</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApkInstallReceiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE))&#123;</div><div class="line">              <span class="keyword">long</span> downloadApkId =intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -<span class="number">1</span>);</div><div class="line">              installApk(context, downloadApkId);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 安装apk</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">installApk</span><span class="params">(Context context,<span class="keyword">long</span> downloadApkId)</span> </span>&#123;</div><div class="line">        <span class="comment">// 获取存储ID</span></div><div class="line">        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);</div><div class="line">        <span class="keyword">long</span> downId =sp.getLong(DownloadManager.EXTRA_DOWNLOAD_ID,-<span class="number">1L</span>);</div><div class="line">        <span class="keyword">if</span>(downloadApkId == downId)&#123;</div><div class="line">            DownloadManager downManager= (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);</div><div class="line">            Uri downloadFileUri = downManager.getUriForDownloadedFile(downloadApkId);</div><div class="line">            <span class="keyword">if</span> (downloadFileUri != <span class="keyword">null</span>) &#123;</div><div class="line">            Intent install= <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">            install.setDataAndType(downloadFileUri, <span class="string">"application/vnd.android.package-archive"</span>);</div><div class="line">            install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</div><div class="line">            context.startActivity(install);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                Toast.makeText(context, <span class="string">"下载失败"</span>, Toast.LENGTH_SHORT).show();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>DownloadManager下载完成后会发出一个广播 <code>android.intent.action.DOWNLOAD_COMPLETE</code> 新建一个广播接收者即可：</p>
+<p>清单配置：</p>
+<p>先添加网络下载的权限：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;uses-permission android:name=<span class="string">"android.permission.INTERNET"</span>/&gt;</div><div class="line">   &lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</div></pre></td></tr></table></figure>
+<p>再添加静态广播：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;receiver android:name=".ApkInstallReceiver"&gt;</div><div class="line">           &lt;intent-filter&gt;</div><div class="line">               &lt;action android:name="android.intent.action.DOWNLOAD_COMPLETE" /&gt;</div><div class="line">           &lt;/intent-filter&gt;</div><div class="line">       &lt;/receiver&gt;</div></pre></td></tr></table></figure>
+<h4 id="使用HttpUrlConnection下载"><a href="#使用HttpUrlConnection下载" class="headerlink" title="使用HttpUrlConnection下载"></a><strong>使用HttpUrlConnection下载</strong></h4><p>这种情况下载的话我们就不需要考虑id的问题，因为是直接在项目中下载，所以我们就是一个网络下载的过程，并且使用ProgressDialog显示下载信息及进度更新就ok了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppInnerDownLoder</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> String SD_FOLDER = Environment.getExternalStorageDirectory()+ <span class="string">"/VersionChecker/"</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = AppInnerDownLoder.class.getSimpleName();</div><div class="line">	</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 从服务器中下载APK</div><div class="line">	 */</div><div class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">downLoadApk</span><span class="params">(<span class="keyword">final</span> Context mContext,<span class="keyword">final</span> String downURL,<span class="keyword">final</span> String appName )</span> </span>&#123;</div><div class="line"></div><div class="line">		<span class="keyword">final</span> ProgressDialog pd; <span class="comment">// 进度条对话框</span></div><div class="line">		pd = <span class="keyword">new</span> ProgressDialog(mContext);</div><div class="line">		pd.setCancelable(<span class="keyword">false</span>);<span class="comment">// 必须一直下载完，不可取消</span></div><div class="line">		pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);</div><div class="line">		pd.setMessage(<span class="string">"正在下载安装包，请稍后"</span>);</div><div class="line">		pd.setTitle(<span class="string">"版本升级"</span>);</div><div class="line">		pd.show();</div><div class="line">		<span class="keyword">new</span> Thread() &#123;</div><div class="line">			<span class="meta">@Override</span></div><div class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">				<span class="keyword">try</span> &#123;</div><div class="line">					File file = downloadFile(downURL,appName, pd);</div><div class="line">					sleep(<span class="number">3000</span>);</div><div class="line">					installApk(mContext, file);</div><div class="line">					<span class="comment">// 结束掉进度条对话框</span></div><div class="line">					pd.dismiss();</div><div class="line">				&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">					pd.dismiss();</div><div class="line"></div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;.start();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 从服务器下载最新更新文件</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@param</span> path</div><div class="line">	 *            下载路径</div><div class="line">	 * <span class="doctag">@param</span> pd</div><div class="line">	 *            进度条</div><div class="line">	 * <span class="doctag">@return</span></div><div class="line">	 * <span class="doctag">@throws</span> Exception</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> File <span class="title">downloadFile</span><span class="params">(String path,String appName ,ProgressDialog pd)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		<span class="comment">// 如果相等的话表示当前的sdcard挂载在手机上并且是可用的</span></div><div class="line">		<span class="keyword">if</span> (Environment.MEDIA_MOUNTED.equals(Environment</div><div class="line">				.getExternalStorageState())) &#123;</div><div class="line">			URL url = <span class="keyword">new</span> URL(path);</div><div class="line">			HttpURLConnection conn = (HttpURLConnection) url.openConnection();</div><div class="line">			conn.setConnectTimeout(<span class="number">5000</span>);</div><div class="line">			<span class="comment">// 获取到文件的大小</span></div><div class="line">			pd.setMax(conn.getContentLength());</div><div class="line">			InputStream is = conn.getInputStream();</div><div class="line">			String fileName = SD_FOLDER</div><div class="line">					 + appName+<span class="string">".apk"</span>;</div><div class="line">			File file = <span class="keyword">new</span> File(fileName);</div><div class="line">			<span class="comment">// 目录不存在创建目录</span></div><div class="line">			<span class="keyword">if</span> (!file.getParentFile().exists())</div><div class="line">				file.getParentFile().mkdirs();</div><div class="line">			FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(file);</div><div class="line">			BufferedInputStream bis = <span class="keyword">new</span> BufferedInputStream(is);</div><div class="line">			<span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">			<span class="keyword">int</span> len;</div><div class="line">			<span class="keyword">int</span> total = <span class="number">0</span>;</div><div class="line">			<span class="keyword">while</span> ((len = bis.read(buffer)) != -<span class="number">1</span>) &#123;</div><div class="line">				fos.write(buffer, <span class="number">0</span>, len);</div><div class="line">				total += len;</div><div class="line">				<span class="comment">// 获取当前下载量</span></div><div class="line">				pd.setProgress(total);</div><div class="line">			&#125;</div><div class="line">			fos.close();</div><div class="line">			bis.close();</div><div class="line">			is.close();</div><div class="line">			<span class="keyword">return</span> file;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"未发现有SD卡"</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 安装apk</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">installApk</span><span class="params">(Context mContext, File file)</span> </span>&#123;</div><div class="line">		Uri fileUri = Uri.fromFile(file);</div><div class="line">		Intent it = <span class="keyword">new</span> Intent();</div><div class="line">		it.setAction(Intent.ACTION_VIEW);</div><div class="line">		it.setDataAndType(fileUri, <span class="string">"application/vnd.android.package-archive"</span>);</div><div class="line">		it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);<span class="comment">// 防止打不开应用</span></div><div class="line">		mContext.startActivity(it);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 获取应用程序版本（versionName）</div><div class="line">	 * </div><div class="line">	 * <span class="doctag">@return</span> 当前应用的版本号</div><div class="line">	 */</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">getLocalVersion</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">		PackageManager manager = context.getPackageManager();</div><div class="line">		PackageInfo info = <span class="keyword">null</span>;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			info = manager.getPackageInfo(context.getPackageName(), <span class="number">0</span>);</div><div class="line">		&#125; <span class="keyword">catch</span> (NameNotFoundException e) &#123;</div><div class="line">			Log.e(TAG, <span class="string">"获取应用程序版本失败，原因："</span> + e.getMessage());</div><div class="line">			<span class="keyword">return</span> <span class="number">0.0</span>;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">return</span> Double.valueOf(info.versionName);</div><div class="line">	&#125;</div><div class="line">	<span class="comment">/** </span></div><div class="line">     * byte(字节)根据长度转成kb(千字节)和mb(兆字节) </div><div class="line">     *  </div><div class="line">     * <span class="doctag">@param</span> bytes </div><div class="line">     * <span class="doctag">@return</span> </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">bytes2kb</span><span class="params">(<span class="keyword">long</span> bytes)</span> </span>&#123;  </div><div class="line">        BigDecimal filesize = <span class="keyword">new</span> BigDecimal(bytes);  </div><div class="line">        BigDecimal megabyte = <span class="keyword">new</span> BigDecimal(<span class="number">1024</span> * <span class="number">1024</span>);  </div><div class="line">        <span class="keyword">float</span> returnValue = filesize.divide(megabyte, <span class="number">2</span>, BigDecimal.ROUND_UP)  </div><div class="line">                .floatValue();  </div><div class="line">        <span class="keyword">if</span> (returnValue &gt; <span class="number">1</span>)  </div><div class="line">            <span class="keyword">return</span> (returnValue + <span class="string">"MB"</span>);  </div><div class="line">        BigDecimal kilobyte = <span class="keyword">new</span> BigDecimal(<span class="number">1024</span>);  </div><div class="line">        returnValue = filesize.divide(kilobyte, <span class="number">2</span>, BigDecimal.ROUND_UP)  </div><div class="line">                .floatValue();  </div><div class="line">        <span class="keyword">return</span> (returnValue + <span class="string">"KB"</span>);  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>基本上具体的代码就写完了，但是说如果停止了<code>下载管理程序</code> 调用dm.enqueue(req);就会上面的错误,从而程序闪退.</p>
+<p>所以在使用该组件的时候,需要判断该组件是否可用:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">canDownloadState</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">int</span> state = <span class="keyword">this</span>.getPackageManager().getApplicationEnabledSetting(<span class="string">"com.android.providers.downloads"</span>);</div><div class="line">        <span class="keyword">if</span> (state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED</div><div class="line">                || state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER</div><div class="line">                || state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_UNTIL_USED) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以通过如下代码进入 启用/禁用 下载管理 界面:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String packageName = <span class="string">"com.android.providers.downloads"</span>;</div><div class="line">   Intent intent = <span class="keyword">new</span> Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);</div><div class="line">   intent.setData(Uri.parse(<span class="string">"package:"</span> + packageName));</div><div class="line">   startActivity(intent);</div></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>本文意在讲解app的更新逻辑以及不同的表现形式的处理附带的介绍了使用nodejs写一个简单的api接口，重点是如何使用DownloadManager来实现apk的下载更新安装，顺带讲一下retrofit+rxjava的使用以及如何监听app是否下载完成。</p>
+<p>DownloadManager的使用概括：</p>
+<blockquote>
+<ol>
+<li><p>构建下载请求:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;    <span class="keyword">new</span> DownloadManager.Request(url)</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<ol>
+<li><p>设置请求属性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;     request.setXXX()</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<ol>
+<li><p>调用downloadmanager对象的enqueue方法进行下载，此方法返回一个编号用于标示此下载任务：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;    downManager = (DownloadManager)getSystemService(Context.DOWNLOAD_SERVICE);</div><div class="line">&gt;</div><div class="line">&gt;    id= downManager.enqueue(request);</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<ol>
+<li><p>DownManager会对所有的现在任务进行保存管理，那么我们如何获取这些信息呢？这个时候就要用到DownManager.Query对象，通过此对象，我们可以查询所有下载任务信息。</p>
+<p><strong>setFilterById(long… ids)：根据任务编号查询下载任务信息</strong></p>
+<p><strong>setFilterByStatus(int flags)：根据下载状态查询下载任务</strong></p>
+</li>
+<li><p>如果想取消下载，则可以调用remove方法完成，此方法可以将下载任务和已经下载的文件同时删除：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;    downManager.remove(id);</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<p>好了具体的都讲的差不多了，本文以同步到我的csdn:<a href="http://blog.csdn.net/u013278099/article/details/52692008" target="_blank" rel="external">安卓开发实战之app之版本更新升级(DownloadManager和http下载)完整实现</a></p>
+<p>demo 传送门：<a href="http://download.csdn.net/detail/u013278099/9642306" target="_blank" rel="external">AppUpdate.rar</a></p>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+  
+	</div>
+	
+  <!-- css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+
+      <!-- http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif
+           因为本 hexo 生成的博客所用的 theme 的 a:hover 带动画效果，
+         为了在让打赏按钮显示效果正常 而 添加了以下几行 css，
+         嵌入其它博客时不一定要它们。 -->
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+      <!-- /让打赏按钮的效果显示正常 而 添加的几行 css 到此结束 -->
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+    <!-- Donate Module -->
+    <div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      打赏我一根冰棒钱，打赏我的人，运气都不会太差~
+    </span>
+      
+    
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+    
+  <div id="donate_guide" class="donate_bar center hidden">
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      
+      <div width="100%" align="center"><div name="dashmain" id="dash-main-id-87895f" class="dash-main-3 87895f-0.99"></div></div>
+    <script type="text/javascript" charset="utf-8" src="http://www.dashangcloud.com/static/ds.js"></script>
+    
+
+    <a href="http://i.imgur.com/EhvkeWS.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+      <img src="http://i.imgur.com/EhvkeWS.png" title="微信打赏 Donate" height="190px" width="auto"/>
+    </a>
+        
+          
+
+    <a href="http://i.imgur.com/FhK6Sph.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+      <img src="http://i.imgur.com/FhK6Sph.png" title="支付宝打赏 Donate" height="190px" width="auto"/>
+    </a>
+
+    <span class="donate_txt">
+      打赏我一根冰棒钱，打赏我的人，运气都不会太差~
+    </span>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className = 'hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+   
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">android</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/app版本更新/">app版本更新</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zilianliuxue.github.io/2016/09/28/安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现/" data-title="安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/09/06/Fragment之我的解决方案：Fragmentation/"  title="Fragment之我的解决方案：Fragmentation">
+ <strong>下一篇：</strong><br/> 
+ <span>Fragment之我的解决方案：Fragmentation
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/09/28/安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现/" data-title="安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现" data-url="http://zilianliuxue.github.io/2016/09/28/安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器端："><span class="toc-number">2.</span> <span class="toc-text">服务器端：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端需要实现："><span class="toc-number">3.</span> <span class="toc-text">客户端需要实现：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#准备bean"><span class="toc-number">3.1.</span> <span class="toc-text">准备bean</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网络接口的实现"><span class="toc-number">3.2.</span> <span class="toc-text">网络接口的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用谷歌推荐的DownloadManager实现下载"><span class="toc-number">3.3.</span> <span class="toc-text">使用谷歌推荐的DownloadManager实现下载</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听app是否安装完成"><span class="toc-number">4.</span> <span class="toc-text">监听app是否安装完成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用HttpUrlConnection下载"><span class="toc-number">4.1.</span> <span class="toc-text">使用HttpUrlConnection下载</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="zilianliuxue" data-width="220" data-height="88" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/android/" title="android">android<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Fragment/" title="Fragment">Fragment<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/线程池/" title="线程池">线程池<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ContentProvider/" title="ContentProvider">ContentProvider<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试/" title="面试">面试<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/EventBus3/" title="EventBus3">EventBus3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BroadcastReceiver/" title="BroadcastReceiver">BroadcastReceiver<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Service/" title="Service">Service<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/activity/" title="activity">activity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jacman/" title="jacman">jacman<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/app版本更新/" title="app版本更新">app版本更新<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/view事件机制/" title="view事件机制">view事件机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/快速开发/" title="快速开发">快速开发<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jni-ndk/" title="jni ndk">jni ndk<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/window/" title="window">window<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www.jianshu.com/" target="_blank" title="一个面向程序员交流分享的新一代社区">jianshu</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/u013278099" target="_blank" title="Losileeya CSDN">Losileeya CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.trinea.cn/" target="_blank" title="trinea">trinea</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.daimajia.com/" target="_blank" title="daimajia">daimajia</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.lcode.org/" target="_blank" title="江清清的技术专栏">江清清的技术专栏</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://www.aswifter.com/" target="_blank" title="阳春面的博客">阳春面的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/BroadcastReceiver/" style="font-size: 10px;">BroadcastReceiver</a> <a href="/tags/Cache/" style="font-size: 10px;">Cache</a> <a href="/tags/ContentProvider/" style="font-size: 10px;">ContentProvider</a> <a href="/tags/EventBus3/" style="font-size: 10px;">EventBus3</a> <a href="/tags/Fragment/" style="font-size: 20px;">Fragment</a> <a href="/tags/Service/" style="font-size: 10px;">Service</a> <a href="/tags/activity/" style="font-size: 10px;">activity</a> <a href="/tags/app版本更新/" style="font-size: 10px;">app版本更新</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/jacman/" style="font-size: 10px;">jacman</a> <a href="/tags/jni-ndk/" style="font-size: 10px;">jni ndk</a> <a href="/tags/view事件机制/" style="font-size: 10px;">view事件机制</a> <a href="/tags/window/" style="font-size: 10px;">window</a> <a href="/tags/快速开发/" style="font-size: 10px;">快速开发</a> <a href="/tags/线程池/" style="font-size: 15px;">线程池</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3290293743&verifier=20a2ffb1&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Losileeya . <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3290293743" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zilianliuxue" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:847457332@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Losileeya">Losileeya</a>
+		
+		
+		</p>
+		<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','R4yoD_akDbrgyYA8-p3S','2.0.0');
+</script>
+	<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>	
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zilianliuxue"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260017595'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1260017595%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
