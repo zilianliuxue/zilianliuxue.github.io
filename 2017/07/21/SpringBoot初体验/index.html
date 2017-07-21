@@ -4,34 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Fragment防手抖 最佳实践 | ♀紫☆恋&amp;流★雪♂</title>
+    <title>SpringBoot初体验 | ♀紫☆恋&amp;流★雪♂</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Losileeya">
     
 
     
-    <meta name="description" content="原文链接：http://www.jianshu.com/p/9dbb03203fbc
-防抖动：防止用户手抖，连续快速地点击多次同一个按钮。
-为什么需要防手抖处理？在Fragment(v4)之间的跳转过程中，下面两种情况会导致用户体验不佳：（以AFragment 跳转 BFragment为例）
-1、BFragment还没真正创建时（因为Fragment事务并不是立即开始的），你手抖点了2下，就会一次">
+    <meta name="description" content="##前言
+Spring一直是很火的一个开源框架，在过去的一段时间里，Spring Boot在社区中热度一直很高，所以决定花时间来了解和学习，为自己做技术储备。
+###正文首先声明，Spring Boot不是一门新技术，所以不用紧张。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。它使用“习惯优于配置”（项目中存在大量的配置，此外还内置了">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Fragment防手抖 最佳实践">
-<meta property="og:url" content="http://zilianliuxue.github.io/2016/09/06/Fragment防手抖 最佳实践/index.html">
+<meta property="og:title" content="SpringBoot初体验">
+<meta property="og:url" content="http://zilianliuxue.github.io/2017/07/21/SpringBoot初体验/index.html">
 <meta property="og:site_name" content="♀紫☆恋&流★雪♂">
-<meta property="og:description" content="原文链接：http://www.jianshu.com/p/9dbb03203fbc
-防抖动：防止用户手抖，连续快速地点击多次同一个按钮。
-为什么需要防手抖处理？在Fragment(v4)之间的跳转过程中，下面两种情况会导致用户体验不佳：（以AFragment 跳转 BFragment为例）
-1、BFragment还没真正创建时（因为Fragment事务并不是立即开始的），你手抖点了2下，就会一次">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/937851-caf287a92b4a81d2.gif?imageMogr2/auto-orient/strip">
-<meta property="og:updated_time" content="2016-09-06T04:38:35.753Z">
+<meta property="og:description" content="##前言
+Spring一直是很火的一个开源框架，在过去的一段时间里，Spring Boot在社区中热度一直很高，所以决定花时间来了解和学习，为自己做技术储备。
+###正文首先声明，Spring Boot不是一门新技术，所以不用紧张。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。它使用“习惯优于配置”（项目中存在大量的配置，此外还内置了">
+<meta property="og:updated_time" content="2017-07-21T15:31:55.058Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Fragment防手抖 最佳实践">
-<meta name="twitter:description" content="原文链接：http://www.jianshu.com/p/9dbb03203fbc
-防抖动：防止用户手抖，连续快速地点击多次同一个按钮。
-为什么需要防手抖处理？在Fragment(v4)之间的跳转过程中，下面两种情况会导致用户体验不佳：（以AFragment 跳转 BFragment为例）
-1、BFragment还没真正创建时（因为Fragment事务并不是立即开始的），你手抖点了2下，就会一次">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/937851-caf287a92b4a81d2.gif?imageMogr2/auto-orient/strip">
+<meta name="twitter:title" content="SpringBoot初体验">
+<meta name="twitter:description" content="##前言
+Spring一直是很火的一个开源框架，在过去的一段时间里，Spring Boot在社区中热度一直很高，所以决定花时间来了解和学习，为自己做技术储备。
+###正文首先声明，Spring Boot不是一门新技术，所以不用紧张。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。它使用“习惯优于配置”（项目中存在大量的配置，此外还内置了">
 
     
     <link rel="alternative" href="/atom.xml" title="♀紫☆恋&amp;流★雪♂" type="application/atom+xml">
@@ -100,14 +95,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/09/06/Fragment防手抖 最佳实践/" title="Fragment防手抖 最佳实践" itemprop="url">Fragment防手抖 最佳实践</a>
+      <a href="/2017/07/21/SpringBoot初体验/" title="SpringBoot初体验" itemprop="url">SpringBoot初体验</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Losileeya" target="_blank" itemprop="author">Losileeya</a>
 		
   <p class="article-time">
-    <time datetime="2016-09-06T06:25:00.000Z" itemprop="datePublished"> 发表于 2016-09-06</time>
+    <time datetime="2017-07-21T09:26:00.000Z" itemprop="datePublished"> 发表于 2017-07-21</time>
    <span id="busuanzi_container_page_pv">
     总阅读<span id="busuanzi_value_page_pv"></span>次
    </span>
@@ -118,39 +113,13 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么需要防手抖处理？"><span class="toc-number">1.</span> <span class="toc-text">为什么需要防手抖处理？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见方案"><span class="toc-number">2.</span> <span class="toc-text">常见方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我的方案"><span class="toc-number">3.</span> <span class="toc-text">我的方案</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#在BaseActivity中"><span class="toc-number">3.0.0.1.</span> <span class="toc-text">在BaseActivity中:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#在BaseFragment中："><span class="toc-number">3.0.0.2.</span> <span class="toc-text">在BaseFragment中：</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#最后"><span class="toc-number"></span> <span class="toc-text">最后</span></a>
+			
 		
 		</div>
 		
-		<p>原文链接：<a href="http://www.jianshu.com/p/9dbb03203fbc" target="_blank" rel="external">http://www.jianshu.com/p/9dbb03203fbc</a></p>
-<p>防抖动：防止用户手抖，连续快速地点击多次同一个按钮。</p>
-<h2 id="为什么需要防手抖处理？"><a href="#为什么需要防手抖处理？" class="headerlink" title="为什么需要防手抖处理？"></a>为什么需要防手抖处理？</h2><p>在Fragment(v4)之间的跳转过程中，下面两种情况会导致用户体验不佳：（以AFragment 跳转 BFragment为例）</p>
-<p>1、BFragment还没真正创建时（因为Fragment事务并不是立即开始的），你手抖点了2下，就会一次性启动2个BFragment；</p>
-<p>2、在跳转BFragment过程中，如果有转场动画的存在，在动画结束前的任意时间，你点击了BFragment页面中可点击的区域，就会触发该点击区域的事件。</p>
-<p>不做任何防手抖处理的话，你可能遭遇下面GIF的情况：</p>
-<p>无防手抖处理</p>
-<p>所以对Fragment进行防手抖处理还是很有必要的，RxJava系列的Rxbinding包可以帮你解决该问题，debounce操作符可以实现防手抖，但很多情况，你会使用RxJava但不想使用Rxbinding。</p>
-<p>其实不管哪种方案，我想你都不会愿意在每个点击事件里都手动处理一次防抖动问题。</p>
-<p>我们需要一个封装的基类，可以解决防抖动问题，而不必在每个启动Fragment的按钮都进行防抖动处理。</p>
-<h2 id="常见方案"><a href="#常见方案" class="headerlink" title="常见方案"></a>常见方案</h2><p>有1种常见的防手抖处理方式：<strong>通过时间差</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">private static final long DEBOUNCE_TIME = 300L;</div><div class="line">private long mCurrentTime;</div><div class="line"></div><div class="line">private void addFragment(Fragment fragment) &#123;</div><div class="line">    long time = System.currentTimeMillis();</div><div class="line">    if (time - mCurrentTime &lt; DEBOUNCE_TIME) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    mCurrentTime = time;</div><div class="line"></div><div class="line">    getSupportFragmentManager().beginTransaction()</div><div class="line">            .add(R.id.fl_container, fragment, fragment.getClass().getSimpleName())  // replace亦一样</div><div class="line">            ....省略设置动画 加入回退栈等</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种方式虽然也能实现防抖动的效果，但是适用性有限；<br>比如如果我需要add一个Fragment，然后紧接着该Fragment又立即需要add一个子Fragment，这时add子Fragment的操作可能就会被这个时间差屏蔽掉。</p>
-<h2 id="我的方案"><a href="#我的方案" class="headerlink" title="我的方案"></a>我的方案</h2><p>鉴于上述方法的拘束性，再结合Fragment的宿主是Activity，我有了下面的方案：<br>利用Activity的<code>dispatchTouchEvent(MotionEvent ev)</code>方法。</p>
-<p><strong>大致思路是，在点击后立即让Activity拦截一切Touch事件，在目标Fragment的转场动画结束后（如果是无转场动画，则是在onActivityCreated被调用后），再让Activity取消拦截。</strong></p>
-<p>接下来我们就看看具体如何实现吧！</p>
-<h5 id="在BaseActivity中"><a href="#在BaseActivity中" class="headerlink" title="在BaseActivity中:"></a>在BaseActivity中:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">public class BaseActivity extends AppCompatActivity &#123;</div><div class="line"></div><div class="line">    private boolean mAllowClickable = true;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public boolean dispatchTouchEvent(MotionEvent event)&#123;</div><div class="line">        // 防抖动(防止点击速度过快)</div><div class="line">        if (!mFragmentClickable) &#123;</div><div class="line">            return true;</div><div class="line">        &#125;</div><div class="line">        return super.dispatchTouchEvent(ev);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     *  控制Activity是否拦截Touch事件</div><div class="line">     */</div><div class="line">    public void allowFragmentClickable(boolean clickable)&#123;</div><div class="line">        mAllowClickable = clickable;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     *  加载Fragment (replace同理)</div><div class="line">     */</div><div class="line">    private void addFragment(Fragment fragment) &#123;</div><div class="line">        // 启动Fragment时，Activity拦截一切Touch事件</div><div class="line">        allowFragmentClickable(false);</div><div class="line"></div><div class="line">        getSupportFragmentManager().beginTransaction()</div><div class="line">                .add(R.id.fl_container, fragment, fragment.getClass().getSimpleName())  // replace亦一样</div><div class="line">        ....省略设置动画 加入回退栈等</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onBackPressed() &#123;</div><div class="line">        // 这里是防止动画过程中，按返回键取消加载Fragment</div><div class="line">        if(!mAllowClickable)&#123;</div><div class="line">            setFragmentClickable(true);</div><div class="line">        &#125;</div><div class="line">        super.onBackPressed();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>所有Activity中的Touch事件，首先都需要经过Activity的<code>dispatchTouchEvent</code>方法，该方法通过Window分发Touch事件，如果返回true，则不再往下层分发，这时我们布局内的任何Touch事件都会“无效”。</p>
-<p>在通过Activity来加载Fragment时，将mAllowClickable设为false，此时只到为true时，屏幕的Touch事件将都无效。</p>
-<h5 id="在BaseFragment中："><a href="#在BaseFragment中：" class="headerlink" title="在BaseFragment中："></a>在BaseFragment中：</h5><p>这里将<strong>有转场动画</strong>和<strong>无转场动画</strong>两种情况都进行了防手抖处理：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">public class BaseFragment extends Fragment &#123;</div><div class="line">    // 记录是否有转场动画</div><div class="line">    private boolean mEnterAnimFlag = false;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) &#123;</div><div class="line">        if (enter &amp;&amp; nextAnim != 0) &#123;</div><div class="line">            // 记录 有转场动画</div><div class="line">            mEnterAnimFlag = true;</div><div class="line"></div><div class="line">            Animation anim = AnimationUtils.loadAnimation(mActivity, nextAnim);</div><div class="line">            mNoAnim.setAnimationListener(new Animation.AnimationListener() &#123;</div><div class="line">                ...省略</div><div class="line">                @Override</div><div class="line">                public void onAnimationEnd(Animation animation) &#123;</div><div class="line">                    // 转场动画结束时，允许Touch事件</div><div class="line">                    mActivity.allowFragmentClickable(true);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">        return super.onCreateAnimation(transit, enter, nextAnim);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onActivityCreated(@Nullable Bundle savedInstanceState) &#123;</div><div class="line">        super.onActivityCreated(savedInstanceState);</div><div class="line">        // 无转场动画时 处理</div><div class="line">        if(!mEnterAnimFlag) &#123;</div><div class="line">            mActivity.allowFragmentClickable(true);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在Fragment初始化时，其生命周期顺序：<br>… -&gt; onCreateView -&gt; onCreateAnimation -&gt; onActivityCreated</p>
-<p>由此生命周期，再结合代码上的注释，相信你一看就懂了～</p>
-<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>最终，利用Android的事件分发机制，使用不到50行代码就完美解决了Fragment的防手抖处理。<br>最后看下效果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/937851-caf287a92b4a81d2.gif?imageMogr2/auto-orient/strip" alt=""></p>
-<p>防手抖</p>
-<blockquote>
-<p>想查看更多Fragment优化细节或者深度使用Fragment的小伙伴，建议看看我的这个<a href="https://github.com/YoKeyword/Fragmentation" target="_blank" rel="external">Fragmentation</a>库</p>
-</blockquote>
+		<p>##前言</p>
+<p>Spring一直是很火的一个开源框架，在过去的一段时间里，Spring Boot在社区中热度一直很高，所以决定花时间来了解和学习，为自己做技术储备。</p>
+<p>###正文<br>首先声明，Spring Boot不是一门新技术，所以不用紧张。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。它使用“习惯优于配置”（项目中存在大量的配置，此外还内置了一个习惯性的配置，让你无需手动进行配置）的理念让你的项目快速运行起来。使用Spring Boot很容易创建一个独立运行（运行jar,内嵌Servlet容器）、准生产级别的基于Spring框架的项目，使用Spring Boot你可以不用或者只需要很少的Spring配置。</p>
 <hr>
 <p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
   
@@ -266,13 +235,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/android/">android</a>
+  <a class="article-category-link" href="/categories/java/">java</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Fragment/">Fragment</a>
+  <span></span> <a href="/tags/java/">java</a>
   </div>
 
 </div>
@@ -281,7 +250,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zilianliuxue.github.io/2016/09/06/Fragment防手抖 最佳实践/" data-title="Fragment防手抖 最佳实践 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
+	  <div data-url="http://zilianliuxue.github.io/2017/07/21/SpringBoot初体验/" data-title="SpringBoot初体验 | ♀紫☆恋&amp;流★雪♂" data-tsina="3290293743" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -294,19 +263,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/09/06/Fragment全解析系列（一）：那些年踩过的坑/" title="Fragment全解析系列（一）：那些年踩过的坑">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Fragment全解析系列（一）：那些年踩过的坑</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/09/06/9行代码让你App内的Fragment对重叠说再见/"  title="9行代码让你app内的Fragment对重叠说再见">
+<a href="/2016/09/28/安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现/"  title="安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现">
  <strong>下一篇：</strong><br/> 
- <span>9行代码让你app内的Fragment对重叠说再见
+ <span>安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现
 </span>
 </a>
 </div>
@@ -315,7 +276,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/09/06/Fragment防手抖 最佳实践/" data-title="Fragment防手抖 最佳实践" data-url="http://zilianliuxue.github.io/2016/09/06/Fragment防手抖 最佳实践/"></div>
+	<div class="ds-thread" data-thread-key="2017/07/21/SpringBoot初体验/" data-title="SpringBoot初体验" data-url="http://zilianliuxue.github.io/2017/07/21/SpringBoot初体验/"></div>
 </section>
 
 
@@ -325,7 +286,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么需要防手抖处理？"><span class="toc-number">1.</span> <span class="toc-text">为什么需要防手抖处理？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见方案"><span class="toc-number">2.</span> <span class="toc-text">常见方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我的方案"><span class="toc-number">3.</span> <span class="toc-text">我的方案</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#在BaseActivity中"><span class="toc-number">3.0.0.1.</span> <span class="toc-text">在BaseActivity中:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#在BaseFragment中："><span class="toc-number">3.0.0.2.</span> <span class="toc-text">在BaseFragment中：</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#最后"><span class="toc-number"></span> <span class="toc-text">最后</span></a>
+ 
  
   </div>
 

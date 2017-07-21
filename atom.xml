@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zilianliuxue.github.io/"/>
-  <updated>2016-09-28T09:27:01.714Z</updated>
+  <updated>2017-07-21T15:31:55.058Z</updated>
   <id>http://zilianliuxue.github.io/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpringBoot初体验</title>
+    <link href="http://zilianliuxue.github.io/2017/07/21/SpringBoot%E5%88%9D%E4%BD%93%E9%AA%8C/"/>
+    <id>http://zilianliuxue.github.io/2017/07/21/SpringBoot初体验/</id>
+    <published>2017-07-21T09:26:00.000Z</published>
+    <updated>2017-07-21T15:31:55.058Z</updated>
+    
+    <content type="html"><![CDATA[<p>##前言</p>
+<p>Spring一直是很火的一个开源框架，在过去的一段时间里，Spring Boot在社区中热度一直很高，所以决定花时间来了解和学习，为自己做技术储备。</p>
+<p>###正文<br>首先声明，Spring Boot不是一门新技术，所以不用紧张。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。它使用“习惯优于配置”（项目中存在大量的配置，此外还内置了一个习惯性的配置，让你无需手动进行配置）的理念让你的项目快速运行起来。使用Spring Boot很容易创建一个独立运行（运行jar,内嵌Servlet容器）、准生产级别的基于Spring框架的项目，使用Spring Boot你可以不用或者只需要很少的Spring配置。</p>
+<hr>
+<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;##前言&lt;/p&gt;
+&lt;p&gt;Spring一直是很火的一个开源框架，在过去的一段时间里，Spring Boot在社区中热度一直很高，所以决定花时间来了解和学习，为自己做技术储备。&lt;/p&gt;
+&lt;p&gt;###正文&lt;br&gt;首先声明，Spring Boot不是一门新技术，所以不用紧张。从本质
+    
+    </summary>
+    
+      <category term="java" scheme="http://zilianliuxue.github.io/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://zilianliuxue.github.io/tags/java/"/>
+    
+  </entry>
   
   <entry>
     <title>安卓开发实战之app之版本更新(DownloadManager和http下载)完整实现</title>
@@ -2371,62 +2400,6 @@
     
     
       <category term="BroadcastReceiver" scheme="http://zilianliuxue.github.io/tags/BroadcastReceiver/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Service 的工作过程</title>
-    <link href="http://zilianliuxue.github.io/2016/05/20/Service%E7%9A%84%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B/"/>
-    <id>http://zilianliuxue.github.io/2016/05/20/Service的工作过程/</id>
-    <published>2016-05-20T14:10:00.000Z</published>
-    <updated>2016-08-27T03:29:43.249Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">本文将介绍Service的工作过程,通过本文分析,你将会对Service的一些工作原理有更进一步的认识</div><div class="line">比如Service的启动过程和绑定过程.</div></pre></td></tr></table></figure>
-<h3 id="Service有两种状态-一种是启动状态-主要用于执行后台计算-另一种是绑定状态-主要用于与其他组件进行交互-这两种状态是可以共存的"><a href="#Service有两种状态-一种是启动状态-主要用于执行后台计算-另一种是绑定状态-主要用于与其他组件进行交互-这两种状态是可以共存的" class="headerlink" title="Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的."></a>Service有两种状态,一种是启动状态,主要用于执行后台计算,另一种是绑定状态,主要用于与其他组件进行交互.这两种状态是可以共存的.</h3><h2 id="Service的启动过程"><a href="#Service的启动过程" class="headerlink" title="Service的启动过程"></a>Service的启动过程</h2><p>启动过程流程图</p>
-<p><img src="https://imuhao.github.io/image/androidart_service1.png" alt="img"></p>
-<p>Service的启动过程从ContextWrapper的startService方法开始,如下所示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public ComponentName startService(Intent service) &#123;</div><div class="line">       return mBase.startService(service);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>上面代码中的mBase的类型是ContextImpl,在Activity创建时会通过attach方法将ContextImpl对象关联起来,ContextWrapper的大部分操作都是mBase来实现的,这种模式叫桥接模式.<br>在ContextImpl中,startService方法会调用startServiceCommon方法,而该方法会用过ActivityManagerNative.getDefault()对象来启动一个服务,也就是AMS,在AMS来启动服务的行为是一个远程过程调用,在AMS中会通过mServices这个对象完成后续的启动过程,mService对象 的类型是ActivityService,他是辅助AMS进行Service管理的类.包括启动、绑定、停止等.在它的startServiceLocked方法最后会调用startServiceInnerLocked方法,在该方法中并没有完成具体的启动工作,而是把后续的工作交给了bringUpServiceLocked来处理,在该方法中又调用了realStartServiceLocked方法,通过方法名来看这个方法应该是真正启动一个Service.</p>
-<p>在realStartServiceLocked方法中首先是通过app.thread的scheduleCreateService方法来调用Service的其他方法,比如onStartCommand,这两个过程均是进程通信.</p>
-<p>app.thread是IApplicationThread类型,它实际上是一个Bunder,他的具体实现是ApplicationThread和ApplicationThreadNative,而前者是继承与后者的,所以我们直接看ApplicationThread对Service启动过程的处理即可.这对应着它的scheduleCreateService方法,这个过程和Activity的启动过程是类似的,都是通过发送消息给Handler H来完成Service的最终完成.</p>
-<p>handlerCreateService方法主要做了这几件事</p>
-<ol>
-<li>首先通过类加载器创建Service的实例</li>
-<li>创建Application对象并调用其onCreate方法.创建过程只会有一次</li>
-<li>创建ConTextImpl对象并通过Service的attach方法建立二者的关系.</li>
-<li>最后调用Service的onCreate方法并将Service对象存储到ActivityThread中的一个列表中.</li>
-</ol>
-<p>到这里Service的启动过程已经分析完了,下面分析Service的绑定过程.</p>
-<h2 id="Service的绑定过程"><a href="#Service的绑定过程" class="headerlink" title="Service的绑定过程"></a>Service的绑定过程</h2><p>绑定流程图<br><img src="https://imuhao.github.io/image/androidart_service2.png" alt="img"><br>和Service启动过程一样,它的绑定过程也是从ContextWrapper开始的,如下所示.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public boolean bindService(Intent service, ServiceConnection conn,</div><div class="line">           int flags) &#123;</div><div class="line">       return mBase.bindService(service, conn, flags);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>mBase同样是ContextImpl类型的对象,mBase的bindService方法最终会调用自己的bindServiceCommon方法</p>
-<p>bindServiceCommon方法主要完成如下两件事:</p>
-<p>首先将客户端的ServiceConnection对象转化为ServiceDispatcher.IServiceConnection对象.之所以不能使用ServiceConnection对象是因为服务的绑定可能是跨进成的,因此ServiceConnection对象必须借助与Binder才能让远程服务端回调自己的方法,而ServiceDispatcher的内部类IServiceConnection刚好充当了Binder这个角色.ServiceConnection起着连接SercviceConnection和InnerConnection的作用,这个过程由LoadedApk的getServiceDispatcher方法来完成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public final IServiceConnection getServiceDispatcher(ServiceConnection c,</div><div class="line">        Context context, Handler handler, int flags) &#123;</div><div class="line">    synchronized (mServices) &#123;</div><div class="line">        LoadedApk.ServiceDispatcher sd = null;</div><div class="line">        ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt; map = mServices.get(context);</div><div class="line">        if (map != null) &#123;</div><div class="line">            sd = map.get(c);</div><div class="line">        &#125;</div><div class="line">        if (sd == null) &#123;</div><div class="line">            sd = new ServiceDispatcher(c, context, handler, flags);</div><div class="line">            if (map == null) &#123;</div><div class="line">                map = new ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt;();</div><div class="line">                mServices.put(context, map);</div><div class="line">            &#125;</div><div class="line">            map.put(c, sd);</div><div class="line">        &#125; else &#123;</div><div class="line">            sd.validate(context, handler);</div><div class="line">        &#125;</div><div class="line">        return sd.getIServiceConnection();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在上面的代码中mServices是一个ArrayMap,它存储了一个应用当前活动的ServiceConnection和ServiceDispatcher的映射关系,它的定义如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private final ArrayMap&lt;Context, ArrayMap&lt;ServiceConnection, LoadedApk.ServiceDispatcher&gt;&gt; mServices</div></pre></td></tr></table></figure>
-<p>接着bindServiceCommon方法会通过AMS完成Service的具体绑定过程.对应着AMS的binService方法,而该方法在调用bindServiceLocked方法,bindServiceLocked方法又会调用bringUpServiceLocked方法,bringUpServiceLocked又会调用realStartServiceLocked方法,realStartServiceLocked的执行逻辑和启动的逻辑类似,都是通过ApplicationThread来完成Service的创建并执行onCreate方法</p>
-<p>和启动Service不同的是,Service的绑定过程会调用app.thread的scheduleBindService方法,这个过程的实现在ActivityService的requestServiceBindingLocked方法,在该方法中调用了app.thread的scheduleBindService方法,他的内部都是通过Handler H中转的.</p>
-<p>在H内部接收到BIND_SERVICE这类消息时,会交给ActivityThread’的handleBind-Service方法来处理.在该方法中会根据Service的token取出Service对象,然后调用onBind方法.onBind方法会返回一个Binder对象给客户端使用.原则上此时已经属于绑定状态了,但是onBind方法是Service的方法,这个时候客户端并不知道已经成功连接了,所以还必须调用客户端的ServiceConnection中的onServiceConected,这个过程由ActivityManagerNative.getDefault()的publishService方法来完成的.他其实就是AMS.</p>
-<p>而AMS的publishService方法将具体的工作交给了ActivityServices类型的mServices对象来处理.在ActiveServices的publishServiceLocked方法核心代码只有一句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">c.conn.connected(r.name, service);</div></pre></td></tr></table></figure>
-<p>其中c的类型是ConnectionRecore.c.conn的类型是ServiceDispatcherInnerConnection.service就是Service的onBind方法返回的Binder对象. 从InnerConection的定义可以看出他的connected方法又调用了ServiceDispatcher的connected方法.</p>
-<p>对于Service的绑定过程来说,ServiceDisptcher的mActivityThread是一个Handler,他就是ActivityThread中的H,这样一来RunConnection就可以经过H的post方法从而运行在主线程中,因此客户端ServiceConnection中的方法是在主线程中回调的.</p>
-<p>客户端的onServiceConnected方法执行完毕之后,Service的绑定过程也就分析完成了.</p>
-<hr>
-<p>未经许可不得转载，转载请注明zilianliuxue的blog,本人保留所有版权。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;c
-    
-    </summary>
-    
-      <category term="android" scheme="http://zilianliuxue.github.io/categories/android/"/>
-    
-    
-      <category term="Service" scheme="http://zilianliuxue.github.io/tags/Service/"/>
     
   </entry>
   
